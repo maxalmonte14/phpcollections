@@ -1,0 +1,27 @@
+{
+    "name": "maxalmonte14/phpcollections",
+    "description": "A set of collections for PHP.",
+    "keywords": ["collection"],
+    "license": "MIT",
+    "support": {
+        "issues": "https://github.com/maxalmonte14/phpcollections/issues",
+        "source": "https://github.com/maxalmonte14/phpcollections"
+    },
+    "authors": [
+        {
+            "name": "Max Almonte",
+            "email": "maxalmonte14@hotmail.com"
+        }
+    ],
+    "require": {
+        "php": ">=7.0"
+    },
+    "autoload": {
+        "psr-4": {
+            "PHPCollections\\": "src/"
+        }
+    },
+    "require-dev": {
+        "phpunit/phpunit": "^6.4"
+    }
+}
