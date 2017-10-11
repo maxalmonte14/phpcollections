@@ -60,31 +60,20 @@ class GenericList extends BaseCollection {
      */
     public function filter(callable $callback)
     {
-        $matcheds = [];
-        foreach ($this->data as $key => $value) {
-            if ($callback($value, $key) === true)
-                $matcheds[] = $value;
-        }
-
-        return count($matcheds) > 0 ? new $this($this->type, $matcheds) : null;
+        return $this->search($callback, false);
     }
 
     /**
-     * Return the first element that 
+     * Return the first element that
      * matches when callback criteria
      * 
      * @param  callable    $callback
-     * @return object|null
+     * @return PHPCollections\GenericList|null
      */
     public function find(callable $callback)
     {
-        foreach ($this->data as $item) {
-            if ($callback($item) === true) {
-                $matched = $item;
-                break;
-            }
-        }
-        return $matched ?? null;
+        $dataset = $this->search($callback);
+        return $dataset->get(0) ?? null;
     }
 
     /**
@@ -96,11 +85,10 @@ class GenericList extends BaseCollection {
      */
     public function get($offset)
     {
-        if ($this->count() == 0) {
+        if ($this->count() == 0)
             throw new OutOfRangeException("You're trying to get data into a empty collection.");
-        } else if (!$this->offsetExists($offset)) {
-            throw new OutOfRangeException("The {$offset} index do not exits for this collection, the valid index are from 0 to " . ($this->count() - 1));
-        }
+        else if (!$this->offsetExists($offset))
+            throw new OutOfRangeException("The {$offset} index do not exits for this collection.");
         return $this->offsetGet($offset);
     }
 
@@ -114,13 +102,32 @@ class GenericList extends BaseCollection {
      */
     public function remove($offset)
     {
-        if ($this->count() == 0) {
+        if ($this->count() == 0)
             throw new OutOfRangeException("You're trying to remove data into a empty collection.");
-        } else if (!$this->offsetExists($offset)) {
-            throw new OutOfRangeException("The {$offset} index do not exits for this collection, the valid index are from 0 to " . (count($this->data) - 1));
-        }
+        else if (!$this->offsetExists($offset))
+            throw new OutOfRangeException("The {$offset} index do not exits for this collection.");
         $this->offsetUnset($offset);
         $this->repopulate();
+    }
+
+    /**
+     * Search one or more elements in
+     * the collection
+     * 
+     * @param  callable $callback
+     * @param  boolean  $shouldStop
+     * @return PHPCollections\GenericList|null
+     */
+    private function search(callable $callback, $shouldStop = true)
+    {
+        $matcheds = [];
+        foreach ($this->data as $key => $item) {
+            if ($callback($item, $key) === true) {
+                $matcheds[] = $item;
+                if ($shouldStop) break;
+            }
+        }
+        return count($matcheds) > 0 ? new $this($this->type, $matcheds) : null;
     }
 
 }
