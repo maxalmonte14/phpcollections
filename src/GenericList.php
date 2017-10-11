@@ -21,10 +21,10 @@ class GenericList extends BaseCollection {
      * @param  string $type
      * @return void
      */
-    public function __construct($type)
+    public function __construct($type, $data = [])
     {
         $this->type = $type;
-        parent::__construct();
+        parent::__construct($data);
     }
 
     /**
@@ -49,6 +49,24 @@ class GenericList extends BaseCollection {
     public function clear()
     {
         $this->data = [];
+    }
+
+    /**
+     * Return all the coincidences found
+     * for the given callback or null
+     * 
+     * @param  callable $callback
+     * @return PHPCollections\GenericList|null
+     */
+    public function filter(callable $callback)
+    {
+        $matcheds = [];
+        foreach ($this->data as $key => $value) {
+            if ($callback($value, $key) === true)
+                $matcheds[] = $value;
+        }
+
+        return count($matcheds) > 0 ? new $this($this->type, $matcheds) : null;
     }
 
     /**
