@@ -90,7 +90,7 @@ abstract class BaseCollection implements ArrayAccess, Countable, Iterator, JsonS
      * Get a value in the collection
      *
      * @param  int  $offset
-     * @return bool || null
+     * @return mixed|null
      */
     public function offsetGet($offset)
     {
@@ -161,9 +161,6 @@ abstract class BaseCollection implements ArrayAccess, Countable, Iterator, JsonS
      */
     public function repopulate()
     {
-        $values = array_values($this->data);
-        $this->data = [];
-        foreach ($values as $key => $value)
-            $this->data[$key] = $value;
+        $this->data = array_values($this->data);
     }
 }
