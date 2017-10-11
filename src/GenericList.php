@@ -73,10 +73,16 @@ class GenericList extends BaseCollection {
      * Return the object at the specified index
      *
      * @param  int    $offset
+     * @throws OutOfRangeException
      * @return object
      */
     public function get($offset)
     {
+        if ($this->count() == 0) {
+            throw new OutOfRangeException("You're trying to get data into a empty collection.");
+        } else if (!$this->offsetExists($offset)) {
+            throw new OutOfRangeException("The {$offset} index do not exits for this collection, the valid index are from 0 to " . ($this->count() - 1));
+        }
         return $this->offsetGet($offset);
     }
 
@@ -90,7 +96,7 @@ class GenericList extends BaseCollection {
      */
     public function remove($offset)
     {
-        if (count($this->data) == 0) {
+        if ($this->count() == 0) {
             throw new OutOfRangeException("You're trying to remove data into a empty collection.");
         } else if (!$this->offsetExists($offset)) {
             throw new OutOfRangeException("The {$offset} index do not exits for this collection, the valid index are from 0 to " . (count($this->data) - 1));
