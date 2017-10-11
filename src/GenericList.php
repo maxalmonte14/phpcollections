@@ -58,9 +58,15 @@ class GenericList extends BaseCollection {
      * @param  callable $callback
      * @return PHPCollections\GenericList|null
      */
-    public function filter(callable $callback)
+    public function filter(callable $callback, $useBoth = true)
     {
-        return $this->search($callback, false);
+        $flag = $useBoth ? ARRAY_FILTER_USE_BOTH : ARRAY_FILTER_USE_KEY;
+        try {
+            $matcheds = array_filter($this->data, $callback, $flag);
+            return count($matcheds) > 0 ? new $this($this->type, array_values($matcheds)) : null;
+        } catch (ArgumentCountError $e) {
+            throw new ArgumentCountError('You must pass only 1 parameter to your Closure when the second argument was false.');
+        }
     }
 
     /**
@@ -72,7 +78,7 @@ class GenericList extends BaseCollection {
      */
     public function find(callable $callback)
     {
-        $dataset = $this->search($callback);
+        $dataset = $this->search($callback, true);
         return $dataset->get(0) ?? null;
     }
 
@@ -118,7 +124,7 @@ class GenericList extends BaseCollection {
      * @param  boolean  $shouldStop
      * @return PHPCollections\GenericList|null
      */
-    private function search(callable $callback, $shouldStop = true)
+    public function search(callable $callback, $shouldStop = false)
     {
         $matcheds = [];
         foreach ($this->data as $key => $item) {
