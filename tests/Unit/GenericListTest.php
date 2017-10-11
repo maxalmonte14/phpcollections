@@ -13,6 +13,11 @@ class GenericListTest extends TestCase
         $this->list->add(new \ArrayObject(['name' => 'John']));
         $this->list->add(new \ArrayObject(['name' => 'Finch']));
         $this->list->add(new \ArrayObject(['name' => 'Shaw']));
+        $this->list->add(new \ArrayObject(['name' => 'Carter']));
+        $this->list->add(new \ArrayObject(['name' => 'Kara']));
+        $this->list->add(new \ArrayObject(['name' => 'Snow']));
+        $this->list->add(new \ArrayObject(['name' => 'Zoey']));
+        $this->list->add(new \ArrayObject(['name' => 'Cal']));
     }
 
     /**
@@ -20,14 +25,14 @@ class GenericListTest extends TestCase
      */
     public function testAddToList()
     {
-        $this->assertEquals($this->list->count(), 3);
+        $this->assertCount(8, $this->list);
         $this->list->add(new \Exception());
     }
 
     public function testClearList()
     {
         $this->list->clear();
-        $this->assertEquals($this->list->count(), 0);
+        $this->assertCount(0, $this->list);
         $this->setUp();
     }
 
@@ -48,7 +53,7 @@ class GenericListTest extends TestCase
     {
         $arrayObject = $this->list->get(2);
         $this->assertEquals('Shaw', $arrayObject->offsetGet('name'));
-        $this->list->get(3); // Here an OutOfRangeException is thrown!
+        $this->list->get(9); // Here an OutOfRangeException is thrown!
     }
 
     /**
@@ -57,12 +62,15 @@ class GenericListTest extends TestCase
     public function testRemoveFromList()
     {
         $this->list->remove(0);
-        $this->assertEquals(2, $this->list->count());
+        $this->assertCount(7, $this->list);
         $arrayObject = $this->list->get(0);
         $this->assertNotEquals('John', $arrayObject->offsetGet('name'));
-        $this->list->remove(2); // Here an OutOfRangeException is thrown!
+        $this->list->remove(9); // Here an OutOfRangeException is thrown!
     }
 
+    /**
+     * @expectedException ArgumentCountError
+     */
     public function testFilterList()
     {
         $newList = $this->list->filter(function ($value, $key) {
@@ -76,6 +84,24 @@ class GenericListTest extends TestCase
             return strlen($value['name']) > 10;
         });
 
+        $this->assertNull($anotherList);
+
+        $oneMoreList = $this->list->filter(function ($value, $key) {
+            return strlen($value['name']) <= 4;
+        }, false); // Here an ArgumentCountError!
+    }
+
+    public function testSearchInList()
+    {
+        $newList = $this->list->search(function ($value) {
+            return strlen($value['name']) > 4;
+        });
+        $this->assertCount(2, $newList);
+        $this->assertEquals('Finch', $newList->get(0)->offsetGet('name'));
+
+        $anotherList = $this->list->search(function ($value) {
+            return strlen($value['name']) > 10;
+        });
         $this->assertNull($anotherList);
     }
 }
