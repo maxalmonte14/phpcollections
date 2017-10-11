@@ -55,8 +55,8 @@ class GenericList extends BaseCollection {
      * Return the first element that 
      * matches when callback criteria
      * 
-     * @param callable $callback
-     * @return object || null
+     * @param  callable    $callback
+     * @return object|null
      */
     public function find(callable $callback)
     {
@@ -92,7 +92,7 @@ class GenericList extends BaseCollection {
     {
         if (count($this->data) == 0) {
             throw new OutOfRangeException("You're trying to remove data into a empty collection.");
-        } else if (!offsetExists($offset)) {
+        } else if (!$this->offsetExists($offset)) {
             throw new OutOfRangeException("The {$offset} index do not exits for this collection, the valid index are from 0 to " . (count($this->data) - 1));
         }
         $this->offsetUnset($offset);
