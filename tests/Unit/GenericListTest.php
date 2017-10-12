@@ -9,15 +9,16 @@ class GenericListTest extends TestCase
 
     public function setUp()
     {
-        $this->list = new GenericList(\ArrayObject::class);
-        $this->list->add(new \ArrayObject(['name' => 'John']));
-        $this->list->add(new \ArrayObject(['name' => 'Finch']));
-        $this->list->add(new \ArrayObject(['name' => 'Shaw']));
-        $this->list->add(new \ArrayObject(['name' => 'Carter']));
-        $this->list->add(new \ArrayObject(['name' => 'Kara']));
-        $this->list->add(new \ArrayObject(['name' => 'Snow']));
-        $this->list->add(new \ArrayObject(['name' => 'Zoey']));
-        $this->list->add(new \ArrayObject(['name' => 'Cal']));
+        $this->list = new GenericList(ArrayObject::class);
+        $this->list->add(new ArrayObject(['name' => 'John']));
+        $this->list->add(new ArrayObject(['name' => 'Finch']));
+        $this->list->add(new ArrayObject(['name' => 'Shaw']));
+        $this->list->add(new ArrayObject(['name' => 'Carter']));
+        $this->list->add(new ArrayObject(['name' => 'Kara']));
+        $this->list->add(new ArrayObject(['name' => 'Snow']));
+        $this->list->add(new ArrayObject(['name' => 'Zoey']));
+        $this->list->add(new ArrayObject(['name' => 'Cal']));
+        $this->list->add(new ArrayObject(['name' => 'Lionel']));
     }
 
     /**
@@ -25,8 +26,8 @@ class GenericListTest extends TestCase
      */
     public function testAddToList()
     {
-        $this->assertCount(8, $this->list);
-        $this->list->add(new \Exception());
+        $this->assertCount(9, $this->list);
+        $this->list->add(new Exception()); // Here an InvalidArgumentException is thrown!
     }
 
     public function testClearList()
@@ -43,7 +44,7 @@ class GenericListTest extends TestCase
         });
 
         $this->assertEquals('Finch', $arrayObject->offsetGet('name'));
-        $this->assertNotEquals('Fusco', $arrayObject->offsetGet('name'));
+        $this->assertNotEquals('Lionel', $arrayObject->offsetGet('name'));
     }
 
     /**
@@ -62,7 +63,7 @@ class GenericListTest extends TestCase
     public function testRemoveFromList()
     {
         $this->list->remove(0);
-        $this->assertCount(7, $this->list);
+        $this->assertCount(8, $this->list);
         $arrayObject = $this->list->get(0);
         $this->assertNotEquals('John', $arrayObject->offsetGet('name'));
         $this->list->remove(9); // Here an OutOfRangeException is thrown!
@@ -96,12 +97,21 @@ class GenericListTest extends TestCase
         $newList = $this->list->search(function ($value) {
             return strlen($value['name']) > 4;
         });
-        $this->assertCount(2, $newList);
+        $this->assertCount(3, $newList);
         $this->assertEquals('Finch', $newList->get(0)->offsetGet('name'));
 
         $anotherList = $this->list->search(function ($value) {
             return strlen($value['name']) > 10;
         });
         $this->assertNull($anotherList);
+    }
+
+    public function testMapList()
+    {
+        $newList = $this->list->map(function ($value) {
+            $value['name'] = sprintf('%s %s', 'Sr.', $value['name']);
+            return $value;
+        });
+        $this->assertEquals('Sr. John', $newList->get(0)->offsetGet('name'));
     }
 }
