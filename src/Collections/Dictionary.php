@@ -1,6 +1,6 @@
 <?php
 
-namespace PHPCollections;
+namespace PHPCollections\Collections;
 
 use ArrayObject;
 use InvalidArgumentException;

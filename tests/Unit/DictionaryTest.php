@@ -1,7 +1,7 @@
 <?php
 
 use PHPUnit\Framework\TestCase;
-use PHPCollections\Dictionary;
+use PHPCollections\Collections\Dictionary;
 
 class DictionaryTest extends TestCase
 {

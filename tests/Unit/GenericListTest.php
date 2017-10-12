@@ -1,7 +1,7 @@
 <?php
 
 use PHPUnit\Framework\TestCase;
-use PHPCollections\GenericList;
+use PHPCollections\Collections\GenericList;
 
 class GenericListTest extends TestCase
 {

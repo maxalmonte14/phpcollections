@@ -1,6 +1,7 @@
 <?php
 
-namespace PHPCollections;
+namespace PHPCollections\Collections;
+
 use ArrayAccess;
 use Countable;
 use IteratorAggregate;
