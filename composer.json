@@ -19,7 +19,10 @@
     "autoload": {
         "psr-4": {
             "PHPCollections\\": "src/"
-        }
+        },
+        "files": [
+            "src/utils.php"
+        ]
     },
     "require-dev": {
         "phpunit/phpunit": "^6.4"
