@@ -111,7 +111,7 @@ class GenericList extends BaseCollection {
     public function get($offset)
     {
         if ($this->count() == 0)
-            throw new OutOfRangeException("You're trying to get data into a empty collection.");
+            throw new OutOfRangeException("You're trying to get data into an empty collection.");
         else if (!$this->offsetExists($offset))
             throw new OutOfRangeException("The {$offset} index do not exits for this collection.");
         return $this->offsetGet($offset);
@@ -166,6 +166,17 @@ class GenericList extends BaseCollection {
             }
         }
         return count($matcheds) > 0 ? new $this($this->type, $matcheds) : null;
+    }
+
+    /**
+     * Returns a plain array with
+     * your dictionary data
+     *
+     * @return array
+     */
+    public function toArray()
+    {
+        return $this->data;
     }
 
 }
