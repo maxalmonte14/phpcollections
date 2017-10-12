@@ -6,6 +6,7 @@ use ArrayAccess;
 use Countable;
 use IteratorAggregate;
 use JsonSerializable;
+use ArrayIterator;
 
 abstract class BaseCollection implements ArrayAccess, Countable, IteratorAggregate, JsonSerializable {
 
@@ -45,7 +46,14 @@ abstract class BaseCollection implements ArrayAccess, Countable, IteratorAggrega
         return count($this->data);
     }
 
-    public function getIterator() {
+    /**
+     * Return an array iterator for
+     * the data array
+     * 
+     * @return ArrayIterator
+     */
+    public function getIterator() : ArrayIterator 
+    {
         return new ArrayIterator($this->data);
     }
 
