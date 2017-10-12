@@ -2,8 +2,9 @@
 
 namespace PHPCollections;
 
-use InvalidArgumentException;
 use OutOfRangeException;
+use InvalidArgumentException;
+use PHPCollections\Exceptions\InvalidOperationException;
 
 class GenericList extends BaseCollection {
 
@@ -22,7 +23,7 @@ class GenericList extends BaseCollection {
      * @param  array  $data
      * @return void
      */
-    public function __construct($type, $data = [])
+    public function __construct($type, array $data = [])
     {
         $this->type = $type;
         foreach ($data as $value) $this->checkType($value);
@@ -71,13 +72,25 @@ class GenericList extends BaseCollection {
     }
 
     /**
+     * Check if the given index 
+     * exists in the collection
+     *
+     * @param  int  $offset
+     * @return bool
+     */
+    public function exists(int $offset) : bool
+    {
+        return $this->offsetExists($offset);
+    }
+
+    /**
      * Return all the coincidences found
      * for the given callback or null
      * 
      * @param  callable $callback
      * @return PHPCollections\GenericList|null
      */
-    public function filter(callable $callback, $useBoth = true)
+    public function filter(callable $callback, bool $useBoth = true)
     {
         $flag = $useBoth ? ARRAY_FILTER_USE_BOTH : ARRAY_FILTER_USE_KEY;
         try {
@@ -108,7 +121,7 @@ class GenericList extends BaseCollection {
      * @throws OutOfRangeException
      * @return object
      */
-    public function get($offset)
+    public function get(int $offset)
     {
         if ($this->count() == 0)
             throw new OutOfRangeException("You're trying to get data into an empty collection.");
@@ -131,6 +144,20 @@ class GenericList extends BaseCollection {
     }
 
     /**
+     * Return a random element of 
+     * the collection
+     *
+     * @return mixed
+     */
+    public function rand()
+    {
+        if ($this->count() == 0)
+            throw new InvalidOperationException('You cannot get a random element from an empty collection.');
+        $randomIndex = array_rand($this->data);
+        return $this->get($randomIndex);
+    }
+
+    /**
      * Remove an item in the collection
      * and repopulate the data array
      * 
@@ -138,7 +165,7 @@ class GenericList extends BaseCollection {
      * @throws OutOfRangeException
      * @return void
      */
-    public function remove($offset)
+    public function remove(int $offset)
     {
         if ($this->count() == 0)
             throw new OutOfRangeException("You're trying to remove data into a empty collection.");
@@ -146,6 +173,19 @@ class GenericList extends BaseCollection {
             throw new OutOfRangeException("The {$offset} index do not exits for this collection.");
         $this->offsetUnset($offset);
         $this->repopulate();
+    }
+
+    /**
+     * Return a new collection with the
+     * reversed values
+     * 
+     * @return PHPCollections\GenericList
+     */
+    public function reverse() : GenericList
+    {
+        if ($this->count() == 0)
+            throw new InvalidOperationException('You cannot reverse an empty collection.');
+        return new $this($this->type, array_reverse($this->data));
     }
 
     /**
@@ -179,4 +219,14 @@ class GenericList extends BaseCollection {
         return $this->data;
     }
 
+    /**
+     * 
+     *
+     * @param  callable $callback
+     * @return bool
+     */
+    public function sort(callable $callback) : bool
+    {
+        return usort($this->data, $callback);
+    }
 }

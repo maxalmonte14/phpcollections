@@ -89,7 +89,7 @@ class GenericListTest extends TestCase
 
         $oneMoreList = $this->list->filter(function ($value, $key) {
             return strlen($value['name']) <= 4;
-        }, false); // Here an ArgumentCountError!
+        }, false); // Here an ArgumentCountError is thrown!
     }
 
     public function testSearchInList()
@@ -113,5 +113,45 @@ class GenericListTest extends TestCase
             return $value;
         });
         $this->assertEquals('Sr. John', $newList->get(0)->offsetGet('name'));
+    }
+
+    public function testSortList()
+    {
+        $isSorted = $this->list->sort(function ($a, $b) {
+            return $a->offsetGet('name') <=> $b->offsetGet('name');
+        });
+        $this->assertTrue($isSorted);
+        $this->assertEquals('Cal', $this->list->get(0)->offsetGet('name'));
+        $this->setUp();
+    }
+
+    /**
+     * @expectedException PHPCollections\Exceptions\InvalidOperationException
+     */
+    public function testReverseList()
+    {
+        $reversedList = $this->list->reverse();
+        $this->assertEquals('Lionel', $reversedList->get(0)->offsetGet('name'));
+
+        $newList = new GenericList(ArrayObject::class);
+        $newReversedList = $newList->reverse(); // Here an InvalidOperationException is thrown!
+    }
+
+    /**
+     * @expectedException PHPCollections\Exceptions\InvalidOperationException
+     */
+    public function testRandElementFromList()
+    {
+        $randElement = $this->list->rand();
+        $this->assertArrayHasKey('name', $randElement);
+
+        $newList = new GenericList(ArrayObject::class);
+        $newList->rand(); // Here an InvalidOperationException is thrown!
+    }
+
+    public function testIndexExistsInList()
+    {
+        $this->assertTrue($this->list->exists(0));
+        $this->assertFalse($this->list->exists(20));
     }
 }
