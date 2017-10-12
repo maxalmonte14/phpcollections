@@ -1,12 +1,12 @@
 <?php
 
 namespace PHPCollections;
-use \ArrayAccess;
-use \Countable;
-use \Iterator;
-use \JsonSerializable;
+use ArrayAccess;
+use Countable;
+use IteratorAggregate;
+use JsonSerializable;
 
-abstract class BaseCollection implements ArrayAccess, Countable, Iterator, JsonSerializable {
+abstract class BaseCollection implements ArrayAccess, Countable, IteratorAggregate, JsonSerializable {
 
     /**
      * The data container
@@ -44,14 +44,8 @@ abstract class BaseCollection implements ArrayAccess, Countable, Iterator, JsonS
         return count($this->data);
     }
 
-    /**
-     * Return the current value of the collection
-     *
-     * @return mixed
-     */
-    public function current()
-    {
-        return $this->data[$this->position];
+    public function getIterator() {
+        return new ArrayIterator($this->data);
     }
 
     /**
@@ -63,16 +57,6 @@ abstract class BaseCollection implements ArrayAccess, Countable, Iterator, JsonS
     public function jsonSerialize()
     {
         return $this->data;
-    }
-
-    /**
-     * Return the actual key of the collection 
-     *
-     * @return int
-     */
-    public function key()
-    {
-        return $this->position;
     }
 
     /**
@@ -121,37 +105,6 @@ abstract class BaseCollection implements ArrayAccess, Countable, Iterator, JsonS
     public function offsetUnset($offset)
     {
         unset($this->data[$offset]);
-    }
-
-    /**
-     * Increase the position value in one
-     *
-     * @return void
-     */
-    public function next()
-    {
-        ++$this->position;
-    }
-
-    /**
-     * Return position to 0
-     *
-     * @return void
-     */
-    public function rewind()
-    {
-        $this->position = 0;
-    }
-
-    /**
-     * Check if exists an element 
-     * in the actual position
-     *
-     * @return bool
-     */
-    public function valid()
-    {
-        return isset($this->data[$this->position]);
     }
 
     /**
