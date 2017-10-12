@@ -2,8 +2,8 @@
 
 namespace PHPCollections;
 
-use \InvalidArgumentException;
-use \OutOfRangeException;
+use InvalidArgumentException;
+use OutOfRangeException;
 
 class GenericList extends BaseCollection {
 
@@ -19,11 +19,13 @@ class GenericList extends BaseCollection {
      * The GenericList class constructor
      *
      * @param  string $type
+     * @param  array  $data
      * @return void
      */
     public function __construct($type, $data = [])
     {
         $this->type = $type;
+        foreach ($data as $value) $this->checkType($value);
         parent::__construct($data);
     }
 
@@ -31,14 +33,31 @@ class GenericList extends BaseCollection {
      * Add a new object to the collection
      *
      * @param  object $value
-     * @throws InvalidArgumentException
      * @return void
      */
     public function add($value)
     {
-        if (!($value instanceof $this->type))
-            throw new InvalidArgumentException("You cannot add different values to {$this->type} into this GenericList");
+        $this->checkType($value);
         array_push($this->data, $value);
+    }
+
+    /**
+     * Determine if the passed data is
+     * of the type specified in the type
+     * attribute, if not raise and Exception
+     *
+     * @param  mixed $data
+     * @throws InvalidArgumentException     
+     * @return void
+     */
+    private function checkType($data)
+    {
+        if (!$data instanceof $this->type) {
+            $type = is_object($data) ? get_class($data) : gettype($data);
+            throw new InvalidArgumentException(
+                sprintf('The type specified for this collection is %s, you cannot pass a value of type %s', $this->type, $type)
+            );
+        }
     }
 
     /**
@@ -96,6 +115,19 @@ class GenericList extends BaseCollection {
         else if (!$this->offsetExists($offset))
             throw new OutOfRangeException("The {$offset} index do not exits for this collection.");
         return $this->offsetGet($offset);
+    }
+
+    /**
+     * Update elements in the collection by
+     * applying a given callback function
+     *
+     * @param  callable $callback
+     * @return PHPCollections\GenericList|null
+     */
+    public function map(callable $callback)
+    {
+        $matcheds = array_map($callback, $this->data);
+        return count($matcheds) > 0 ? new $this($this->type, array_values($matcheds)) : null;
     }
 
     /**
