@@ -78,7 +78,7 @@ class GenericList extends BaseCollection {
      * @param  int  $offset
      * @return bool
      */
-    public function exists(int $offset) : bool
+    public function exists(int $offset)
     {
         return $this->offsetExists($offset);
     }
@@ -90,7 +90,7 @@ class GenericList extends BaseCollection {
      * @param  callable $callback
      * @return PHPCollections\GenericList|null
      */
-    public function filter(callable $callback, bool $useBoth = true)
+    public function filter(callable $callback, $useBoth = true)
     {
         $flag = $useBoth ? ARRAY_FILTER_USE_BOTH : ARRAY_FILTER_USE_KEY;
         try {
@@ -115,19 +115,45 @@ class GenericList extends BaseCollection {
     }
 
     /**
+     * Get the first element of the collection
+     *
+     * @throws OutOfRangeException
+     * @return mixed
+     */
+    public function first()
+    {
+        if ($this->count() == 0)
+            throw new OutOfRangeException("You're trying to get data into an empty collection.");
+        return $this->data[0];
+    }
+
+    /**
      * Return the object at the specified index
      *
      * @param  int    $offset
      * @throws OutOfRangeException
      * @return object
      */
-    public function get(int $offset)
+    public function get($offset)
     {
         if ($this->count() == 0)
             throw new OutOfRangeException("You're trying to get data into an empty collection.");
         else if (!$this->offsetExists($offset))
             throw new OutOfRangeException("The {$offset} index do not exits for this collection.");
         return $this->offsetGet($offset);
+    }
+
+    /**
+     * Get the last element of the collection
+     *
+     * @throws OutOfRangeException
+     * @return mixed
+     */
+    public function last()
+    {
+        if ($this->count() == 0)
+            throw new OutOfRangeException("You're trying to get data into an empty collection.");
+        return $this->data[$this->count() - 1];
     }
 
     /**
@@ -144,9 +170,23 @@ class GenericList extends BaseCollection {
     }
 
     /**
+     * Merge new data with the actual
+     * collection and returns a new one
+     *
+     * @param  array $data
+     * @return PHPCollections\GenericList
+     */
+    public function merge(array $data)
+    {
+        foreach ($data as $value) $this->checkType($value);
+        return new $this($this->type, array_merge($this->data, $data));
+    }
+
+    /**
      * Return a random element of 
      * the collection
      *
+     * @throws PHPCollections\Exceptions\InvalidOperationException
      * @return mixed
      */
     public function rand()
@@ -165,7 +205,7 @@ class GenericList extends BaseCollection {
      * @throws OutOfRangeException
      * @return void
      */
-    public function remove(int $offset)
+    public function remove($offset)
     {
         if ($this->count() == 0)
             throw new OutOfRangeException("You're trying to remove data into a empty collection.");
@@ -176,12 +216,23 @@ class GenericList extends BaseCollection {
     }
 
     /**
+     * Repopulate the data array
+     *
+     * @return void
+     */
+    public function repopulate()
+    {
+        $this->data = array_values($this->data);
+    }
+
+    /**
      * Return a new collection with the
      * reversed values
      * 
+     * @throws PHPCollections\Exceptions\InvalidOperationException
      * @return PHPCollections\GenericList
      */
-    public function reverse() : GenericList
+    public function reverse()
     {
         if ($this->count() == 0)
             throw new InvalidOperationException('You cannot reverse an empty collection.');
@@ -209,23 +260,13 @@ class GenericList extends BaseCollection {
     }
 
     /**
-     * Returns a plain array with
-     * your dictionary data
-     *
-     * @return array
-     */
-    public function toArray()
-    {
-        return $this->data;
-    }
-
-    /**
-     * 
+     * Sort an array by values applying
+     *  a given callback function
      *
      * @param  callable $callback
      * @return bool
      */
-    public function sort(callable $callback) : bool
+    public function sort(callable $callback)
     {
         return usort($this->data, $callback);
     }
