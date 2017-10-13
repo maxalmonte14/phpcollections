@@ -117,12 +117,13 @@ abstract class BaseCollection implements ArrayAccess, Countable, IteratorAggrega
     }
 
     /**
-     * Repopulate the data array
+     * Returns a plain array with
+     * your dictionary data
      *
-     * @return void
+     * @return array
      */
-    public function repopulate()
+    public function toArray()
     {
-        $this->data = array_values($this->data);
+        return $this->data;
     }
 }
