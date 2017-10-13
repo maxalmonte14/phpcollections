@@ -96,7 +96,7 @@ class DictionaryTest extends TestCase
         $dictionary = new Dictionary('string', 'array');
         $dictionary->add('books', ['Code smart', 'JS the good parts', 'Laravel up and running']);
         $dictionary->add('videogames', ['Assasin Creed', 'God of war', 'Need for speed']);
-        $newDictionary = $dictionary->filter(function ($v, $k) {
+        $newDictionary = $dictionary->filter(function ($k, $v) {
             return $k === 'videogames';
         });
 

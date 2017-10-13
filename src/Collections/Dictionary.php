@@ -6,7 +6,7 @@ use ArrayObject;
 use InvalidArgumentException;
 use PHPCollections\Exceptions\InvalidOperationException;
 
-class Dictionary extends ArrayObject
+class Dictionary extends BaseCollection
 {
     /**
      * The type of the keys
@@ -100,21 +100,17 @@ class Dictionary extends ArrayObject
      * Filter the collection applying
      * a given callback
      *
-     * # TODO throw an Exception instead an error
      * @param  callable $callback
-     * @param  boolean  $useBoth
-     * @throws ArgumentCountError
      * @return PHPCollections\Collections\Dictionary|null
      */
-    public function filter(callable $callback, $useBoth = true)
+    public function filter(callable $callback)
     {
-        $flag = $useBoth ? ARRAY_FILTER_USE_BOTH : ARRAY_FILTER_USE_KEY;
-        try {
-            $matcheds = array_filter($this->toArray(), $callback, $flag);
-            return count($matcheds) > 0 ? new $this($this->keyType, $this->valueType, $matcheds) : null;
-        } catch (ArgumentCountError $e) {
-            throw new ArgumentCountError('You must pass only 1 parameter to your Closure when the second argument was false.');
+        $matcheds = [];
+        foreach ($this->data as $key => $value) {
+            if (call_user_func($callback, $key, $value) === true)
+                $matcheds[$key] = $value;
         }
+        return count($matcheds) > 0 ? new $this($this->keyType, $this->valueType, $matcheds) : null;
     }
 
     /**
@@ -199,13 +195,13 @@ class Dictionary extends ArrayObject
     }
 
     /**
-     * Returns a plain array with
-     * your dictionary data
+     * Returns a JSON representation
+     * of your dictionary data
      *
      * @return array
      */
-    public function toArray()
+    public function toJson()
     {
-        return $this->getArrayCopy();
+        return json_encode($this->data);
     }
 }
