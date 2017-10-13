@@ -154,4 +154,25 @@ class GenericListTest extends TestCase
         $this->assertTrue($this->list->exists(0));
         $this->assertFalse($this->list->exists(20));
     }
+
+    public function testCombineSomeLists()
+    {
+        $newList = $this->list->merge(
+            [new ArrayObject(['name' => 'Max']), new ArrayObject(['name' => 'Alex'])]
+        );
+        $this->assertCount(11, $newList);
+        $this->assertEquals('Max', $newList->get(9)->offsetGet('name'));
+    }
+
+    public function testGetFirstElementOfList()
+    {
+        $arrayObject = $this->list->first();
+        $this->assertEquals('John', $arrayObject->offsetGet('name'));
+    }
+
+    public function testGetLastElementOfList()
+    {
+        $arrayObject = $this->list->last();
+        $this->assertEquals('Lionel', $arrayObject->offsetGet('name'));
+    }
 }
