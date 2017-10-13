@@ -4,6 +4,7 @@ namespace PHPCollections\Collections;
 
 use ArrayObject;
 use InvalidArgumentException;
+use PHPCollections\Exceptions\InvalidOperationException;
 
 class Dictionary extends ArrayObject
 {
@@ -79,7 +80,7 @@ class Dictionary extends ArrayObject
      */
     public function clear()
     {
-        foreach ($this as $key => $value)
+        foreach ($this->toArray() as $key => $value)
             $this->offsetUnset($key);
     }
 
@@ -93,6 +94,27 @@ class Dictionary extends ArrayObject
     public function exists($key)
     {
         return $this->offsetExists($key);
+    }
+
+    /**
+     * Filter the collection applying
+     * a given callback
+     *
+     * # TODO throw an Exception instead an error
+     * @param  callable $callback
+     * @param  boolean  $useBoth
+     * @throws ArgumentCountError
+     * @return PHPCollections\Collections\Dictionary|null
+     */
+    public function filter(callable $callback, $useBoth = true)
+    {
+        $flag = $useBoth ? ARRAY_FILTER_USE_BOTH : ARRAY_FILTER_USE_KEY;
+        try {
+            $matcheds = array_filter($this->toArray(), $callback, $flag);
+            return count($matcheds) > 0 ? new $this($this->keyType, $this->valueType, $matcheds) : null;
+        } catch (ArgumentCountError $e) {
+            throw new ArgumentCountError('You must pass only 1 parameter to your Closure when the second argument was false.');
+        }
     }
 
     /**
@@ -113,6 +135,19 @@ class Dictionary extends ArrayObject
     }
 
     /**
+     * Return the first element in the collection
+     *
+     * @throws InvalidOperationException
+     * @return mixed
+     */
+    public function first()
+    {
+        if ($this->count() == 0)
+            throw new InvalidOperationException('You cannot get the first element of an empty collection');
+        foreach ($this as $key => $value) return $this->get($key);
+    }
+
+    /**
      * Return the value for the specified
      * key or null if it's not defined
      *
@@ -122,6 +157,20 @@ class Dictionary extends ArrayObject
     public function get($key)
     {
         return $this->offsetExists($key) ? $this->offsetGet($key) : null;
+    }
+
+    /**
+     * Returns the last element of
+     * the collection
+     *
+     * @return mixed
+     */
+    public function last()
+    {
+        if ($this->count() == 0)
+            throw new InvalidOperationException('You cannot get the last element of an empty collection');
+        $values = array_values($this->toArray());
+        return $values[$this->count() - 1];
     }
 
     /**
@@ -157,6 +206,6 @@ class Dictionary extends ArrayObject
      */
     public function toArray()
     {
-        return (array) $this;
+        return $this->getArrayCopy();
     }
 }

@@ -10,8 +10,14 @@ class DictionaryTest extends TestCase
 
     public function setUp()
     {
-        $this->dictionary = new Dictionary('string', ArrayObject::class);
-        $this->dictionary->add('user', new ArrayObject(['name' => 'Max', 'age' => 23, 'job' => 'programmer', 'married' => false]));
+        $this->dictionary = new Dictionary('string', 'string');
+        $this->dictionary->add('name', 'Max');
+        $this->dictionary->add('job', 'programmer');
+        $this->dictionary->add('drink', 'no');
+        $this->dictionary->add('smoke', 'no');
+        $this->dictionary->add('dance', 'a little bit');
+        $this->dictionary->add('drugs', 'no');
+        $this->dictionary->add('age', '23');
     }
 
     /**
@@ -26,7 +32,7 @@ class DictionaryTest extends TestCase
 
     public function testDictionaryContainsValue()
     {
-        $this->assertTrue($this->dictionary->exists('user'));
+        $this->assertTrue($this->dictionary->exists('drink'));
     }
 
     public function testClearDictionary()
@@ -38,23 +44,23 @@ class DictionaryTest extends TestCase
 
     public function testFindInDictionary()
     {
-        $arrayObject = $this->dictionary->find(function ($value) {
-            return $value['name'] === 'Max';
+        $name = $this->dictionary->find(function ($value) {
+            return $value === 'Max';
         });
 
-        $this->assertEquals('Max', $arrayObject->offsetGet('name'));
-        $this->assertNotEquals('Lionel', $arrayObject->offsetGet('name'));
+        $this->assertEquals('Max', $name);
+        $this->assertNotEquals('Lionel', $name);
 
         $nullPointer = $this->dictionary->find(function ($value) {
-            return $value['name'] === 'Lionel';
+            return $value === 'Lionel';
         });
         $this->assertNull($nullPointer);
     }
 
     public function testGetOfDictionary()
     {
-        $arrayObject = $this->dictionary->get('user');
-        $this->assertArrayHasKey('name', $arrayObject);
+        $job = $this->dictionary->get('job');
+        $this->assertEquals('programmer', $job);
 
         $nullPointer = $this->dictionary->get('posts');
         $this->assertNull($nullPointer);
@@ -63,29 +69,48 @@ class DictionaryTest extends TestCase
     public function testMapDictionary()
     {
         $newDictionary = $this->dictionary->map(function ($value) {
-            return $value['age'] = $value['age'] * 2;
-            return $value;
+            return $value == 'no';
         });
 
         $this->assertInstanceOf(Dictionary::class, $newDictionary);
-        $this->assertArrayHasKey('user', $newDictionary);
-        $this->assertEquals(46, $newDictionary->get('user')->offsetGet('age'));
+        $this->assertArrayHasKey('smoke', $newDictionary);
+        $this->assertEquals('no', $newDictionary->get('smoke'));
     }
 
     public function testToArrayDictionary()
     {
         $array = $this->dictionary->toArray();
-        $this->assertArrayHasKey('user', $array);
-        $this->assertInstanceOf(ArrayObject::class, $array['user']);
+        $this->assertArrayHasKey('job', $array);
+        $this->assertEquals('programmer', $array['job']);
     }
 
     public function testRemoveFromDictionary()
     {
-        $this->dictionary->add('posts', new ArrayObject([
-            ['title' => 'First post', 'content' => 'Blah, blah, blah'],
-            ['title' => 'Second post', 'content' => 'Blah, blah, blah'],
-        ]));
-        $this->dictionary->remove('posts');
-        $this->assertArrayNotHasKey('posts', $this->dictionary->toArray());
+        $this->dictionary->add('post', 'Lorem ipsum dolor sit amet...');
+        $this->dictionary->remove('post');
+        $this->assertArrayNotHasKey('post', $this->dictionary->toArray());
+    }
+
+    public function testFilterDictionary()
+    {
+        $dictionary = new Dictionary('string', 'array');
+        $dictionary->add('books', ['Code smart', 'JS the good parts', 'Laravel up and running']);
+        $dictionary->add('videogames', ['Assasin Creed', 'God of war', 'Need for speed']);
+        $newDictionary = $dictionary->filter(function ($v, $k) {
+            return $k === 'videogames';
+        });
+
+        $this->assertNotNull($newDictionary);
+        $this->assertArrayHasKey('videogames', $newDictionary->toArray());
+    }
+
+    public function testGetFirstElementFromDictionary()
+    {
+        $this->assertEquals('Max', $this->dictionary->first());
+    }
+
+    public function testGetLastElementFromDictionary()
+    {
+        $this->assertEquals('23', $this->dictionary->last());
     }
 }
