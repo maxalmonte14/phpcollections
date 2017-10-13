@@ -104,13 +104,23 @@ class DictionaryTest extends TestCase
         $this->assertArrayHasKey('videogames', $newDictionary->toArray());
     }
 
+    /**
+     * @expectedException PHPCollections\Exceptions\InvalidOperationException
+     */
     public function testGetFirstElementFromDictionary()
     {
         $this->assertEquals('Max', $this->dictionary->first());
+        $newDictionary = new Dictionary('string', 'int');
+        $newDictionary->first(); // Here an InvalidOperationException is thrown!
     }
 
+    /**
+     * @expectedException PHPCollections\Exceptions\InvalidOperationException
+     */
     public function testGetLastElementFromDictionary()
     {
         $this->assertEquals('23', $this->dictionary->last());
+        $newDictionary = new Dictionary('string', 'int');
+        $newDictionary->last(); // Here an InvalidOperationException is thrown!
     }
 }

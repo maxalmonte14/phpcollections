@@ -159,6 +159,7 @@ class Dictionary extends BaseCollection
      * Returns the last element of
      * the collection
      *
+     * @throws InvalidOperationException
      * @return mixed
      */
     public function last()
