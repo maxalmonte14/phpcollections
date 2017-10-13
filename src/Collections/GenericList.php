@@ -90,15 +90,14 @@ class GenericList extends BaseCollection {
      * @param  callable $callback
      * @return PHPCollections\GenericList|null
      */
-    public function filter(callable $callback, $useBoth = true)
+    public function filter(callable $callback)
     {
-        $flag = $useBoth ? ARRAY_FILTER_USE_BOTH : ARRAY_FILTER_USE_KEY;
-        try {
-            $matcheds = array_filter($this->data, $callback, $flag);
-            return count($matcheds) > 0 ? new $this($this->type, array_values($matcheds)) : null;
-        } catch (ArgumentCountError $e) {
-            throw new ArgumentCountError('You must pass only 1 parameter to your Closure when the second argument was false.');
+        $matcheds = [];
+        foreach ($this->data as $key => $value) {
+            if (call_user_func($callback, $key, $value) === true)
+                $matcheds[] = $value;
         }
+        return count($matcheds) > 0 ? new $this($this->type, array_values($matcheds)) : null;
     }
 
     /**

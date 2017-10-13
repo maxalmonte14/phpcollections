@@ -69,9 +69,6 @@ class GenericListTest extends TestCase
         $this->list->remove(9); // Here an OutOfRangeException is thrown!
     }
 
-    /**
-     * @expectedException ArgumentCountError
-     */
     public function testFilterList()
     {
         $newList = $this->list->filter(function ($value, $key) {
@@ -79,17 +76,13 @@ class GenericListTest extends TestCase
         });
 
         $this->assertEquals('John', $newList->get(0)->offsetGet('name'));
-        $this->assertEquals('Shaw', $newList->get(1)->offsetGet('name'));
+        $this->assertEquals('Finch', $newList->get(1)->offsetGet('name'));
 
         $anotherList = $this->list->filter(function ($value, $key) {
             return strlen($value['name']) > 10;
         });
 
         $this->assertNull($anotherList);
-
-        $oneMoreList = $this->list->filter(function ($value, $key) {
-            return strlen($value['name']) <= 4;
-        }, false); // Here an ArgumentCountError is thrown!
     }
 
     public function testSearchInList()
