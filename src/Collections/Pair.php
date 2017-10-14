@@ -71,8 +71,7 @@ class Pair {
      */
     public function setValue($value)
     {
-        if (!is_null($value))
-            $this->value = $value;
+        $this->value = $value;
     }
 
 }
