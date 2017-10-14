@@ -123,4 +123,58 @@ class DictionaryTest extends TestCase
         $newDictionary = new Dictionary('string', 'int');
         $newDictionary->last(); // Here an InvalidOperationException is thrown!
     }
+
+    /**
+     * @expectedException PHPCollections\Exceptions\InvalidOperationException
+     */
+    public function testUpdateElementIntoDictionary()
+    {
+        $this->dictionary->update('job', 'PHP developer');
+        $this->assertEquals('PHP developer', $this->dictionary->get('job'));
+        $this->dictionary->update('height', '2.80'); // Here an InvalidOperationException is thrown!
+    }
+
+    /**
+     * @expectedException InvalidArgumentException     
+     */
+    public function testMergeTwoLists()
+    {
+        $dictionary1 = new Dictionary('string', 'array');
+        $dictionary1->add('english-spanish', ['one' => 'uno', 'two' => 'dos']);
+
+        $translations = $dictionary1->merge(
+            new Dictionary('string', 'array', ['english-japanese' => array('one' => 'ichi', 'two' => 'ni')])
+        );
+
+        $this->assertNotNull($translations);
+        $this->assertCount(2, $translations);
+        $this->assertArrayHasKey('english-spanish', $translations->toArray());
+        $this->assertArrayHasKey('english-japanese', $translations->toArray());
+
+        $dictionary2 = new Dictionary('string', 'string');
+        $dictionary2->merge(
+            new Dictionary('string', 'integer', ['one' => 1, 'two' => 2])
+        ); // Here a InvalidOperationException is thrown!
+    }
+
+    public function testGetKeyTypeFromDictionary() 
+    {
+        $key = $this->dictionary->getKeyType();
+        $this->assertInternalType('string', $key);
+    }
+
+    public function testGetValueTypeFromDictionary() 
+    {
+        $value = $this->dictionary->getValueType();
+        $this->assertInternalType('string', $value);        
+    }
+
+    public function testSortDictionary()
+    {
+        $sorted = $this->dictionary->sort(function ($x, $y) {
+            return strlen($x) <=> strlen($y);
+        });
+        $this->assertTrue($sorted);
+        $this->assertEquals('a little bit', $this->dictionary->last());
+    }
 }

@@ -2,7 +2,6 @@
 
 namespace PHPCollections\Collections;
 
-use ArrayObject;
 use InvalidArgumentException;
 use PHPCollections\Exceptions\InvalidOperationException;
 
@@ -156,6 +155,26 @@ class Dictionary extends BaseCollection
     }
 
     /**
+     * Return the key type of this collection
+     *
+     * @return mixed
+     */
+    public function getKeyType()
+    {
+        return $this->keyType;
+    }
+
+    /**
+     * Return the key value of this collection
+     *
+     * @return mixed
+     */
+    public function getValueType()
+    {
+        return $this->valueType;
+    }
+
+    /**
      * Returns the last element of
      * the collection
      *
@@ -184,6 +203,19 @@ class Dictionary extends BaseCollection
     }
 
     /**
+     * Merges two dictionaries into a new one
+     *
+     * @param  PHPCollections\Dictionary $newDictionary
+     * @return PHPCollections\Dictionary
+     */
+    public function merge(Dictionary $newDictionary)
+    {
+        foreach ($newDictionary->toArray() as $key => $value) 
+            $this->checkType(['key' => $key, 'value' => $value]);
+        return new $this($this->keyType, $this->valueType, array_merge($this->data, $newDictionary->toArray()));
+    }
+
+    /**
      * Remove a value from the dictionary
      *
      * @param  mixed $key
@@ -204,5 +236,31 @@ class Dictionary extends BaseCollection
     public function toJson()
     {
         return json_encode($this->data);
+    }
+
+    /**
+     * Sort collection data by values
+     * applying a given callback
+     * 
+     * @param  callable $callback
+     * @return bool
+     */
+    public function sort(callable $callback)
+    {
+        return usort($this->data, $callback);
+    }
+
+    /**
+     * Update a value of your dictionary data
+     *
+     * @param  mixed $key
+     * @param  mixed $value
+     * @return void
+     */
+    public function update($key, $value)
+    {
+        if (!$this->exists($key))
+            throw new InvalidOperationException('You cannot update an inexisting key');
+        $this->data[$key] = $value;
     }
 }
