@@ -173,7 +173,7 @@ class DictionaryTest extends TestCase
     public function testSortDictionary()
     {
         $sorted = $this->dictionary->sort(function ($x, $y) {
-            return strlen($x->value) <=> strlen($y->value);
+            return strlen($x->getValue()) <=> strlen($y->getValue());
         });
         $this->assertTrue($sorted);
         $this->assertEquals('a little bit', $this->dictionary->last());
