@@ -54,8 +54,8 @@ class Dictionary extends BaseCollection
 
     /**
      * Determine if the passed data is
-     * of the type specified in the type
-     * attribute, if not raise and Exception
+     * of the type specified in the keyType/valueType
+     * attribute, if not throws and Exception
      *
      * @param  mixed $data
      * @throws InvalidArgumentException     
@@ -107,8 +107,8 @@ class Dictionary extends BaseCollection
     {
         $matcheds = [];
         foreach ($this->data as $key => $value) {
-            if (call_user_func($callback, $value->key, $value->value) === true)
-                $matcheds[$value->key] = $value->value;
+            if (call_user_func($callback, $value->getKey(), $value->getValue()) === true)
+                $matcheds[$value->getKey()] = $value->getValue();
         }
         return count($matcheds) > 0 ? new $this($this->keyType, $this->valueType, $matcheds) : null;
     }
@@ -122,8 +122,8 @@ class Dictionary extends BaseCollection
     public function find(callable $callback)
     {
         foreach ($this->data as $pair) {
-            if ($callback($pair->value, $pair->key) === true) {
-                $matched = $pair->value;
+            if ($callback($pair->getValue(), $pair->getKey()) === true) {
+                $matched = $pair->getValue();
                 break;
             }
         }
@@ -152,7 +152,7 @@ class Dictionary extends BaseCollection
      */
     public function get($key)
     {
-        return $this->offsetExists($key) ? $this->offsetGet($key)->value : null;
+        return $this->offsetExists($key) ? $this->offsetGet($key)->getValue() : null;
     }
 
     /**
@@ -250,9 +250,8 @@ class Dictionary extends BaseCollection
     public function toArray()
     {
         $array = [];
-        foreach ($this->data as $pair) {
-            $array[$pair->key] = $pair->value;
-        }
+        foreach ($this->data as $pair)
+            $array[$pair->getKey()] = $pair->getValue();
         return $array;
     }
 
@@ -265,5 +264,21 @@ class Dictionary extends BaseCollection
     public function toJson()
     {
         return json_encode($this->data);
+    }
+
+    /**
+     * Update the value of one Pair 
+     * in the collection
+     *
+     * @param  mixed $key
+     * @param  mixed $value
+     * @return void
+     */
+    public function update($key, $value)
+    {
+        $this->checkType(['key' => $key, 'value' => $value]);
+        if (!$this->offsetExists($key))
+            throw new InvalidOperationException('You cannot update a non-existent value');
+        $this->data[$key]->setValue($value);
     }
 }
