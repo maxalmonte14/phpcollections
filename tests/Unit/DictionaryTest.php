@@ -69,7 +69,7 @@ class DictionaryTest extends TestCase
     public function testMapDictionary()
     {
         $newDictionary = $this->dictionary->map(function ($value) {
-            return $value == 'no';
+            return $value = 'no';
         });
 
         $this->assertInstanceOf(Dictionary::class, $newDictionary);
@@ -87,7 +87,8 @@ class DictionaryTest extends TestCase
     public function testRemoveFromDictionary()
     {
         $this->dictionary->add('post', 'Lorem ipsum dolor sit amet...');
-        $this->dictionary->remove('post');
+        $removed = $this->dictionary->remove('post');
+        $this->assertTrue($removed);
         $this->assertArrayNotHasKey('post', $this->dictionary->toArray());
     }
 
@@ -172,7 +173,7 @@ class DictionaryTest extends TestCase
     public function testSortDictionary()
     {
         $sorted = $this->dictionary->sort(function ($x, $y) {
-            return strlen($x) <=> strlen($y);
+            return strlen($x->value) <=> strlen($y->value);
         });
         $this->assertTrue($sorted);
         $this->assertEquals('a little bit', $this->dictionary->last());

@@ -34,7 +34,9 @@ class Dictionary extends BaseCollection
     {
         $this->keyType = $keyType;
         $this->valueType = $valueType;
-        parent::__construct($data);
+        
+        foreach ($data as $key => $value)
+            $this->data[$key] = new Pair($key, $value);
     }
 
     /**
@@ -47,7 +49,7 @@ class Dictionary extends BaseCollection
     public function add($key, $value)
     {
         $this->checkType(['key' => $key, 'value' => $value]);
-        $this->offsetSet($key, $value);
+        $this->offsetSet($key, new Pair($key, $value));
     }
 
     /**
@@ -79,8 +81,7 @@ class Dictionary extends BaseCollection
      */
     public function clear()
     {
-        foreach ($this->toArray() as $key => $value)
-            $this->offsetUnset($key);
+        $this->data = [];
     }
 
     /**
@@ -88,7 +89,7 @@ class Dictionary extends BaseCollection
      *  with the given key
      *
      * @param  mixed $key
-     * @return void
+     * @return bool
      */
     public function exists($key)
     {
@@ -106,8 +107,8 @@ class Dictionary extends BaseCollection
     {
         $matcheds = [];
         foreach ($this->data as $key => $value) {
-            if (call_user_func($callback, $key, $value) === true)
-                $matcheds[$key] = $value;
+            if (call_user_func($callback, $value->key, $value->value) === true)
+                $matcheds[$value->key] = $value->value;
         }
         return count($matcheds) > 0 ? new $this($this->keyType, $this->valueType, $matcheds) : null;
     }
@@ -115,14 +116,14 @@ class Dictionary extends BaseCollection
     /**
      * Find an element based on a given callback
      *
-     * @param  callable $callback
-     * @return void
+     * @param  callable   $callback
+     * @return mixed|null
      */
     public function find(callable $callback)
     {
-        foreach ($this as $key => $value) {
-            if ($callback($value, $key) === true) {
-                $matched = $value;
+        foreach ($this->data as $pair) {
+            if ($callback($pair->value, $pair->key) === true) {
+                $matched = $pair->value;
                 break;
             }
         }
@@ -139,19 +140,19 @@ class Dictionary extends BaseCollection
     {
         if ($this->count() == 0)
             throw new InvalidOperationException('You cannot get the first element of an empty collection');
-        foreach ($this as $key => $value) return $this->get($key);
+        foreach ($this->data as $key => $value) return $this->get($key);
     }
 
     /**
      * Return the value for the specified
      * key or null if it's not defined
      *
-     * @param  mixed $key
-     * @return void
+     * @param  mixed  $key
+     * @return mixed|null
      */
     public function get($key)
     {
-        return $this->offsetExists($key) ? $this->offsetGet($key) : null;
+        return $this->offsetExists($key) ? $this->offsetGet($key)->value : null;
     }
 
     /**
@@ -219,23 +220,13 @@ class Dictionary extends BaseCollection
      * Remove a value from the dictionary
      *
      * @param  mixed $key
-     * @return void
+     * @return bool
      */
     public function remove($key)
     {
-        if ($this->offsetExists($key))
-            $this->offsetUnset($key);
-    }
-
-    /**
-     * Returns a JSON representation
-     * of your dictionary data
-     *
-     * @return array
-     */
-    public function toJson()
-    {
-        return json_encode($this->data);
+        $exits = $this->offsetExists($key);
+        if ($exits) $this->offsetUnset($key);
+        return $exits;
     }
 
     /**
@@ -251,16 +242,28 @@ class Dictionary extends BaseCollection
     }
 
     /**
-     * Update a value of your dictionary data
+     * Returns an array representation
+     * of your dictionary data
      *
-     * @param  mixed $key
-     * @param  mixed $value
-     * @return void
+     * @return array
      */
-    public function update($key, $value)
+    public function toArray()
     {
-        if (!$this->exists($key))
-            throw new InvalidOperationException('You cannot update an inexisting key');
-        $this->data[$key] = $value;
+        $array = [];
+        foreach ($this->data as $pair) {
+            $array[$pair->key] = $pair->value;
+        }
+        return $array;
+    }
+
+    /**
+     * Returns a JSON representation
+     * of your dictionary data
+     *
+     * @return array
+     */
+    public function toJson()
+    {
+        return json_encode($this->data);
     }
 }
