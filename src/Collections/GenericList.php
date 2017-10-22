@@ -247,4 +247,21 @@ class GenericList extends BaseCollection {
     {
         return usort($this->data, $callback);
     }
+
+    /**
+     * Update the value of the element 
+     * at the given index
+     *
+     * @param  int   $index
+     * @param  mixed $value
+     * @return bool
+     */
+    public function update($index, $value)
+    {
+        $this->checkType($value);
+        if ($this->count() == 0)
+            throw new InvalidOperationException('You cannot update a non-existent value');
+        $this->data[$index] = $value;
+        return $this->data[$index] === $value;
+    }
 }

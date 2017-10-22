@@ -22,22 +22,24 @@ class GenericListTest extends TestCase
     }
 
     /**
+     * @test
      * @expectedException InvalidArgumentException
      */
-    public function testAddToList()
+    public function canAddAnElementToList()
     {
         $this->assertCount(9, $this->list);
         $this->list->add(new Exception()); // Here an InvalidArgumentException is thrown!
     }
 
-    public function testClearList()
+    /** @test */
+    public function canClearData()
     {
         $this->list->clear();
         $this->assertCount(0, $this->list);
-        $this->setUp();
     }
 
-    public function testFindIntoList()
+    /** @test */
+    public function canFindOneOrMoreMatchingElements()
     {
         $arrayObject = $this->list->find(function ($value) {
             return $value['name'] === 'Finch';
@@ -48,9 +50,10 @@ class GenericListTest extends TestCase
     }
 
     /**
+     * @test
      * @expectedException OutOfRangeException
      */
-    public function testGetFromList()
+    public function canGetAnElementOfTheList()
     {
         $arrayObject = $this->list->get(2);
         $this->assertEquals('Shaw', $arrayObject->offsetGet('name'));
@@ -58,9 +61,10 @@ class GenericListTest extends TestCase
     }
 
     /**
+     * @test
      * @expectedException OutOfRangeException
      */
-    public function testRemoveFromList()
+    public function canRemoveAnElementOfTheList()
     {
         $this->list->remove(0);
         $this->assertCount(8, $this->list);
@@ -69,7 +73,8 @@ class GenericListTest extends TestCase
         $this->list->remove(9); // Here an OutOfRangeException is thrown!
     }
 
-    public function testFilterList()
+    /** @test */
+    public function canFilterElementsOfTheList()
     {
         $newList = $this->list->filter(function ($value, $key) {
             return strlen($value['name']) <= 4;
@@ -85,7 +90,8 @@ class GenericListTest extends TestCase
         $this->assertNull($anotherList);
     }
 
-    public function testSearchInList()
+    /** @test */
+    public function canSearchOneOrMoreMatchingElementsOfTheList()
     {
         $newList = $this->list->search(function ($value) {
             return strlen($value['name']) > 4;
@@ -99,7 +105,8 @@ class GenericListTest extends TestCase
         $this->assertNull($anotherList);
     }
 
-    public function testMapList()
+    /** @test */
+    public function canUpdateElementsOfTheListByMapping()
     {
         $newList = $this->list->map(function ($value) {
             $value['name'] = sprintf('%s %s', 'Sr.', $value['name']);
@@ -108,20 +115,21 @@ class GenericListTest extends TestCase
         $this->assertEquals('Sr. John', $newList->get(0)->offsetGet('name'));
     }
 
-    public function testSortList()
+    /** @test */
+    public function canSortTheList()
     {
         $isSorted = $this->list->sort(function ($a, $b) {
             return $a->offsetGet('name') <=> $b->offsetGet('name');
         });
         $this->assertTrue($isSorted);
         $this->assertEquals('Cal', $this->list->get(0)->offsetGet('name'));
-        $this->setUp();
     }
 
     /**
+     * @test
      * @expectedException PHPCollections\Exceptions\InvalidOperationException
      */
-    public function testReverseList()
+    public function canGetReversedOrderList()
     {
         $reversedList = $this->list->reverse();
         $this->assertEquals('Lionel', $reversedList->get(0)->offsetGet('name'));
@@ -131,9 +139,10 @@ class GenericListTest extends TestCase
     }
 
     /**
+     * @test
      * @expectedException PHPCollections\Exceptions\InvalidOperationException
      */
-    public function testRandElementFromList()
+    public function canGetARandomValue()
     {
         $randElement = $this->list->rand();
         $this->assertArrayHasKey('name', $randElement);
@@ -142,13 +151,15 @@ class GenericListTest extends TestCase
         $newList->rand(); // Here an InvalidOperationException is thrown!
     }
 
-    public function testIndexExistsInList()
+    /** @test */
+    public function canCheckIfIndexExists()
     {
         $this->assertTrue($this->list->exists(0));
         $this->assertFalse($this->list->exists(20));
     }
 
-    public function testCombineSomeLists()
+    /** @test */
+    public function canMergeNewDataIntoNewList()
     {
         $newList = $this->list->merge(
             [new ArrayObject(['name' => 'Max']), new ArrayObject(['name' => 'Alex'])]
@@ -157,15 +168,30 @@ class GenericListTest extends TestCase
         $this->assertEquals('Max', $newList->get(9)->offsetGet('name'));
     }
 
-    public function testGetFirstElementOfList()
+    /** @test */
+    public function canGetFirstElementOfList()
     {
         $arrayObject = $this->list->first();
         $this->assertEquals('John', $arrayObject->offsetGet('name'));
     }
 
-    public function testGetLastElementOfList()
+    /** @test */
+    public function canGetLastElementOfList()
     {
         $arrayObject = $this->list->last();
         $this->assertEquals('Lionel', $arrayObject->offsetGet('name'));
+    }
+
+    /** 
+     * @test
+     * @expectedException InvalidArgumentException
+     */
+    public function canUpdateAnElement()
+    {
+        $isUpdated = $this->list->update(0, new ArrayObject(['name' => 'Elliot']));
+        $this->assertTrue($isUpdated);
+        $this->assertEquals('Elliot', $this->list->get(0)->offsetGet('name'));
+
+        $this->list->update(0, 'Elliot'); // Here an InvalidArgumentException is thrown!
     }
 }
