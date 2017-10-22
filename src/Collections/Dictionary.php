@@ -75,18 +75,6 @@ class Dictionary extends BaseCollection
     }
 
     /**
-     * Check if exists a value
-     *  with the given key
-     *
-     * @param  mixed $key
-     * @return bool
-     */
-    public function exists($key)
-    {
-        return $this->offsetExists($key);
-    }
-
-    /**
      * Filter the collection applying
      * a given callback
      *

@@ -58,6 +58,18 @@ abstract class BaseCollection implements ArrayAccess, Countable, IteratorAggrega
     }
 
     /**
+     * Check if the given index 
+     * exists in the collection
+     *
+     * @param  int  $offset
+     * @return bool
+     */
+    public function exists($offset)
+    {
+        return $this->offsetExists($offset);
+    }
+
+    /**
      * Return an array iterator for
      * the data array
      * 

@@ -62,18 +62,6 @@ class GenericList extends BaseCollection {
     }
 
     /**
-     * Check if the given index 
-     * exists in the collection
-     *
-     * @param  int  $offset
-     * @return bool
-     */
-    public function exists(int $offset)
-    {
-        return $this->offsetExists($offset);
-    }
-
-    /**
      * Return all the coincidences found
      * for the given callback or null
      * 
