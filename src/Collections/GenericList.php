@@ -62,16 +62,6 @@ class GenericList extends BaseCollection {
     }
 
     /**
-     * Remove all the storaged data
-     *
-     * @return void
-     */
-    public function clear()
-    {
-        $this->data = [];
-    }
-
-    /**
      * Check if the given index 
      * exists in the collection
      *
@@ -259,8 +249,8 @@ class GenericList extends BaseCollection {
     }
 
     /**
-     * Sort an array by values applying
-     *  a given callback function
+     * Sort collection data by values
+     * applying a given callback
      *
      * @param  callable $callback
      * @return bool

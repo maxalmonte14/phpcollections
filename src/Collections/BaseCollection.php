@@ -37,6 +37,17 @@ abstract class BaseCollection implements ArrayAccess, Countable, IteratorAggrega
     }
 
     /**
+     * Remove all the elements 
+     * of the data array
+     *
+     * @return void
+     */
+    public function clear()
+    {
+        $this->data = [];
+    }
+
+    /**
      * Return the length of the collection
      *
      * @return int
@@ -52,7 +63,7 @@ abstract class BaseCollection implements ArrayAccess, Countable, IteratorAggrega
      * 
      * @return ArrayIterator
      */
-    public function getIterator() : ArrayIterator 
+    public function getIterator()
     {
         return new ArrayIterator($this->data);
     }

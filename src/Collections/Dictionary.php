@@ -75,16 +75,6 @@ class Dictionary extends BaseCollection
     }
 
     /**
-     * Remove all the elements
-     *
-     * @return void
-     */
-    public function clear()
-    {
-        $this->data = [];
-    }
-
-    /**
      * Check if exists a value
      *  with the given key
      *
