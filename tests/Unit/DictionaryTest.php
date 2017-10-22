@@ -21,28 +21,31 @@ class DictionaryTest extends TestCase
     }
 
     /**
+     * @test
      * @expectedException InvalidArgumentException
      */
-    public function testAddValuesToDictionary()
+    public function canAddValuesOfTheSpecifiedTypes()
     {
+        $this->dictionary->add('nickname', 'maxalmonte14');
+        $this->assertArrayHasKey('nickname', $this->dictionary->toArray());
         $this->dictionary->add('movies', new ArrayObject(['Plan 9', 'The creature of the black lagoon', 'Nigth of the living dead']));
-        $this->assertArrayHasKey('movies', $this->dictionary);
-        $this->dictionary->add(5, new ArrayObject([1, 2, 3, 4, 5]));
     }
 
-    public function testDictionaryContainsValue()
+    /** @test */
+    public function canCheckIfContainsAValue()
     {
         $this->assertTrue($this->dictionary->exists('drink'));
     }
 
-    public function testClearDictionary()
+    /** @test */
+    public function canClearData()
     {
         $this->dictionary->clear();
         $this->assertCount(0, $this->dictionary);
-        $this->setUp();
     }
 
-    public function testFindInDictionary()
+    /** @test */
+    public function canFindOneOrMoreElementsByValue()
     {
         $name = $this->dictionary->find(function ($value) {
             return $value === 'Max';
@@ -57,7 +60,8 @@ class DictionaryTest extends TestCase
         $this->assertNull($nullPointer);
     }
 
-    public function testGetOfDictionary()
+    /** @test */
+    public function canGetAnElementByIndex()
     {
         $job = $this->dictionary->get('job');
         $this->assertEquals('programmer', $job);
@@ -66,7 +70,8 @@ class DictionaryTest extends TestCase
         $this->assertNull($nullPointer);
     }
 
-    public function testMapDictionary()
+    /** @test */
+    public function canUpdateDataByMapping()
     {
         $newDictionary = $this->dictionary->map(function ($value) {
             return $value = 'no';
@@ -77,14 +82,16 @@ class DictionaryTest extends TestCase
         $this->assertEquals('no', $newDictionary->get('smoke'));
     }
 
-    public function testToArrayDictionary()
+    /** @test */
+    public function canConvertDictionaryToArray()
     {
         $array = $this->dictionary->toArray();
         $this->assertArrayHasKey('job', $array);
         $this->assertEquals('programmer', $array['job']);
     }
 
-    public function testRemoveFromDictionary()
+    /** @test */
+    public function canRemoveDataByIndex()
     {
         $this->dictionary->add('post', 'Lorem ipsum dolor sit amet...');
         $removed = $this->dictionary->remove('post');
@@ -92,7 +99,8 @@ class DictionaryTest extends TestCase
         $this->assertArrayNotHasKey('post', $this->dictionary->toArray());
     }
 
-    public function testFilterDictionary()
+    /** @test */
+    public function canFilterDataByKeyAndValue()
     {
         $dictionary = new Dictionary('string', 'array');
         $dictionary->add('books', ['Code smart', 'JS the good parts', 'Laravel up and running']);
@@ -106,9 +114,10 @@ class DictionaryTest extends TestCase
     }
 
     /**
+     * @test
      * @expectedException PHPCollections\Exceptions\InvalidOperationException
      */
-    public function testGetFirstElementFromDictionary()
+    public function canGetFirstElement()
     {
         $this->assertEquals('Max', $this->dictionary->first());
         $newDictionary = new Dictionary('string', 'int');
@@ -116,9 +125,10 @@ class DictionaryTest extends TestCase
     }
 
     /**
+     * @test
      * @expectedException PHPCollections\Exceptions\InvalidOperationException
      */
-    public function testGetLastElementFromDictionary()
+    public function canGetLastElement()
     {
         $this->assertEquals('23', $this->dictionary->last());
         $newDictionary = new Dictionary('string', 'int');
@@ -126,19 +136,22 @@ class DictionaryTest extends TestCase
     }
 
     /**
+     * @test
      * @expectedException PHPCollections\Exceptions\InvalidOperationException
      */
-    public function testUpdateElementIntoDictionary()
+    public function canUpdateElementByIndex()
     {
-        $this->dictionary->update('job', 'PHP developer');
+        $isUpdated = $this->dictionary->update('job', 'PHP developer');
+        $this->assertTrue($isUpdated);
         $this->assertEquals('PHP developer', $this->dictionary->get('job'));
         $this->dictionary->update('height', '2.80'); // Here an InvalidOperationException is thrown!
     }
 
     /**
+     * @test
      * @expectedException InvalidArgumentException     
      */
-    public function testMergeTwoLists()
+    public function canMergeNewDataIntoNewDictionary()
     {
         $dictionary1 = new Dictionary('string', 'array');
         $dictionary1->add('english-spanish', ['one' => 'uno', 'two' => 'dos']);
@@ -158,19 +171,22 @@ class DictionaryTest extends TestCase
         ); // Here a InvalidOperationException is thrown!
     }
 
-    public function testGetKeyTypeFromDictionary() 
+    /** @test */
+    public function canGetKeyType() 
     {
         $key = $this->dictionary->getKeyType();
         $this->assertInternalType('string', $key);
     }
 
-    public function testGetValueTypeFromDictionary() 
+    /** @test */
+    public function canGetValueType() 
     {
         $value = $this->dictionary->getValueType();
         $this->assertInternalType('string', $value);        
     }
 
-    public function testSortDictionary()
+    /** @test */
+    public function canSortByGivenRules()
     {
         $sorted = $this->dictionary->sort(function ($x, $y) {
             return strlen($x->getValue()) <=> strlen($y->getValue());

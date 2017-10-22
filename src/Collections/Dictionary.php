@@ -250,7 +250,7 @@ class Dictionary extends BaseCollection
      *
      * @param  mixed $key
      * @param  mixed $value
-     * @return void
+     * @return bool
      */
     public function update($key, $value)
     {
@@ -258,5 +258,6 @@ class Dictionary extends BaseCollection
         if (!$this->offsetExists($key))
             throw new InvalidOperationException('You cannot update a non-existent value');
         $this->data[$key]->setValue($value);
+        return $this->data[$key]->getValue() === $value;
     }
 }
