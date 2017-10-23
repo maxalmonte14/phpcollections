@@ -10,7 +10,7 @@ PHPCollections is a set of data structures that try to make your life easiest wh
 PHP >= 7.0
 ```
 
-## Instalation
+## Installation
 
 ```
 composer require "maxalmonte14/phpcollections dev-master"
@@ -33,14 +33,14 @@ $posts[] = 5 // This is not even an object!
 
 When you try to fetch your posts array you gonna be in troubles
 
-```php
-foreach($posts as $post):
+```html
+<?php foreach($posts as $post): ?>
     <tr>
-        <!-- this gonna fail when $post = 5! -->
+        <!-- this gonna fail when $post == 5! -->
         <td><?= $post->id; ?></td>
         <td><?= $post->title; ?></td>
     </tr>
-endforeach
+<?php endforeach ?>
 ```
 
 Affortunaly PHPCollections exists
