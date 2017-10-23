@@ -259,7 +259,7 @@ class GenericList extends BaseCollection {
     public function update($index, $value)
     {
         $this->checkType($value);
-        if ($this->count() == 0)
+        if (!$this->exists($index))
             throw new InvalidOperationException('You cannot update a non-existent value');
         $this->data[$index] = $value;
         return $this->data[$index] === $value;
