@@ -5,12 +5,17 @@ namespace PHPCollections\Collections;
 use InvalidArgumentException;
 use PHPCollections\Exceptions\InvalidOperationException;
 
+/**
+ * A Pair object collection
+ * represented by a generic
+ * type key and value
+ */
 class Dictionary extends BaseCollection
 {
     /**
      * The type of the keys
      * for this dictionary
-     * 
+     *
      * @var mixed
      */
     private $keyType;
@@ -35,8 +40,9 @@ class Dictionary extends BaseCollection
         $this->keyType = $keyType;
         $this->valueType = $valueType;
         
-        foreach ($data as $key => $value)
+        foreach ($data as $key => $value) {
             $this->data[$key] = new Pair($key, $value);
+        }
     }
 
     /**
@@ -58,7 +64,7 @@ class Dictionary extends BaseCollection
      * attribute, if not throws and Exception
      *
      * @param  mixed $data
-     * @throws InvalidArgumentException     
+     * @throws InvalidArgumentException
      * @return void
      */
     private function checkType(array $values)
@@ -85,8 +91,9 @@ class Dictionary extends BaseCollection
     {
         $matcheds = [];
         foreach ($this->data as $key => $value) {
-            if (call_user_func($callback, $value->getKey(), $value->getValue()) === true)
+            if (call_user_func($callback, $value->getKey(), $value->getValue()) === true) {
                 $matcheds[$value->getKey()] = $value->getValue();
+            }
         }
         return count($matcheds) > 0 ? new $this($this->keyType, $this->valueType, $matcheds) : null;
     }
@@ -116,9 +123,12 @@ class Dictionary extends BaseCollection
      */
     public function first()
     {
-        if ($this->count() == 0)
+        if ($this->count() == 0) {
             throw new InvalidOperationException('You cannot get the first element of an empty collection');
-        foreach ($this->data as $key => $value) return $this->get($key);
+        }
+        foreach ($this->data as $key => $value) {
+            return $this->get($key);
+        }
     }
 
     /**
@@ -162,8 +172,9 @@ class Dictionary extends BaseCollection
      */
     public function last()
     {
-        if ($this->count() == 0)
+        if ($this->count() == 0) {
             throw new InvalidOperationException('You cannot get the last element of an empty collection');
+        }
         $values = array_values($this->toArray());
         return $values[$this->count() - 1];
     }
@@ -189,8 +200,9 @@ class Dictionary extends BaseCollection
      */
     public function merge(Dictionary $newDictionary)
     {
-        foreach ($newDictionary->toArray() as $key => $value) 
+        foreach ($newDictionary->toArray() as $key => $value) {
             $this->checkType(['key' => $key, 'value' => $value]);
+        }
         return new $this($this->keyType, $this->valueType, array_merge($this->data, $newDictionary->toArray()));
     }
 
@@ -203,14 +215,16 @@ class Dictionary extends BaseCollection
     public function remove($key)
     {
         $exits = $this->offsetExists($key);
-        if ($exits) $this->offsetUnset($key);
+        if ($exits) {
+            $this->offsetUnset($key);
+        }
         return $exits;
     }
 
     /**
      * Sort collection data by values
      * applying a given callback
-     * 
+     *
      * @param  callable $callback
      * @return bool
      */
@@ -228,8 +242,9 @@ class Dictionary extends BaseCollection
     public function toArray()
     {
         $array = [];
-        foreach ($this->data as $pair)
+        foreach ($this->data as $pair) {
             $array[$pair->getKey()] = $pair->getValue();
+        }
         return $array;
     }
 
@@ -245,7 +260,7 @@ class Dictionary extends BaseCollection
     }
 
     /**
-     * Update the value of one Pair 
+     * Update the value of one Pair
      * in the collection
      *
      * @param  mixed $key
@@ -255,8 +270,9 @@ class Dictionary extends BaseCollection
     public function update($key, $value)
     {
         $this->checkType(['key' => $key, 'value' => $value]);
-        if (!$this->offsetExists($key))
+        if (!$this->offsetExists($key)) {
             throw new InvalidOperationException('You cannot update a non-existent value');
+        }
         $this->data[$key]->setValue($value);
         return $this->data[$key]->getValue() === $value;
     }

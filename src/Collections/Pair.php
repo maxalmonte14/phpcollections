@@ -2,7 +2,12 @@
 
 namespace PHPCollections\Collections;
 
-class Pair {
+/**
+ * A simple key / value pair
+ * object representation
+ */
+class Pair
+{
 
     /**
      * The key for the Pair object
@@ -31,7 +36,7 @@ class Pair {
     }
 
     /**
-     * Allow access to the key 
+     * Allow access to the key
      * property by its value
      *
      * @param  string $name
@@ -39,8 +44,9 @@ class Pair {
      */
     public function __get($name)
     {
-        if ($name == $this->key)
+        if ($name == $this->key) {
             return $this->value;
+        }
     }
 
     /**
@@ -73,5 +79,4 @@ class Pair {
     {
         $this->value = $value;
     }
-
 }

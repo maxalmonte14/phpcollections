@@ -8,7 +8,12 @@ use IteratorAggregate;
 use JsonSerializable;
 use ArrayIterator;
 
-abstract class BaseCollection implements ArrayAccess, Countable, IteratorAggregate, JsonSerializable {
+/**
+ * The base for iterable, countable
+ * and arrayable collections
+ */
+abstract class BaseCollection implements ArrayAccess, Countable, IteratorAggregate, JsonSerializable
+{
 
     /**
      * The data container
@@ -26,7 +31,7 @@ abstract class BaseCollection implements ArrayAccess, Countable, IteratorAggrega
 
     /**
      * BaseCollection constructor
-     * 
+     *
      * @param array $data
      *
      * @return void
@@ -37,7 +42,7 @@ abstract class BaseCollection implements ArrayAccess, Countable, IteratorAggrega
     }
 
     /**
-     * Remove all the elements 
+     * Remove all the elements
      * of the data array
      *
      * @return void
@@ -58,7 +63,7 @@ abstract class BaseCollection implements ArrayAccess, Countable, IteratorAggrega
     }
 
     /**
-     * Check if the given index 
+     * Check if the given index
      * exists in the collection
      *
      * @param  int  $offset
@@ -72,7 +77,7 @@ abstract class BaseCollection implements ArrayAccess, Countable, IteratorAggrega
     /**
      * Return an array iterator for
      * the data array
-     * 
+     *
      * @return ArrayIterator
      */
     public function getIterator()
@@ -83,7 +88,7 @@ abstract class BaseCollection implements ArrayAccess, Countable, IteratorAggrega
     /**
      * Defines the behavior of the collection
      * when json_encode is called
-     * 
+     *
      * @return array
      */
     public function jsonSerialize()
@@ -122,10 +127,11 @@ abstract class BaseCollection implements ArrayAccess, Countable, IteratorAggrega
      */
     public function offsetSet($offset, $value)
     {
-        if (is_null($offset))
+        if (is_null($offset)) {
             array_push($this->data, $value);
-        else
+        } else {
             $this->data[$offset] = $value;
+        }
     }
 
     /**

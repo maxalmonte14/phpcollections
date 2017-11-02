@@ -1,5 +1,9 @@
 <?php
 
+namespace Tests\Unit;
+
+use \Exception;
+use \ArrayObject;
 use PHPUnit\Framework\TestCase;
 use PHPCollections\Collections\GenericList;
 
@@ -182,7 +186,7 @@ class GenericListTest extends TestCase
         $this->assertEquals('Lionel', $arrayObject->offsetGet('name'));
     }
 
-    /** 
+    /**
      * @test
      * @expectedException InvalidArgumentException
      */

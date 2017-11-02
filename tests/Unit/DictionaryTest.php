@@ -1,5 +1,8 @@
 <?php
 
+namespace Tests\Unit;
+
+use \ArrayObject;
 use PHPUnit\Framework\TestCase;
 use PHPCollections\Collections\Dictionary;
 
@@ -149,7 +152,7 @@ class DictionaryTest extends TestCase
 
     /**
      * @test
-     * @expectedException InvalidArgumentException     
+     * @expectedException InvalidArgumentException
      */
     public function canMergeNewDataIntoNewDictionary()
     {
@@ -172,17 +175,17 @@ class DictionaryTest extends TestCase
     }
 
     /** @test */
-    public function canGetKeyType() 
+    public function canGetKeyType()
     {
         $key = $this->dictionary->getKeyType();
         $this->assertInternalType('string', $key);
     }
 
     /** @test */
-    public function canGetValueType() 
+    public function canGetValueType()
     {
         $value = $this->dictionary->getValueType();
-        $this->assertInternalType('string', $value);        
+        $this->assertInternalType('string', $value);
     }
 
     /** @test */

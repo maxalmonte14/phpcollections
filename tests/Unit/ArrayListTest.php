@@ -1,5 +1,8 @@
 <?php
 
+namespace Tests\Unit;
+
+use \StdClass;
 use PHPUnit\Framework\TestCase;
 use PHPCollections\Collections\ArrayList;
 
@@ -75,8 +78,11 @@ class ArrayListTest extends TestCase
     public function canUpdateTheElementsByMapping()
     {
         $newArrayList = $this->arrayList->map(function ($val) {
-            if ($val == false) return "Empty value";
-            else return $val;
+            if ($val == false) {
+                return "Empty value";
+            } else {
+                return $val;
+            }
         });
         $this->assertContains("Empty value", $newArrayList->toArray());
     }
@@ -108,8 +114,8 @@ class ArrayListTest extends TestCase
         $this->assertEquals(10, $newArrayList->last());
     }
 
-    /** 
-     * @test 
+    /**
+     * @test
      * @expectedException PHPCollections\Exceptions\InvalidOperationException
      */
     public function cannotGetARandomValueFromEmptyArrayList()
@@ -126,7 +132,7 @@ class ArrayListTest extends TestCase
         $this->assertEquals('Max', $reversedList->last());
     }
 
-    /** 
+    /**
      * @test
      * @expectedException PHPCollections\Exceptions\InvalidOperationException
      */
@@ -143,7 +149,7 @@ class ArrayListTest extends TestCase
         $this->assertEquals('John', $this->arrayList->get(0));
     }
 
-    /** 
+    /**
      * @test
      * @expectedException PHPCollections\Exceptions\InvalidOperationException
      */

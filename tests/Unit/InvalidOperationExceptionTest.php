@@ -1,5 +1,7 @@
 <?php
 
+namespace Tests\Unit;
+
 use PHPUnit\Framework\TestCase;
 use PHPCollections\GenericList;
 use PHPCollections\Exceptions\InvalidOperationException;
@@ -17,7 +19,7 @@ class InvalidOperationExceptionTest extends TestCase
     public function testIsCatchable()
     {
         try {
-            throw new InvalidOperationException('The Exception is catchable!');            
+            throw new InvalidOperationException('The Exception is catchable!');
         } catch (InvalidOperationException $e) {
             $this->assertEquals('The Exception is catchable!', $e->getMessage());
         }

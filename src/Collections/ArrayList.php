@@ -4,7 +4,10 @@ namespace PHPCollections\Collections;
 
 use PHPCollections\Exceptions\InvalidOperationException;
 
-class ArrayList extends BaseCollection 
+/**
+ * A list of values of any type
+ */
+class ArrayList extends BaseCollection
 {
     /**
      * Add a new element to the collection
@@ -26,8 +29,11 @@ class ArrayList extends BaseCollection
      */
     public function contains($val)
     {
-        foreach ($this->data as $value)
-            if ($value === $val) return true;
+        foreach ($this->data as $value) {
+            if ($value === $val) {
+                return true;
+            }
+        }
 
         return false;
     }
@@ -35,7 +41,7 @@ class ArrayList extends BaseCollection
     /**
      * Return all the coincidences found
      * for the given callback or null
-     * 
+     *
      * @param  callable $callback
      * @return PHPCollections\ArrayList|null
      */
@@ -43,8 +49,9 @@ class ArrayList extends BaseCollection
     {
         $matcheds = [];
         foreach ($this->data as $value) {
-            if (call_user_func($callback, $value) === true)
+            if (call_user_func($callback, $value) === true) {
                 $matcheds[] = $value;
+            }
         }
         return count($matcheds) > 0 ? new $this(array_values($matcheds)) : null;
     }
@@ -52,7 +59,7 @@ class ArrayList extends BaseCollection
         /**
      * Search one or more elements in
      * the collection
-     * 
+     *
      * @param  callable $callback
      * @param  boolean  $shouldStop
      * @return PHPCollections\ArrayList|null
@@ -63,7 +70,9 @@ class ArrayList extends BaseCollection
         foreach ($this->data as $key => $item) {
             if ($callback($item, $key) === true) {
                 $matcheds[] = $item;
-                if ($shouldStop) break;
+                if ($shouldStop) {
+                    break;
+                }
             }
         }
         return count($matcheds) > 0 ? new $this($matcheds) : null;
@@ -77,13 +86,14 @@ class ArrayList extends BaseCollection
      */
     public function first()
     {
-        if ($this->count() == 0)
+        if ($this->count() == 0) {
             throw new OutOfRangeException("You're trying to get data into an empty collection.");
+        }
         return $this->data[0];
     }
 
     /**
-     * Get the element specified 
+     * Get the element specified
      * at the given index
      *
      * @param  int   $offset
@@ -102,8 +112,9 @@ class ArrayList extends BaseCollection
      */
     public function last()
     {
-        if ($this->count() == 0)
+        if ($this->count() == 0) {
             throw new OutOfRangeException("You're trying to get data into an empty collection.");
+        }
         return $this->data[$this->count() - 1];
     }
 
@@ -133,7 +144,7 @@ class ArrayList extends BaseCollection
     }
     
     /**
-     * Return a random element of 
+     * Return a random element of
      * the collection
      *
      * @throws PHPCollections\Exceptions\InvalidOperationException
@@ -141,8 +152,9 @@ class ArrayList extends BaseCollection
      */
     public function rand()
     {
-        if ($this->count() == 0)
+        if ($this->count() == 0) {
             throw new InvalidOperationException('You cannot get a random element from an empty collection.');
+        }
         $randomIndex = array_rand($this->data);
         return $this->get($randomIndex);
     }
@@ -150,19 +162,20 @@ class ArrayList extends BaseCollection
     /**
      * Return a new collection with the
      * reversed values
-     * 
+     *
      * @throws PHPCollections\Exceptions\InvalidOperationException
      * @return PHPCollections\ArrayList
      */
     public function reverse()
     {
-        if ($this->count() == 0)
+        if ($this->count() == 0) {
             throw new InvalidOperationException('You cannot reverse an empty collection.');
+        }
         return new $this(array_reverse($this->data));
     }
 
     /**
-     * Update the value of the element 
+     * Update the value of the element
      * at the given index
      *
      * @param  int   $index
@@ -171,8 +184,9 @@ class ArrayList extends BaseCollection
      */
     public function update($index, $value)
     {
-        if (!$this->exists($index))
+        if (!$this->exists($index)) {
             throw new InvalidOperationException('You cannot update a non-existent value');
+        }
         $this->data[$index] = $value;
         return $this->data[$index] === $value;
     }
