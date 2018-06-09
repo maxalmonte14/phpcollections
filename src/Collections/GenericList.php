@@ -27,12 +27,14 @@ class GenericList extends BaseCollection
      * @param  array  $data
      * @return void
      */
-    public function __construct($type, array $data = [])
+    public function __construct($type, ...$data)
     {
         $this->type = $type;
+
         foreach ($data as $value) {
             $this->checkType($value);
         }
+        
         parent::__construct($data);
     }
 
@@ -77,12 +79,14 @@ class GenericList extends BaseCollection
     public function filter(callable $callback)
     {
         $matcheds = [];
+
         foreach ($this->data as $key => $value) {
             if (call_user_func($callback, $key, $value) === true) {
                 $matcheds[] = $value;
             }
         }
-        return count($matcheds) > 0 ? new $this($this->type, array_values($matcheds)) : null;
+        
+        return count($matcheds) > 0 ? new $this($this->type, ...array_values($matcheds)) : null;
     }
 
     /**
@@ -95,6 +99,7 @@ class GenericList extends BaseCollection
     public function find(callable $callback)
     {
         $dataset = $this->search($callback, true);
+
         return $dataset->get(0) ?? null;
     }
 
@@ -109,6 +114,7 @@ class GenericList extends BaseCollection
         if ($this->count() == 0) {
             throw new OutOfRangeException("You're trying to get data into an empty collection.");
         }
+
         return $this->data[0];
     }
 
@@ -123,9 +129,12 @@ class GenericList extends BaseCollection
     {
         if ($this->count() == 0) {
             throw new OutOfRangeException("You're trying to get data into an empty collection.");
-        } elseif (!$this->offsetExists($offset)) {
+        }
+        
+        if (!$this->offsetExists($offset)) {
             throw new OutOfRangeException("The {$offset} index do not exits for this collection.");
         }
+
         return $this->offsetGet($offset);
     }
 
@@ -140,6 +149,7 @@ class GenericList extends BaseCollection
         if ($this->count() == 0) {
             throw new OutOfRangeException("You're trying to get data into an empty collection.");
         }
+
         return $this->data[$this->count() - 1];
     }
 
@@ -153,7 +163,8 @@ class GenericList extends BaseCollection
     public function map(callable $callback)
     {
         $matcheds = array_map($callback, $this->data);
-        return count($matcheds) > 0 ? new $this($this->type, array_values($matcheds)) : null;
+
+        return count($matcheds) > 0 ? new $this($this->type, ...array_values($matcheds)) : null;
     }
 
     /**
@@ -168,7 +179,8 @@ class GenericList extends BaseCollection
         foreach ($data as $value) {
             $this->checkType($value);
         }
-        return new $this($this->type, array_merge($this->data, $data));
+
+        return new $this($this->type, ...array_merge($this->data, $data));
     }
 
     /**
@@ -183,7 +195,9 @@ class GenericList extends BaseCollection
         if ($this->count() == 0) {
             throw new InvalidOperationException('You cannot get a random element from an empty collection.');
         }
+
         $randomIndex = array_rand($this->data);
+        
         return $this->get($randomIndex);
     }
 
@@ -199,9 +213,12 @@ class GenericList extends BaseCollection
     {
         if ($this->count() == 0) {
             throw new OutOfRangeException("You're trying to remove data into a empty collection.");
-        } elseif (!$this->offsetExists($offset)) {
+        }
+        
+        if (!$this->offsetExists($offset)) {
             throw new OutOfRangeException("The {$offset} index do not exits for this collection.");
         }
+
         $this->offsetUnset($offset);
         $this->repopulate();
     }
@@ -228,7 +245,8 @@ class GenericList extends BaseCollection
         if ($this->count() == 0) {
             throw new InvalidOperationException('You cannot reverse an empty collection.');
         }
-        return new $this($this->type, array_reverse($this->data));
+
+        return new $this($this->type, ...array_reverse($this->data));
     }
 
     /**
@@ -242,6 +260,7 @@ class GenericList extends BaseCollection
     public function search(callable $callback, $shouldStop = false)
     {
         $matcheds = [];
+
         foreach ($this->data as $key => $item) {
             if ($callback($item, $key) === true) {
                 $matcheds[] = $item;
@@ -250,7 +269,8 @@ class GenericList extends BaseCollection
                 }
             }
         }
-        return count($matcheds) > 0 ? new $this($this->type, $matcheds) : null;
+
+        return count($matcheds) > 0 ? new $this($this->type, ...$matcheds) : null;
     }
 
     /**
@@ -276,10 +296,13 @@ class GenericList extends BaseCollection
     public function update($index, $value)
     {
         $this->checkType($value);
+
         if (!$this->exists($index)) {
             throw new InvalidOperationException('You cannot update a non-existent value');
         }
+
         $this->data[$index] = $value;
+        
         return $this->data[$index] === $value;
     }
 }

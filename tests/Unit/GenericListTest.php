@@ -25,6 +25,22 @@ class GenericListTest extends TestCase
         $this->list->add(new ArrayObject(['name' => 'Lionel']));
     }
 
+    /** @test */
+    public function canCreateACollectionWithMultipleParameters()
+    {
+        $this->list = null;
+        $this->list = new GenericList(
+            ArrayObject::class,
+            new ArrayObject(['name' => 'John']),
+            new ArrayObject(['name' => 'Finch']),
+            new ArrayObject(['name' => 'Shaw']),
+            new ArrayObject(['name' => 'Carter'])
+        );
+
+        $this->assertInstanceOf(GenericList::class, $this->list);
+        $this->assertCount(4, $this->list);
+    }
+
     /**
      * @test
      * @expectedException InvalidArgumentException
