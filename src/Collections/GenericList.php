@@ -7,25 +7,24 @@ use InvalidArgumentException;
 use PHPCollections\Exceptions\InvalidOperationException;
 
 /**
- * A list to a generic type
+ * A list for a generic type of data.
  */
 class GenericList extends BaseCollection
 {
 
     /**
      * The type of data that's
-     * gonna be stored
+     * gonna be stored.
      *
      * @var mixed
      */
     private $type;
 
     /**
-     * The GenericList class constructor
+     * Initialize class properties.
      *
-     * @param  string $type
-     * @param  array  $data
-     * @return void
+     * @param string $type
+     * @param array $data
      */
     public function __construct($type, ...$data)
     {
@@ -39,9 +38,10 @@ class GenericList extends BaseCollection
     }
 
     /**
-     * Add a new object to the collection
+     * Add a new object to the collection.
      *
-     * @param  object $value
+     * @param object $value
+     * 
      * @return void
      */
     public function add($value)
@@ -53,16 +53,18 @@ class GenericList extends BaseCollection
     /**
      * Determine if the passed data is
      * of the type specified in the type
-     * attribute, if not raise and Exception
+     * attribute, if not raise and Exception.
      *
-     * @param  mixed $data
-     * @throws InvalidArgumentException
+     * @param mixed $data
+     * @throws \InvalidArgumentException
+     * 
      * @return void
      */
     private function checkType($data)
     {
         if (!$data instanceof $this->type) {
             $type = is_object($data) ? get_class($data) : gettype($data);
+
             throw new InvalidArgumentException(
                 sprintf('The type specified for this collection is %s, you cannot pass a value of type %s', $this->type, $type)
             );
@@ -71,10 +73,11 @@ class GenericList extends BaseCollection
 
     /**
      * Return all the coincidences found
-     * for the given callback or null
+     * for the given callback or null.
      *
-     * @param  callable $callback
-     * @return PHPCollections\GenericList|null
+     * @param callable $callback
+     * 
+     * @return \PHPCollections\GenericList|null
      */
     public function filter(callable $callback)
     {
@@ -91,10 +94,11 @@ class GenericList extends BaseCollection
 
     /**
      * Return the first element that
-     * matches when callback criteria
+     * matches when callback criteria.
      *
-     * @param  callable    $callback
-     * @return PHPCollections\GenericList|null
+     * @param callable $callback
+     * 
+     * @return \PHPCollections\GenericList|null
      */
     public function find(callable $callback)
     {
@@ -104,9 +108,10 @@ class GenericList extends BaseCollection
     }
 
     /**
-     * Get the first element of the collection
+     * Get the first element of the collection.
      *
-     * @throws OutOfRangeException
+     * @throws \OutOfRangeException
+     * 
      * @return mixed
      */
     public function first()
@@ -121,8 +126,9 @@ class GenericList extends BaseCollection
     /**
      * Return the object at the specified index
      *
-     * @param  int    $offset
-     * @throws OutOfRangeException
+     * @param int $offset.
+     * @throws \OutOfRangeException
+     * 
      * @return object
      */
     public function get($offset)
@@ -139,15 +145,16 @@ class GenericList extends BaseCollection
     }
 
     /**
-     * Get the last element of the collection
+     * Get the last element of the collection.
      *
-     * @throws OutOfRangeException
+     * @throws \OutOfRangeException
+     * 
      * @return mixed
      */
     public function last()
     {
         if ($this->count() == 0) {
-            throw new OutOfRangeException("You're trying to get data into an empty collection.");
+            throw new OutOfRangeException("You're trying to get data from an empty collection.");
         }
 
         return $this->data[$this->count() - 1];
@@ -155,10 +162,11 @@ class GenericList extends BaseCollection
 
     /**
      * Update elements in the collection by
-     * applying a given callback function
+     * applying a given callback function.
      *
-     * @param  callable $callback
-     * @return PHPCollections\GenericList|null
+     * @param callable $callback
+     * 
+     * @return \PHPCollections\GenericList|null
      */
     public function map(callable $callback)
     {
@@ -169,10 +177,11 @@ class GenericList extends BaseCollection
 
     /**
      * Merge new data with the actual
-     * collection and returns a new one
+     * collection and returns a new one.
      *
-     * @param  array $data
-     * @return PHPCollections\GenericList
+     * @param array $data
+     * 
+     * @return \PHPCollections\GenericList
      */
     public function merge(array $data)
     {
@@ -185,9 +194,10 @@ class GenericList extends BaseCollection
 
     /**
      * Return a random element of
-     * the collection
+     * the collection.
      *
-     * @throws PHPCollections\Exceptions\InvalidOperationException
+     * @throws \PHPCollections\Exceptions\InvalidOperationException
+     * 
      * @return mixed
      */
     public function rand()
@@ -203,10 +213,11 @@ class GenericList extends BaseCollection
 
     /**
      * Remove an item in the collection
-     * and repopulate the data array
+     * and repopulate the data array.
      *
-     * @param  int  $offset
-     * @throws OutOfRangeException
+     * @param int $offset
+     * @throws \OutOfRangeException
+     * 
      * @return void
      */
     public function remove($offset)
@@ -224,7 +235,7 @@ class GenericList extends BaseCollection
     }
 
     /**
-     * Repopulate the data array
+     * Repopulate the data array.
      *
      * @return void
      */
@@ -235,10 +246,11 @@ class GenericList extends BaseCollection
 
     /**
      * Return a new collection with the
-     * reversed values
+     * reversed values.
      *
-     * @throws PHPCollections\Exceptions\InvalidOperationException
-     * @return PHPCollections\GenericList
+     * @throws \PHPCollections\Exceptions\InvalidOperationException
+     * 
+     * @return \PHPCollections\GenericList
      */
     public function reverse()
     {
@@ -251,10 +263,11 @@ class GenericList extends BaseCollection
 
     /**
      * Search one or more elements in
-     * the collection
+     * the collection.
      *
-     * @param  callable $callback
-     * @param  boolean  $shouldStop
+     * @param callable $callback
+     * @param boolean $shouldStop
+     * 
      * @return PHPCollections\GenericList|null
      */
     public function search(callable $callback, $shouldStop = false)
@@ -275,9 +288,10 @@ class GenericList extends BaseCollection
 
     /**
      * Sort collection data by values
-     * applying a given callback
+     * applying a given callback.
      *
-     * @param  callable $callback
+     * @param callable $callback
+     * 
      * @return bool
      */
     public function sort(callable $callback)
@@ -287,10 +301,12 @@ class GenericList extends BaseCollection
 
     /**
      * Update the value of the element
-     * at the given index
+     * at the given index.
      *
-     * @param  int   $index
-     * @param  mixed $value
+     * @param int $index
+     * @param mixed $value
+     * @throws \PHPCollections\Exceptions\InvalidOperationException     
+     * 
      * @return bool
      */
     public function update($index, $value)
