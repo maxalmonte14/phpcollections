@@ -4,42 +4,43 @@ namespace PHPCollections\Collections;
 
 /**
  * A simple key / value pair
- * object representation
+ * object representation.
  */
 class Pair
 {
 
     /**
-     * The key for the Pair object
+     * The key for the Pair object.
      *
      * @var mixed
      */
     private $key;
 
     /**
-     * The value for the Pair object
+     * Initialize class properties.
      *
      * @var mixed
      */
     private $value;
 
     /**
-     * The Pair class constructor
+     * Initialize values.
      *
      * @param mixed $key
      * @param mixed $value
      */
     public function __construct($key, $value)
     {
-        $this->key   = $key;
+        $this->key = $key;
         $this->value = $value;
     }
 
     /**
      * Allow access to the key
-     * property by its value
+     * property by its value.
      *
-     * @param  string $name
+     * @param string $name
+     * 
      * @return mixed
      */
     public function __get($name)
@@ -50,7 +51,7 @@ class Pair
     }
 
     /**
-     * Return the key property
+     * Return the key property.
      *
      * @return mixed
      */
@@ -60,7 +61,7 @@ class Pair
     }
 
     /**
-     * Return the value property
+     * Return the value property.
      *
      * @return mixed
      */
@@ -70,9 +71,10 @@ class Pair
     }
 
     /**
-     * Set the value of the value property
+     * Set the value of the value property.
      *
-     * @param  mixed $value
+     * @param mixed $value
+     * 
      * @return void
      */
     public function setValue($value)

@@ -6,7 +6,7 @@ use Countable;
 use InvalidArgumentException;
 
 /**
- * A generic LIFO Stack
+ * A generic LIFO Stack.
  */
 class Stack implements Countable
 {
@@ -38,15 +38,17 @@ class Stack implements Countable
     /**
      * Determine if the passed value is
      * of the type specified in the type
-     * attribute, if not raise and Exception
+     * attribute, if not raise and Exception.
      *
      * @param  mixed $value
-     * @throws InvalidArgumentException
+     * @throws \InvalidArgumentException
+     * 
      * @return void
      */
     private function checkType($value)
     {
         $type = is_object($value) ? get_class($value) : gettype($value);
+
         if ($type != $this->type) {
             throw new InvalidArgumentException(
                 sprintf('The type specified for this collection is %s, you cannot pass a value of type %s', $this->type, $type)
@@ -55,7 +57,7 @@ class Stack implements Countable
     }
 
     /**
-     * Clear the data values
+     * Clear the data values.
      *
      * @return void
      */
@@ -65,7 +67,7 @@ class Stack implements Countable
     }
 
     /**
-     * Returns the length of the Stack
+     * Returns the length of the Stack.
      *
      * @return int
      */
@@ -75,9 +77,9 @@ class Stack implements Countable
     }
 
     /**
-     * Check if the stack is empty
+     * Check if the stack is empty.
      *
-     * @return boolean
+     * @return bool
      */
     public function isEmpty()
     {
@@ -86,7 +88,7 @@ class Stack implements Countable
 
     /**
      * Get the element at
-     * the end of the Stack
+     * the end of the Stack.
      *
      * @return mixed
      */
@@ -97,7 +99,7 @@ class Stack implements Countable
 
     /**
      * Pop the element at
-     * the end of the stack
+     * the end of the stack.
      *
      * @return mixed
      */
@@ -108,15 +110,18 @@ class Stack implements Countable
 
     /**
      * Add a new element at
-     * the end of the Stack
+     * the end of the Stack.
      *
      * @param  mixed $value
+     * 
      * @return void
      */
     public function push($value)
     {
         $this->checkType($value);
+
         $this->data[] = $value;
+        
         return $value;
     }
 }

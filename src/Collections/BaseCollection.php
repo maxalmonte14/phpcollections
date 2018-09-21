@@ -10,31 +10,29 @@ use ArrayIterator;
 
 /**
  * The base for iterable, countable
- * and arrayable collections
+ * and arrayable collections.
  */
 abstract class BaseCollection implements ArrayAccess, Countable, IteratorAggregate, JsonSerializable
 {
 
     /**
-     * The data container
+     * The data container.
      *
      * @var array
      */
     protected $data;
 
     /**
-     * Represents the index of the data array
+     * Represents the index of the data array.
      *
      * @var integer
      */
     private $position = 0;
 
     /**
-     * BaseCollection constructor
+     * BaseCollection constructor.
      *
      * @param array $data
-     *
-     * @return void
      */
     public function __construct(array $data = [])
     {
@@ -43,7 +41,7 @@ abstract class BaseCollection implements ArrayAccess, Countable, IteratorAggrega
 
     /**
      * Remove all the elements
-     * of the data array
+     * of the data array.
      *
      * @return void
      */
@@ -53,7 +51,7 @@ abstract class BaseCollection implements ArrayAccess, Countable, IteratorAggrega
     }
 
     /**
-     * Return the length of the collection
+     * Return the length of the collection.
      *
      * @return int
      */
@@ -64,9 +62,10 @@ abstract class BaseCollection implements ArrayAccess, Countable, IteratorAggrega
 
     /**
      * Check if the given index
-     * exists in the collection
+     * exists in the collection.
      *
-     * @param  int  $offset
+     * @param int $offset
+     * 
      * @return bool
      */
     public function exists($offset)
@@ -76,9 +75,9 @@ abstract class BaseCollection implements ArrayAccess, Countable, IteratorAggrega
 
     /**
      * Return an array iterator for
-     * the data array
+     * the data array.
      *
-     * @return ArrayIterator
+     * @return \ArrayIterator
      */
     public function getIterator()
     {
@@ -87,7 +86,7 @@ abstract class BaseCollection implements ArrayAccess, Countable, IteratorAggrega
 
     /**
      * Defines the behavior of the collection
-     * when json_encode is called
+     * when json_encode is called.
      *
      * @return array
      */
@@ -97,9 +96,10 @@ abstract class BaseCollection implements ArrayAccess, Countable, IteratorAggrega
     }
 
     /**
-     * Check if an offset exists in the collection
+     * Check if an offset exists in the collection.
      *
-     * @param  int  $offset
+     * @param int $offset
+     * 
      * @return bool
      */
     public function offsetExists($offset)
@@ -108,9 +108,10 @@ abstract class BaseCollection implements ArrayAccess, Countable, IteratorAggrega
     }
 
     /**
-     * Get a value in the collection
+     * Get a value from the collection.
      *
-     * @param  int  $offset
+     * @param int $offset
+     
      * @return mixed|null
      */
     public function offsetGet($offset)
@@ -119,10 +120,11 @@ abstract class BaseCollection implements ArrayAccess, Countable, IteratorAggrega
     }
 
     /**
-     * Set a value in the collection
+     * Set a value in the collection.
      *
-     * @param  int   $offset
-     * @param  mixed $value
+     * @param int $offset
+     * @param mixed $value
+     * 
      * @return void
      */
     public function offsetSet($offset, $value)
@@ -135,9 +137,10 @@ abstract class BaseCollection implements ArrayAccess, Countable, IteratorAggrega
     }
 
     /**
-     * Unset an offset in the collection
+     * Unset an offset in the collection.
      *
-     * @param  int  $offset
+     * @param int $offset
+     * 
      * @return void
      */
     public function offsetUnset($offset)
@@ -147,7 +150,7 @@ abstract class BaseCollection implements ArrayAccess, Countable, IteratorAggrega
 
     /**
      * Returns a plain array with
-     * your dictionary data
+     * your dictionary data.
      *
      * @return array
      */
