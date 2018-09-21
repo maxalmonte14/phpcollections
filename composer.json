@@ -10,11 +10,12 @@
     "authors": [
         {
             "name": "Max Almonte",
-            "email": "maxalmonte14@hotmail.com"
+            "email": "maxalmonte14@hotmail.com",
+            "homepage": "https://www.devalmonte.com"
         }
     ],
     "require": {
-        "php": ">=7.0"
+        "php": ">=7.1"
     },
     "autoload": {
         "psr-4": {
