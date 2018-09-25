@@ -32,6 +32,7 @@ class Stack implements Countable
      */
     public function __construct($type)
     {
+        $this->data = [];
         $this->type = $type;
     }
 
