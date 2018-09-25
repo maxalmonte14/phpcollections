@@ -287,19 +287,6 @@ class GenericList extends BaseCollection
     }
 
     /**
-     * Sort collection data by values
-     * applying a given callback.
-     *
-     * @param callable $callback
-     * 
-     * @return bool
-     */
-    public function sort(callable $callback)
-    {
-        return usort($this->data, $callback);
-    }
-
-    /**
      * Update the value of the element
      * at the given index.
      *

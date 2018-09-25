@@ -40,6 +40,8 @@ class Dictionary extends BaseCollection
         $this->keyType = $keyType;
         $this->valueType = $valueType;
         
+        parent::__construct($data);
+
         foreach ($data as $key => $value) {
             $this->data[$key] = new Pair($key, $value);
         }
@@ -240,19 +242,6 @@ class Dictionary extends BaseCollection
         }
 
         return $exits;
-    }
-
-    /**
-     * Sort collection data by values
-     * applying a given callback.
-     *
-     * @param callable $callback
-     * 
-     * @return bool
-     */
-    public function sort(callable $callback)
-    {
-        return usort($this->data, $callback);
     }
 
     /**
