@@ -25,7 +25,7 @@ abstract class BaseCollection implements ArrayAccess, Countable, IteratorAggrega
     /**
      * Represents the index of the data array.
      *
-     * @var integer
+     * @var int
      */
     private $position = 0;
 
@@ -58,6 +58,18 @@ abstract class BaseCollection implements ArrayAccess, Countable, IteratorAggrega
     public function count()
     {
         return count($this->data);
+    }
+
+    /**
+     * Iterate over every element of the collection.
+     *
+     * @param callable $callback
+     * 
+     * @return void
+     */
+    public function forEach(callable $callback)
+    {
+        array_walk($this->data, $callback);
     }
 
     /**
@@ -146,6 +158,19 @@ abstract class BaseCollection implements ArrayAccess, Countable, IteratorAggrega
     public function offsetUnset($offset)
     {
         unset($this->data[$offset]);
+    }
+
+    /**
+     * Sort collection data by values
+     * applying a given callback.
+     *
+     * @param callable $callback
+     * 
+     * @return bool
+     */
+    public function sort(callable $callback)
+    {
+        return usort($this->data, $callback);
     }
 
     /**
