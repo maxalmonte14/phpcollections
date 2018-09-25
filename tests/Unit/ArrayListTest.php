@@ -158,4 +158,17 @@ class ArrayListTest extends TestCase
         $newArrayList = new ArrayList();
         $newArrayList->update(0, 'Some value'); // Here an InvalidOperationException is thrown!
     }
+
+    /** @test */
+    public function canIterateOverEachElement()
+    {
+        $this->arrayList->forEach(function ($value, $key) {
+            if (!is_object($value) && $value) {
+                $this->arrayList->update($key, $value . 'x');
+            }
+        });
+
+        $this->assertEquals('Maxx', $this->arrayList->get(0));
+        $this->assertEquals('5x', $this->arrayList->get(1));
+    }
 }

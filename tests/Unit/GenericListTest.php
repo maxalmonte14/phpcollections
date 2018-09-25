@@ -214,4 +214,14 @@ class GenericListTest extends TestCase
 
         $this->list->update(0, 'Elliot'); // Here an InvalidArgumentException is thrown!
     }
+
+    /** @test */
+    public function canIterateOverEachElement()
+    {
+        $this->list->forEach(function ($value, $key) {
+            $value->offsetSet('name', $value->offsetGet('name') . 'x');
+        });
+
+        $this->assertEquals('Johnx', $this->list->get(0)->offsetGet('name'));
+    }
 }
