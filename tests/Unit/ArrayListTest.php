@@ -24,7 +24,9 @@ class ArrayListTest extends TestCase
     public function canAddElements()
     {
         $this->arrayList->add('last index');
+
         $lastIndex = $this->arrayList->count() - 1;
+
         $this->assertEquals('last index', $this->arrayList->get($lastIndex));
     }
 
@@ -57,6 +59,7 @@ class ArrayListTest extends TestCase
     public function canCheckIfAValueIsContained()
     {
         $isContained = $this->arrayList->contains(null);
+
         $this->assertTrue($isContained);
     }
 
@@ -64,6 +67,7 @@ class ArrayListTest extends TestCase
     public function canGetFirstElement()
     {
         $firstElement = $this->arrayList->first();
+
         $this->assertEquals('Max', $firstElement);
     }
 
@@ -71,6 +75,7 @@ class ArrayListTest extends TestCase
     public function canGetLastElement()
     {
         $lastElement = $this->arrayList->last();
+
         $this->assertNull($lastElement);
     }
 
@@ -84,6 +89,7 @@ class ArrayListTest extends TestCase
                 return $val;
             }
         });
+
         $this->assertContains("Empty value", $newArrayList->toArray());
     }
 
@@ -93,6 +99,7 @@ class ArrayListTest extends TestCase
         $elements = $this->arrayList->find(function ($v, $k) {
             return $v != false;
         });
+
         $this->assertCount(3, $elements);
         $this->assertFalse($elements->contains(false));
         $this->assertFalse($elements->contains(null));
@@ -100,6 +107,7 @@ class ArrayListTest extends TestCase
         $singleElement = $this->arrayList->find(function ($v, $k) {
             return !is_string($v);
         }, true);
+
         $this->assertCount(1, $singleElement);
         $this->assertEquals(5, $singleElement->get(0));
     }
@@ -170,5 +178,18 @@ class ArrayListTest extends TestCase
 
         $this->assertEquals('Maxx', $this->arrayList->get(0));
         $this->assertEquals('5x', $this->arrayList->get(1));
+    }
+
+    /**
+     * @test
+     * @expectedException \OutOfRangeException
+     */
+    public function canRemoveElementByIndex()
+    {
+        $this->assertEquals('Max', $this->arrayList->get(0));
+        $this->arrayList->remove(0);
+
+        $this->assertFalse($this->arrayList->contains('Max'));
+        $this->arrayList->remove(0); // Here an OutOfRangeException is thrown!
     }
 }
