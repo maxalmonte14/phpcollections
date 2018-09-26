@@ -3,6 +3,7 @@
 namespace PHPCollections\Collections;
 
 use InvalidArgumentException;
+use PHPCollections\Interfaces\DictionaryInterface;
 use PHPCollections\Exceptions\InvalidOperationException;
 
 /**
@@ -10,7 +11,7 @@ use PHPCollections\Exceptions\InvalidOperationException;
  * represented by a generic
  * type key and value.
  */
-class Dictionary extends BaseCollection
+class Dictionary extends BaseCollection implements DictionaryInterface
 {
     /**
      * The type of the keys
@@ -201,7 +202,7 @@ class Dictionary extends BaseCollection
      *
      * @param callable $callback
      * 
-     * @return PHPCollections\Dictionary|null
+     * @return \PHPCollections\Collections\Dictionary|null
      */
     public function map(callable $callback)
     {
@@ -213,9 +214,9 @@ class Dictionary extends BaseCollection
     /**
      * Merges two dictionaries into a new one.
      *
-     * @param \PHPCollections\Dictionary $newDictionary
+     * @param \PHPCollections\Collections\Dictionary $newDictionary
      * 
-     * @return \PHPCollections\Dictionary
+     * @return \PHPCollections\Collections\Dictionary
      */
     public function merge(Dictionary $newDictionary)
     {
