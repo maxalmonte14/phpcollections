@@ -4,15 +4,16 @@ namespace PHPCollections\Collections;
 
 use OutOfRangeException;
 use InvalidArgumentException;
+use PHPCollections\Interfaces\IterableInterface;
+use PHPCollections\Interfaces\SortableInterface;
 use PHPCollections\Interfaces\CollectionInterface;
 use PHPCollections\Exceptions\InvalidOperationException;
 
 /**
  * A list for a generic type of data.
  */
-class GenericList extends BaseCollection implements CollectionInterface
+class GenericList extends BaseCollection implements CollectionInterface, IterableInterface, SortableInterface
 {
-
     /**
      * The type of data that's
      * gonna be stored.
@@ -48,7 +49,11 @@ class GenericList extends BaseCollection implements CollectionInterface
     public function add($value)
     {
         $this->checkType($value);
-        array_push($this->data, $value);
+
+        $data = $this->toArray();
+
+        array_push($data, $value);
+        $this->dataHolder->setContainer($data);
     }
 
     /**
@@ -84,7 +89,7 @@ class GenericList extends BaseCollection implements CollectionInterface
     {
         $matcheds = [];
 
-        foreach ($this->data as $key => $value) {
+        foreach ($this->dataHolder as $key => $value) {
             if (call_user_func($callback, $key, $value) === true) {
                 $matcheds[] = $value;
             }
@@ -121,11 +126,26 @@ class GenericList extends BaseCollection implements CollectionInterface
             throw new OutOfRangeException("You're trying to get data into an empty collection.");
         }
 
-        return $this->data[0];
+        return $this->dataHolder[0];
     }
 
     /**
-     * Return the object at the specified index
+     * Iterate over every element of the collection.
+     *
+     * @param callable $callback
+     * 
+     * @return void
+     */
+    public function forEach(callable $callback)
+    {
+        $data = $this->toArray();
+
+        array_walk($data, $callback);
+        $this->dataHolder->setContainer($data);
+    }
+
+    /**
+     * Return the object at the specified index.
      *
      * @param int $offset.
      * @throws \OutOfRangeException
@@ -138,11 +158,11 @@ class GenericList extends BaseCollection implements CollectionInterface
             throw new OutOfRangeException("You're trying to get data into an empty collection.");
         }
         
-        if (!$this->offsetExists($offset)) {
+        if (!$this->dataHolder->offsetExists($offset)) {
             throw new OutOfRangeException("The {$offset} index do not exits for this collection.");
         }
 
-        return $this->offsetGet($offset);
+        return $this->dataHolder->offsetGet($offset);
     }
 
     /**
@@ -158,7 +178,7 @@ class GenericList extends BaseCollection implements CollectionInterface
             throw new OutOfRangeException("You're trying to get data from an empty collection.");
         }
 
-        return $this->data[$this->count() - 1];
+        return $this->dataHolder[$this->count() - 1];
     }
 
     /**
@@ -171,7 +191,7 @@ class GenericList extends BaseCollection implements CollectionInterface
      */
     public function map(callable $callback)
     {
-        $matcheds = array_map($callback, $this->data);
+        $matcheds = array_map($callback, $this->toArray());
 
         return count($matcheds) > 0 ? new $this($this->type, ...array_values($matcheds)) : null;
     }
@@ -190,7 +210,7 @@ class GenericList extends BaseCollection implements CollectionInterface
             $this->checkType($value);
         }
 
-        return new $this($this->type, ...array_merge($this->data, $data));
+        return new $this($this->type, ...array_merge($this->toArray(), $data));
     }
 
     /**
@@ -207,7 +227,7 @@ class GenericList extends BaseCollection implements CollectionInterface
             throw new InvalidOperationException('You cannot get a random element from an empty collection.');
         }
 
-        $randomIndex = array_rand($this->data);
+        $randomIndex = array_rand($this->toArray());
         
         return $this->get($randomIndex);
     }
@@ -227,11 +247,11 @@ class GenericList extends BaseCollection implements CollectionInterface
             throw new OutOfRangeException("You're trying to remove data into a empty collection.");
         }
         
-        if (!$this->offsetExists($offset)) {
+        if (!$this->dataHolder->offsetExists($offset)) {
             throw new OutOfRangeException("The {$offset} index do not exits for this collection.");
         }
 
-        $this->offsetUnset($offset);
+        $this->dataHolder->offsetUnset($offset);
         $this->repopulate();
     }
 
@@ -242,7 +262,8 @@ class GenericList extends BaseCollection implements CollectionInterface
      */
     public function repopulate()
     {
-        $this->data = array_values($this->data);
+        $oldData = $this->toArray();
+        $this->dataHolder->setContainer(array_values($oldData));
     }
 
     /**
@@ -259,7 +280,7 @@ class GenericList extends BaseCollection implements CollectionInterface
             throw new InvalidOperationException('You cannot reverse an empty collection.');
         }
 
-        return new $this($this->type, ...array_reverse($this->data));
+        return new $this($this->type, ...array_reverse($this->toArray()));
     }
 
     /**
@@ -275,7 +296,7 @@ class GenericList extends BaseCollection implements CollectionInterface
     {
         $matcheds = [];
 
-        foreach ($this->data as $key => $item) {
+        foreach ($this->dataHolder as $key => $item) {
             if ($callback($item, $key) === true) {
                 $matcheds[] = $item;
                 if ($shouldStop) {
@@ -285,6 +306,23 @@ class GenericList extends BaseCollection implements CollectionInterface
         }
 
         return count($matcheds) > 0 ? new $this($this->type, ...$matcheds) : null;
+    }
+
+    /**
+     * Sort collection data by values
+     * applying a given callback.
+     *
+     * @param callable $callback
+     * 
+     * @return bool
+     */
+    public function sort(callable $callback)
+    {
+        $data = $this->toArray();
+        $isSorted = usort($data, $callback);
+
+        $this->dataHolder->setContainer($data);
+        return $isSorted;
     }
 
     /**
@@ -305,8 +343,8 @@ class GenericList extends BaseCollection implements CollectionInterface
             throw new InvalidOperationException('You cannot update a non-existent value');
         }
 
-        $this->data[$index] = $value;
+        $this->dataHolder[$index] = $value;
         
-        return $this->data[$index] === $value;
+        return $this->dataHolder[$index] === $value;
     }
 }

@@ -2,14 +2,16 @@
 
 namespace PHPCollections\Collections;
 
-use \OutOfRangeException;
+use OutOfRangeException;
+use PHPCollections\Interfaces\IterableInterface;
+use PHPCollections\Interfaces\SortableInterface;
 use PHPCollections\Interfaces\CollectionInterface;
 use PHPCollections\Exceptions\InvalidOperationException;
 
 /**
  * A list of values of any type
  */
-class ArrayList extends BaseCollection implements CollectionInterface
+class ArrayList extends BaseCollection implements CollectionInterface, IterableInterface, SortableInterface
 {
     /**
      * Add a new element to the collection.
@@ -20,7 +22,10 @@ class ArrayList extends BaseCollection implements CollectionInterface
      */
     public function add($value)
     {
-        $this->data[] = $value;
+        $data = $this->toArray();
+
+        array_push($data, $value);
+        $this->dataHolder->setContainer($data);
     }
 
     /**
@@ -33,7 +38,7 @@ class ArrayList extends BaseCollection implements CollectionInterface
      */
     public function contains($needle)
     {
-        return in_array($needle, $this->data);
+        return in_array($needle, $this->toArray());
     }
 
     /**
@@ -48,7 +53,7 @@ class ArrayList extends BaseCollection implements CollectionInterface
     {
         $matcheds = [];
 
-        foreach ($this->data as $value) {
+        foreach ($this->dataHolder as $value) {
             if (call_user_func($callback, $value) === true) {
                 $matcheds[] = $value;
             }
@@ -70,7 +75,7 @@ class ArrayList extends BaseCollection implements CollectionInterface
     {
         $matcheds = [];
 
-        foreach ($this->data as $key => $item) {
+        foreach ($this->dataHolder as $key => $item) {
             if ($callback($item, $key) === true) {
                 $matcheds[] = $item;
 
@@ -96,7 +101,22 @@ class ArrayList extends BaseCollection implements CollectionInterface
             throw new OutOfRangeException("You're trying to get data into an empty collection.");
         }
 
-        return $this->data[0];
+        return $this->dataHolder[0];
+    }
+
+    /**
+     * Iterate over every element of the collection.
+     *
+     * @param callable $callback
+     * 
+     * @return void
+     */
+    public function forEach(callable $callback)
+    {
+        $data = $this->toArray();
+
+        array_walk($data, $callback);
+        $this->dataHolder->setContainer($data);
     }
 
     /**
@@ -109,7 +129,7 @@ class ArrayList extends BaseCollection implements CollectionInterface
      */
     public function get($offset)
     {
-        return $this->offsetGet($offset);
+        return $this->dataHolder->offsetGet($offset);
     }
 
     /**
@@ -125,7 +145,7 @@ class ArrayList extends BaseCollection implements CollectionInterface
             throw new OutOfRangeException("You're trying to get data into an empty collection.");
         }
 
-        return $this->data[$this->count() - 1];
+        return $this->dataHolder[$this->count() - 1];
     }
 
     /**
@@ -138,7 +158,7 @@ class ArrayList extends BaseCollection implements CollectionInterface
      */
     public function map(callable $callback)
     {
-        $matcheds = array_map($callback, $this->data);
+        $matcheds = array_map($callback, $this->toArray());
 
         return count($matcheds) > 0 ? new $this(array_values($matcheds)) : null;
     }
@@ -153,7 +173,7 @@ class ArrayList extends BaseCollection implements CollectionInterface
      */
     public function merge(array $data)
     {
-        return new $this(array_merge($this->data, $data));
+        return new $this(array_merge($this->toArray(), $data));
     }
     
     /**
@@ -170,7 +190,7 @@ class ArrayList extends BaseCollection implements CollectionInterface
             throw new InvalidOperationException('You cannot get a random element from an empty collection.');
         }
 
-        $randomIndex = array_rand($this->data);
+        $randomIndex = array_rand($this->dataHolder);
         
         return $this->get($randomIndex);
     }
@@ -190,11 +210,11 @@ class ArrayList extends BaseCollection implements CollectionInterface
             throw new OutOfRangeException("You're trying to remove data into a empty collection.");
         }
         
-        if (!$this->offsetExists($offset)) {
+        if (!$this->dataHolder->offsetExists($offset)) {
             throw new OutOfRangeException("The {$offset} index do not exits for this collection.");
         }
 
-        $this->offsetUnset($offset);
+        $this->dataHolder->offsetUnset($offset);
     }
 
     /**
@@ -211,7 +231,24 @@ class ArrayList extends BaseCollection implements CollectionInterface
             throw new InvalidOperationException('You cannot reverse an empty collection.');
         }
 
-        return new $this(array_reverse($this->data));
+        return new $this(array_reverse($this->toArray()));
+    }
+
+    /**
+     * Sort collection data by values
+     * applying a given callback.
+     *
+     * @param callable $callback
+     * 
+     * @return bool
+     */
+    public function sort(callable $callback)
+    {
+        $data = $this->toArray();
+        $isSorted = usort($data, $callback);
+
+        $this->dataHolder->setContainer($data);
+        return $isSorted;
     }
 
     /**
@@ -229,8 +266,8 @@ class ArrayList extends BaseCollection implements CollectionInterface
             throw new InvalidOperationException('You cannot update a non-existent value');
         }
 
-        $this->data[$index] = $value;
+        $this->dataHolder->offsetSet($index, $value);
         
-        return $this->data[$index] === $value;
+        return $this->dataHolder->offsetGet($index) === $value;
     }
 }

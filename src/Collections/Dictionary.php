@@ -3,6 +3,7 @@
 namespace PHPCollections\Collections;
 
 use InvalidArgumentException;
+use PHPCollections\Interfaces\SortableInterface;
 use PHPCollections\Interfaces\DictionaryInterface;
 use PHPCollections\Exceptions\InvalidOperationException;
 
@@ -42,10 +43,7 @@ class Dictionary extends BaseCollection implements DictionaryInterface
         $this->valueType = $valueType;
         
         parent::__construct($data);
-
-        foreach ($data as $key => $value) {
-            $this->data[$key] = new Pair($key, $value);
-        }
+        $this->initializePairs($data);
     }
 
     /**
@@ -59,7 +57,7 @@ class Dictionary extends BaseCollection implements DictionaryInterface
     public function add($key, $value)
     {
         $this->checkType(['key' => $key, 'value' => $value]);
-        $this->offsetSet($key, new Pair($key, $value));
+        $this->dataHolder->offsetSet($key, new Pair($key, $value));
     }
 
     /**
@@ -98,7 +96,7 @@ class Dictionary extends BaseCollection implements DictionaryInterface
     {
         $matcheds = [];
 
-        foreach ($this->data as $key => $value) {
+        foreach ($this->dataHolder as $key => $value) {
             if (call_user_func($callback, $value->getKey(), $value->getValue()) === true) {
                 $matcheds[$value->getKey()] = $value->getValue();
             }
@@ -116,7 +114,7 @@ class Dictionary extends BaseCollection implements DictionaryInterface
      */
     public function find(callable $callback)
     {
-        foreach ($this->data as $pair) {
+        foreach ($this->dataHolder as $pair) {
             if ($callback($pair->getValue(), $pair->getKey()) === true) {
                 $matched = $pair->getValue();
                 break;
@@ -139,9 +137,24 @@ class Dictionary extends BaseCollection implements DictionaryInterface
             throw new InvalidOperationException('You cannot get the first element of an empty collection');
         }
 
-        foreach ($this->data as $key => $value) {
+        foreach ($this->dataHolder as $key => $value) {
             return $this->get($key);
         }
+    }
+
+    /**
+     * Iterate over every element of the collection.
+     *
+     * @param callable $callback
+     * 
+     * @return void
+     */
+    public function forEach(callable $callback)
+    {
+        $data = $this->toArray();
+
+        array_walk($data, $callback);
+        $this->initializePairs($data);
     }
 
     /**
@@ -154,7 +167,7 @@ class Dictionary extends BaseCollection implements DictionaryInterface
      */
     public function get($key)
     {
-        return $this->offsetExists($key) ? $this->offsetGet($key)->getValue() : null;
+        return $this->dataHolder->offsetExists($key) ? $this->dataHolder->offsetGet($key)->getValue() : null;
     }
 
     /**
@@ -175,6 +188,13 @@ class Dictionary extends BaseCollection implements DictionaryInterface
     public function getValueType()
     {
         return $this->valueType;
+    }
+
+    private function initializePairs(array $data)
+    {
+        foreach ($data as $key => $value) {
+            $this->dataHolder[$key] = new Pair($key, $value);
+        }
     }
 
     /**
@@ -224,7 +244,7 @@ class Dictionary extends BaseCollection implements DictionaryInterface
             $this->checkType(['key' => $key, 'value' => $value]);
         }
 
-        return new $this($this->keyType, $this->valueType, array_merge($this->data, $newDictionary->toArray()));
+        return new $this($this->keyType, $this->valueType, array_merge($this->toArray(), $newDictionary->toArray()));
     }
 
     /**
@@ -236,13 +256,28 @@ class Dictionary extends BaseCollection implements DictionaryInterface
      */
     public function remove($key)
     {
-        $exits = $this->offsetExists($key);
+        $exits = $this->dataHolder->offsetExists($key);
 
         if ($exits) {
-            $this->offsetUnset($key);
+            $this->dataHolder->offsetUnset($key);
         }
 
         return $exits;
+    }
+
+    /**
+     * Sort collection data by values
+     * applying a given callback.
+     *
+     * @param callable $callback
+     * 
+     * @return bool
+     */
+    public function sort(callable $callback)
+    {
+        $data = $this->toArray();
+
+        return usort($data, $callback) ? new $this($this->keyType, $this->valueType, $data) : null;
     }
 
     /**
@@ -255,7 +290,7 @@ class Dictionary extends BaseCollection implements DictionaryInterface
     {
         $array = [];
 
-        foreach ($this->data as $pair) {
+        foreach ($this->dataHolder as $pair) {
             $array[$pair->getKey()] = $pair->getValue();
         }
 
@@ -270,7 +305,7 @@ class Dictionary extends BaseCollection implements DictionaryInterface
      */
     public function toJson()
     {
-        return json_encode($this->data);
+        return json_encode($this->dataHolder);
     }
 
     /**
@@ -286,12 +321,12 @@ class Dictionary extends BaseCollection implements DictionaryInterface
     {
         $this->checkType(['key' => $key, 'value' => $value]);
 
-        if (!$this->offsetExists($key)) {
+        if (!$this->dataHolder->offsetExists($key)) {
             throw new InvalidOperationException('You cannot update a non-existent value');
         }
 
-        $this->data[$key]->setValue($value);
+        $this->dataHolder[$key]->setValue($value);
         
-        return $this->data[$key]->getValue() === $value;
+        return $this->dataHolder[$key]->getValue() === $value;
     }
 }
