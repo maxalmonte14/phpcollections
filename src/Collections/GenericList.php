@@ -4,12 +4,13 @@ namespace PHPCollections\Collections;
 
 use OutOfRangeException;
 use InvalidArgumentException;
+use PHPCollections\Interfaces\CollectionInterface;
 use PHPCollections\Exceptions\InvalidOperationException;
 
 /**
  * A list for a generic type of data.
  */
-class GenericList extends BaseCollection
+class GenericList extends BaseCollection implements CollectionInterface
 {
 
     /**
@@ -40,7 +41,7 @@ class GenericList extends BaseCollection
     /**
      * Add a new object to the collection.
      *
-     * @param object $value
+     * @param mixed $value
      * 
      * @return void
      */
@@ -212,7 +213,7 @@ class GenericList extends BaseCollection
     }
 
     /**
-     * Remove an item in the collection
+     * Remove an item from the collection
      * and repopulate the data array.
      *
      * @param int $offset
@@ -292,7 +293,7 @@ class GenericList extends BaseCollection
      *
      * @param int $index
      * @param mixed $value
-     * @throws \PHPCollections\Exceptions\InvalidOperationException     
+     * @throws \PHPCollections\Exceptions\InvalidOperationException
      * 
      * @return bool
      */

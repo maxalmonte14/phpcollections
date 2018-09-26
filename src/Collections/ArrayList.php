@@ -2,49 +2,46 @@
 
 namespace PHPCollections\Collections;
 
+use \OutOfRangeException;
+use PHPCollections\Interfaces\CollectionInterface;
 use PHPCollections\Exceptions\InvalidOperationException;
 
 /**
  * A list of values of any type
  */
-class ArrayList extends BaseCollection
+class ArrayList extends BaseCollection implements CollectionInterface
 {
     /**
      * Add a new element to the collection.
      *
-     * @param  mixed $val
+     * @param mixed $value
      * 
      * @return void
      */
-    public function add($val)
+    public function add($value)
     {
-        $this->data[] = $val;
+        $this->data[] = $value;
     }
 
     /**
      * Check if the collection
      * contains a given value.
      *
-     * @param  mixed $val
+     * @param mixed $needle
      * 
      * @return bool
      */
-    public function contains($val)
+    public function contains($needle)
     {
-        foreach ($this->data as $value) {
-            if ($value === $val) {
-                return true;
-            }
-        }
-
-        return false;
+        return in_array($needle, $this->data);
     }
 
     /**
      * Return all the coincidences found
      * for the given callback or null.
      *
-     * @param  callable $callback
+     * @param callable $callback
+     * 
      * @return \PHPCollections\ArrayList|null
      */
     public function filter(callable $callback)
@@ -64,8 +61,8 @@ class ArrayList extends BaseCollection
      * Search one or more elements in
      * the collection.
      *
-     * @param  callable $callback
-     * @param  boolean  $shouldStop
+     * @param callable $callback
+     * @param boolean $shouldStop
      * 
      * @return \PHPCollections\ArrayList|null
      */
@@ -179,6 +176,28 @@ class ArrayList extends BaseCollection
     }
 
     /**
+     * Remove an item from the collection
+     * and repopulate the data array.
+     *
+     * @param int $offset
+     * @throws \OutOfRangeException
+     * 
+     * @return void
+     */
+    public function remove($offset)
+    {
+        if ($this->count() == 0) {
+            throw new OutOfRangeException("You're trying to remove data into a empty collection.");
+        }
+        
+        if (!$this->offsetExists($offset)) {
+            throw new OutOfRangeException("The {$offset} index do not exits for this collection.");
+        }
+
+        $this->offsetUnset($offset);
+    }
+
+    /**
      * Return a new collection with the
      * reversed values.
      *
@@ -191,6 +210,7 @@ class ArrayList extends BaseCollection
         if ($this->count() == 0) {
             throw new InvalidOperationException('You cannot reverse an empty collection.');
         }
+
         return new $this(array_reverse($this->data));
     }
 
