@@ -2,8 +2,8 @@
 
 namespace Tests\Unit;
 
-use \Exception;
-use \ArrayObject;
+use Exception;
+use ArrayObject;
 use PHPUnit\Framework\TestCase;
 use PHPCollections\Collections\GenericList;
 

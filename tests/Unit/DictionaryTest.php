@@ -8,7 +8,6 @@ use PHPCollections\Collections\Dictionary;
 
 class DictionaryTest extends TestCase
 {
-
     private $dictionary;
 
     public function setUp()
@@ -82,7 +81,6 @@ class DictionaryTest extends TestCase
         });
 
         $this->assertInstanceOf(Dictionary::class, $newDictionary);
-        $this->assertArrayHasKey('smoke', $newDictionary);
         $this->assertEquals('no', $newDictionary->get('smoke'));
     }
 
@@ -201,19 +199,18 @@ class DictionaryTest extends TestCase
     /** @test */
     public function canSortByGivenRules()
     {
-        $sorted = $this->dictionary->sort(function ($x, $y) {
-            return strlen($x->getValue()) <=> strlen($y->getValue());
+        $sortedDictionary = $this->dictionary->sort(function ($x, $y) {
+            return strlen($x) <=> strlen($y);
         });
         
-        $this->assertTrue($sorted);
-        $this->assertEquals('a little bit', $this->dictionary->last());
+        $this->assertEquals('a little bit', $sortedDictionary->last());
     }
 
     /** @test */
     public function canIterateOverEachElement()
     {
-        $this->dictionary->forEach(function ($pair, $key) {
-            $pair->setValue($pair->getValue($key) . 'x');
+        $this->dictionary->forEach(function (&$value, $key) {
+            $value = $value . 'x';
         });
 
         $this->assertEquals('Maxx', $this->dictionary->get('name'));

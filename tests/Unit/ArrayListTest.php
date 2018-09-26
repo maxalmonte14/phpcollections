@@ -2,7 +2,7 @@
 
 namespace Tests\Unit;
 
-use \StdClass;
+use StdClass;
 use PHPUnit\Framework\TestCase;
 use PHPCollections\Collections\ArrayList;
 
@@ -170,9 +170,9 @@ class ArrayListTest extends TestCase
     /** @test */
     public function canIterateOverEachElement()
     {
-        $this->arrayList->forEach(function ($value, $key) {
+        $this->arrayList->forEach(function (&$value, $key) {
             if (!is_object($value) && $value) {
-                $this->arrayList->update($key, $value . 'x');
+                $value = $value.'x';
             }
         });
 
