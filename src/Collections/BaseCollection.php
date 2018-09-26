@@ -2,25 +2,22 @@
 
 namespace PHPCollections\Collections;
 
-use ArrayAccess;
 use Countable;
-use IteratorAggregate;
 use JsonSerializable;
-use ArrayIterator;
+use PHPCollections\DataHolder;
 
 /**
  * The base for iterable, countable
  * and arrayable collections.
  */
-abstract class BaseCollection implements ArrayAccess, Countable, IteratorAggregate, JsonSerializable
+abstract class BaseCollection implements Countable, JsonSerializable
 {
-
     /**
      * The data container.
      *
-     * @var array
+     * @var \PHPCollections\DataHolder
      */
-    protected $data;
+    protected $dataHolder;
 
     /**
      * Represents the index of the data array.
@@ -36,7 +33,7 @@ abstract class BaseCollection implements ArrayAccess, Countable, IteratorAggrega
      */
     public function __construct(array $data = [])
     {
-        $this->data = $data;
+        $this->dataHolder = new DataHolder($data);
     }
 
     /**
@@ -47,7 +44,7 @@ abstract class BaseCollection implements ArrayAccess, Countable, IteratorAggrega
      */
     public function clear()
     {
-        $this->data = [];
+        $this->dataHolder = new DataHolder();
     }
 
     /**
@@ -57,19 +54,7 @@ abstract class BaseCollection implements ArrayAccess, Countable, IteratorAggrega
      */
     public function count()
     {
-        return count($this->data);
-    }
-
-    /**
-     * Iterate over every element of the collection.
-     *
-     * @param callable $callback
-     * 
-     * @return void
-     */
-    public function forEach(callable $callback)
-    {
-        array_walk($this->data, $callback);
+        return count($this->toArray());
     }
 
     /**
@@ -82,18 +67,7 @@ abstract class BaseCollection implements ArrayAccess, Countable, IteratorAggrega
      */
     public function exists($offset)
     {
-        return $this->offsetExists($offset);
-    }
-
-    /**
-     * Return an array iterator for
-     * the data array.
-     *
-     * @return \ArrayIterator
-     */
-    public function getIterator()
-    {
-        return new ArrayIterator($this->data);
+        return $this->dataHolder->offsetExists($offset);
     }
 
     /**
@@ -104,73 +78,7 @@ abstract class BaseCollection implements ArrayAccess, Countable, IteratorAggrega
      */
     public function jsonSerialize()
     {
-        return $this->data;
-    }
-
-    /**
-     * Check if an offset exists in the collection.
-     *
-     * @param int $offset
-     * 
-     * @return bool
-     */
-    public function offsetExists($offset)
-    {
-        return isset($this->data[$offset]);
-    }
-
-    /**
-     * Get a value from the collection.
-     *
-     * @param int $offset
-     
-     * @return mixed|null
-     */
-    public function offsetGet($offset)
-    {
-        return $this->data[$offset] ?? null;
-    }
-
-    /**
-     * Set a value in the collection.
-     *
-     * @param int $offset
-     * @param mixed $value
-     * 
-     * @return void
-     */
-    public function offsetSet($offset, $value)
-    {
-        if (is_null($offset)) {
-            array_push($this->data, $value);
-        } else {
-            $this->data[$offset] = $value;
-        }
-    }
-
-    /**
-     * Unset an offset in the collection.
-     *
-     * @param int $offset
-     * 
-     * @return void
-     */
-    public function offsetUnset($offset)
-    {
-        unset($this->data[$offset]);
-    }
-
-    /**
-     * Sort collection data by values
-     * applying a given callback.
-     *
-     * @param callable $callback
-     * 
-     * @return bool
-     */
-    public function sort(callable $callback)
-    {
-        return usort($this->data, $callback);
+        return $this->toArray();
     }
 
     /**
@@ -181,6 +89,6 @@ abstract class BaseCollection implements ArrayAccess, Countable, IteratorAggrega
      */
     public function toArray()
     {
-        return $this->data;
+        return $this->dataHolder->getContainer();
     }
 }
