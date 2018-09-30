@@ -110,8 +110,8 @@ class DictionaryTest extends TestCase
         $dictionary->add('books', ['Code smart', 'JS the good parts', 'Laravel up and running']);
         $dictionary->add('videogames', ['Assasin Creed', 'God of war', 'Need for speed']);
         
-        $newDictionary = $dictionary->filter(function ($k, $v) {
-            return $k === 'videogames';
+        $newDictionary = $dictionary->filter(function ($key, $value) {
+            return $key === 'videogames';
         });
 
         $this->assertNotNull($newDictionary);

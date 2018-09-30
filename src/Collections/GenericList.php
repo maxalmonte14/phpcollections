@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace PHPCollections\Collections;
 
 use OutOfRangeException;
@@ -23,12 +25,12 @@ class GenericList extends BaseCollection implements CollectionInterface, Iterabl
     private $type;
 
     /**
-     * Initialize class properties.
+     * Initializes class properties.
      *
      * @param string $type
      * @param array $data
      */
-    public function __construct($type, ...$data)
+    public function __construct(string $type, ...$data)
     {
         $this->type = $type;
 
@@ -40,13 +42,13 @@ class GenericList extends BaseCollection implements CollectionInterface, Iterabl
     }
 
     /**
-     * Add a new object to the collection.
+     * Adds a new object to the collection.
      *
      * @param mixed $value
      * 
      * @return void
      */
-    public function add($value)
+    public function add($value): void
     {
         $this->checkType($value);
 
@@ -57,35 +59,38 @@ class GenericList extends BaseCollection implements CollectionInterface, Iterabl
     }
 
     /**
-     * Determine if the passed data is
+     * Determines if the passed data is
      * of the type specified in the type
-     * attribute, if not raise and Exception.
+     * attribute, if not throws and Exception.
      *
      * @param mixed $data
      * @throws \InvalidArgumentException
      * 
      * @return void
      */
-    private function checkType($data)
+    private function checkType($data): void
     {
         if (!$data instanceof $this->type) {
             $type = is_object($data) ? get_class($data) : gettype($data);
 
             throw new InvalidArgumentException(
-                sprintf('The type specified for this collection is %s, you cannot pass a value of type %s', $this->type, $type)
+                sprintf(
+                    'The type specified for this collection is %s, you cannot pass a value of type %s',
+                    $this->type, $type
+                )
             );
         }
     }
 
     /**
-     * Return all the coincidences found
+     * Returns all the coincidences found
      * for the given callback or null.
      *
      * @param callable $callback
      * 
-     * @return \PHPCollections\GenericList|null
+     * @return \PHPCollections\Collections\GenericList|null
      */
-    public function filter(callable $callback)
+    public function filter(callable $callback): ?GenericList
     {
         $matcheds = [];
 
@@ -99,12 +104,12 @@ class GenericList extends BaseCollection implements CollectionInterface, Iterabl
     }
 
     /**
-     * Return the first element that
-     * matches when callback criteria.
+     * Returns the first element that
+     * matches whith the callback criteria.
      *
      * @param callable $callback
      * 
-     * @return \PHPCollections\GenericList|null
+     * @return mixed
      */
     public function find(callable $callback)
     {
@@ -114,7 +119,7 @@ class GenericList extends BaseCollection implements CollectionInterface, Iterabl
     }
 
     /**
-     * Get the first element of the collection.
+     * Gets the first element of the collection.
      *
      * @throws \OutOfRangeException
      * 
@@ -122,21 +127,21 @@ class GenericList extends BaseCollection implements CollectionInterface, Iterabl
      */
     public function first()
     {
-        if ($this->count() == 0) {
-            throw new OutOfRangeException("You're trying to get data into an empty collection.");
+        if ($this->count() === 0) {
+            throw new OutOfRangeException('You\'re trying to get data into an empty collection.');
         }
 
         return $this->dataHolder[0];
     }
 
     /**
-     * Iterate over every element of the collection.
+     * Iterates over every element of the collection.
      *
      * @param callable $callback
      * 
      * @return void
      */
-    public function forEach(callable $callback)
+    public function forEach(callable $callback): void
     {
         $data = $this->toArray();
 
@@ -145,28 +150,28 @@ class GenericList extends BaseCollection implements CollectionInterface, Iterabl
     }
 
     /**
-     * Return the object at the specified index.
+     * Returns the object at the specified index.
      *
      * @param int $offset.
      * @throws \OutOfRangeException
      * 
      * @return object
      */
-    public function get($offset)
+    public function get(int $offset)
     {
-        if ($this->count() == 0) {
-            throw new OutOfRangeException("You're trying to get data into an empty collection.");
+        if ($this->count() === 0) {
+            throw new OutOfRangeException('You\'re trying to get data from an empty collection.');
         }
         
         if (!$this->dataHolder->offsetExists($offset)) {
-            throw new OutOfRangeException("The {$offset} index do not exits for this collection.");
+            throw new OutOfRangeException(sprintf('The %d index do not exits for this collection.', $offset));
         }
 
         return $this->dataHolder->offsetGet($offset);
     }
 
     /**
-     * Get the last element of the collection.
+     * Gets the last element of the collection.
      *
      * @throws \OutOfRangeException
      * 
@@ -174,22 +179,22 @@ class GenericList extends BaseCollection implements CollectionInterface, Iterabl
      */
     public function last()
     {
-        if ($this->count() == 0) {
-            throw new OutOfRangeException("You're trying to get data from an empty collection.");
+        if ($this->count() === 0) {
+            throw new OutOfRangeException('You\'re trying to get data from an empty collection.');
         }
 
         return $this->dataHolder[$this->count() - 1];
     }
 
     /**
-     * Update elements in the collection by
+     * Updates elements in the collection by
      * applying a given callback function.
      *
      * @param callable $callback
      * 
-     * @return \PHPCollections\GenericList|null
+     * @return \PHPCollections\Collections\GenericList|null
      */
-    public function map(callable $callback)
+    public function map(callable $callback): ?GenericList
     {
         $matcheds = array_map($callback, $this->toArray());
 
@@ -197,14 +202,14 @@ class GenericList extends BaseCollection implements CollectionInterface, Iterabl
     }
 
     /**
-     * Merge new data with the actual
+     * Merges new data with the actual
      * collection and returns a new one.
      *
      * @param array $data
      * 
-     * @return \PHPCollections\GenericList
+     * @return \PHPCollections\Collections\GenericList
      */
-    public function merge(array $data)
+    public function merge(array $data): GenericList
     {
         foreach ($data as $value) {
             $this->checkType($value);
@@ -214,7 +219,7 @@ class GenericList extends BaseCollection implements CollectionInterface, Iterabl
     }
 
     /**
-     * Return a random element of
+     * Returns a random element from
      * the collection.
      *
      * @throws \PHPCollections\Exceptions\InvalidOperationException
@@ -223,7 +228,7 @@ class GenericList extends BaseCollection implements CollectionInterface, Iterabl
      */
     public function rand()
     {
-        if ($this->count() == 0) {
+        if ($this->count() === 0) {
             throw new InvalidOperationException('You cannot get a random element from an empty collection.');
         }
 
@@ -233,7 +238,7 @@ class GenericList extends BaseCollection implements CollectionInterface, Iterabl
     }
 
     /**
-     * Remove an item from the collection
+     * Removes an item from the collection
      * and repopulate the data array.
      *
      * @param int $offset
@@ -241,14 +246,14 @@ class GenericList extends BaseCollection implements CollectionInterface, Iterabl
      * 
      * @return void
      */
-    public function remove($offset)
+    public function remove(int $offset): void
     {
-        if ($this->count() == 0) {
-            throw new OutOfRangeException("You're trying to remove data into a empty collection.");
+        if ($this->count() === 0) {
+            throw new OutOfRangeException('You\'re trying to remove data into a empty collection.');
         }
         
         if (!$this->dataHolder->offsetExists($offset)) {
-            throw new OutOfRangeException("The {$offset} index do not exits for this collection.");
+            throw new OutOfRangeException(sprintf('The %d index do not exits for this collection.', $offset));
         }
 
         $this->dataHolder->offsetUnset($offset);
@@ -256,27 +261,27 @@ class GenericList extends BaseCollection implements CollectionInterface, Iterabl
     }
 
     /**
-     * Repopulate the data array.
+     * Repopulates the data array.
      *
      * @return void
      */
-    public function repopulate()
+    public function repopulate(): void
     {
-        $oldData = $this->toArray();
-        $this->dataHolder->setContainer(array_values($oldData));
+        $oldData = array_values($this->toArray());
+        $this->dataHolder->setContainer($oldData);
     }
 
     /**
-     * Return a new collection with the
+     * Returns a new collection with the
      * reversed values.
      *
      * @throws \PHPCollections\Exceptions\InvalidOperationException
      * 
-     * @return \PHPCollections\GenericList
+     * @return \PHPCollections\Collections\GenericList
      */
-    public function reverse()
+    public function reverse(): GenericList
     {
-        if ($this->count() == 0) {
+        if ($this->count() === 0) {
             throw new InvalidOperationException('You cannot reverse an empty collection.');
         }
 
@@ -284,7 +289,7 @@ class GenericList extends BaseCollection implements CollectionInterface, Iterabl
     }
 
     /**
-     * Search one or more elements in
+     * Searches one or more elements in
      * the collection.
      *
      * @param callable $callback
@@ -292,7 +297,7 @@ class GenericList extends BaseCollection implements CollectionInterface, Iterabl
      * 
      * @return PHPCollections\GenericList|null
      */
-    public function search(callable $callback, $shouldStop = false)
+    public function search(callable $callback, bool $shouldStop = false): ?GenericList
     {
         $matcheds = [];
 
@@ -309,14 +314,14 @@ class GenericList extends BaseCollection implements CollectionInterface, Iterabl
     }
 
     /**
-     * Sort collection data by values
+     * Sorts the collection data by values
      * applying a given callback.
      *
      * @param callable $callback
      * 
      * @return bool
      */
-    public function sort(callable $callback)
+    public function sort(callable $callback): bool
     {
         $data = $this->toArray();
         $isSorted = usort($data, $callback);
@@ -326,7 +331,7 @@ class GenericList extends BaseCollection implements CollectionInterface, Iterabl
     }
 
     /**
-     * Update the value of the element
+     * Updates the value of the element
      * at the given index.
      *
      * @param int $index
@@ -335,7 +340,7 @@ class GenericList extends BaseCollection implements CollectionInterface, Iterabl
      * 
      * @return bool
      */
-    public function update($index, $value)
+    public function update(int $index, $value): bool
     {
         $this->checkType($value);
 

@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace PHPCollections\Collections;
 
 /**
@@ -8,7 +10,6 @@ namespace PHPCollections\Collections;
  */
 class Pair
 {
-
     /**
      * The key for the Pair object.
      *
@@ -17,14 +18,14 @@ class Pair
     private $key;
 
     /**
-     * Initialize class properties.
+     * The value for the Pair object.
      *
      * @var mixed
      */
     private $value;
 
     /**
-     * Initialize values.
+     * Initializes class properties.
      *
      * @param mixed $key
      * @param mixed $value
@@ -36,22 +37,22 @@ class Pair
     }
 
     /**
-     * Allow access to the key
+     * Allows access to the key
      * property by its value.
      *
      * @param string $name
      * 
      * @return mixed
      */
-    public function __get($name)
+    public function __get(string $name)
     {
-        if ($name == $this->key) {
+        if ($name === $this->key) {
             return $this->value;
         }
     }
 
     /**
-     * Return the key property.
+     * Returns the key property.
      *
      * @return mixed
      */
@@ -61,7 +62,7 @@ class Pair
     }
 
     /**
-     * Return the value property.
+     * Returns the value property.
      *
      * @return mixed
      */
@@ -71,13 +72,13 @@ class Pair
     }
 
     /**
-     * Set the value of the value property.
+     * Sets the value of the value property.
      *
      * @param mixed $value
      * 
      * @return void
      */
-    public function setValue($value)
+    public function setValue($value): void
     {
         $this->value = $value;
     }

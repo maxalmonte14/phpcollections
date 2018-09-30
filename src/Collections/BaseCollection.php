@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace PHPCollections\Collections;
 
 use Countable;
@@ -7,8 +9,8 @@ use JsonSerializable;
 use PHPCollections\DataHolder;
 
 /**
- * The base for iterable, countable
- * and arrayable collections.
+ * The base for countable and
+ * JSON serializable collections.
  */
 abstract class BaseCollection implements Countable, JsonSerializable
 {
@@ -27,7 +29,7 @@ abstract class BaseCollection implements Countable, JsonSerializable
     private $position = 0;
 
     /**
-     * BaseCollection constructor.
+     * Initializes the dataHolder property.
      *
      * @param array $data
      */
@@ -37,35 +39,34 @@ abstract class BaseCollection implements Countable, JsonSerializable
     }
 
     /**
-     * Remove all the elements
-     * of the data array.
+     * Reinitializes the dataHolder property.
      *
      * @return void
      */
-    public function clear()
+    public function clear(): void
     {
         $this->dataHolder = new DataHolder();
     }
 
     /**
-     * Return the length of the collection.
+     * Returns the length of the collection.
      *
      * @return int
      */
-    public function count()
+    public function count(): int
     {
         return count($this->toArray());
     }
 
     /**
-     * Check if the given index
+     * Checks if the given index
      * exists in the collection.
      *
-     * @param int $offset
+     * @param mixed $offset
      * 
      * @return bool
      */
-    public function exists($offset)
+    public function exists($offset): bool
     {
         return $this->dataHolder->offsetExists($offset);
     }
@@ -76,7 +77,7 @@ abstract class BaseCollection implements Countable, JsonSerializable
      *
      * @return array
      */
-    public function jsonSerialize()
+    public function jsonSerialize(): array
     {
         return $this->toArray();
     }
@@ -87,7 +88,7 @@ abstract class BaseCollection implements Countable, JsonSerializable
      *
      * @return array
      */
-    public function toArray()
+    public function toArray(): array
     {
         return $this->dataHolder->getContainer();
     }

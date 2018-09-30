@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace PHPCollections\Collections;
 
 use InvalidArgumentException;
@@ -31,7 +33,7 @@ class Dictionary extends BaseCollection implements DictionaryInterface
     private $valueType;
 
     /**
-     * Initialize the class properties.
+     * Initializes the class properties.
      *
      * @param mixed $keyType
      * @param mixed $valueType
@@ -47,52 +49,55 @@ class Dictionary extends BaseCollection implements DictionaryInterface
     }
 
     /**
-     * Add a new value to the dictionary.
+     * Adds a new value to the dictionary.
      *
      * @param mixed $key
      * @param mixed $value
      * 
      * @return void
      */
-    public function add($key, $value)
+    public function add($key, $value): void
     {
         $this->checkType(['key' => $key, 'value' => $value]);
         $this->dataHolder->offsetSet($key, new Pair($key, $value));
     }
 
     /**
-     * Determine if the passed data is
+     * Determines if the passed data is
      * of the type specified in the keyType/valueType
-     * attribute, if not throws and Exception.
+     * attribute, if not throws and InvalidArgumentException.
      *
-     * @param mixed $data
+     * @param array $values
      * @throws \InvalidArgumentException
      * 
      * @return void
      */
-    private function checkType(array $values)
+    private function checkType(array $values): void
     {
         foreach ($values as $key => $value) {
             $type = is_object($value) ? get_class($value) : gettype($value);
-            $toEval = $key == 'key' ? $this->keyType : $this->valueType;
+            $toEval = ($key === 'key') ? $this->keyType : $this->valueType;
 
             if ($type != $toEval) {
                 throw new InvalidArgumentException(
-                    sprintf('The %s type specified for this dictionary is %s, you cannot pass %s %s', $key, $toEval, getArticle($type), $type)
+                    sprintf(
+                        'The %s type specified for this dictionary is %s, you cannot pass %s %s',
+                        $key,$toEval, getArticle($type), $type
+                    )
                 );
             }
         }
     }
 
     /**
-     * Filter the collection applying
+     * Filters the collection applying
      * a given callback.
      *
      * @param callable $callback
      * 
-     * @return PHPCollections\Collections\Dictionary|null
+     * @return \PHPCollections\Collections\Dictionary|null
      */
-    public function filter(callable $callback)
+    public function filter(callable $callback): ?Dictionary
     {
         $matcheds = [];
 
@@ -106,7 +111,7 @@ class Dictionary extends BaseCollection implements DictionaryInterface
     }
 
     /**
-     * Find an element based on a given callback.
+     * Finds an element based on a given callback.
      *
      * @param callable $callback
      * 
@@ -125,7 +130,7 @@ class Dictionary extends BaseCollection implements DictionaryInterface
     }
 
     /**
-     * Return the first element in the collection.
+     * Returns the first element in the collection.
      *
      * @throws \PHPCollections\Exceptions\InvalidOperationException
      * 
@@ -133,7 +138,7 @@ class Dictionary extends BaseCollection implements DictionaryInterface
      */
     public function first()
     {
-        if ($this->count() == 0) {
+        if ($this->count() === 0) {
             throw new InvalidOperationException('You cannot get the first element of an empty collection');
         }
 
@@ -143,13 +148,13 @@ class Dictionary extends BaseCollection implements DictionaryInterface
     }
 
     /**
-     * Iterate over every element of the collection.
+     * Iterates over every element of the collection.
      *
      * @param callable $callback
      * 
      * @return void
      */
-    public function forEach(callable $callback)
+    public function forEach(callable $callback): void
     {
         $data = $this->toArray();
 
@@ -158,7 +163,7 @@ class Dictionary extends BaseCollection implements DictionaryInterface
     }
 
     /**
-     * Return the value for the specified
+     * Returns the value for the specified
      * key or null if it's not defined.
      *
      * @param mixed $key
@@ -167,11 +172,13 @@ class Dictionary extends BaseCollection implements DictionaryInterface
      */
     public function get($key)
     {
-        return $this->dataHolder->offsetExists($key) ? $this->dataHolder->offsetGet($key)->getValue() : null;
+        return $this->dataHolder->offsetExists($key) ?
+               $this->dataHolder->offsetGet($key)->getValue() :
+               null;
     }
 
     /**
-     * Return the key type of this collection.
+     * Returns the key type for this collection.
      *
      * @return mixed
      */
@@ -181,7 +188,7 @@ class Dictionary extends BaseCollection implements DictionaryInterface
     }
 
     /**
-     * Return the key value of this collection.
+     * Returns the key value for this collection.
      *
      * @return mixed
      */
@@ -190,7 +197,14 @@ class Dictionary extends BaseCollection implements DictionaryInterface
         return $this->valueType;
     }
 
-    private function initializePairs(array $data)
+    /**
+     * Populates the container with Pair objects.
+     *
+     * @param array $data
+     * 
+     * @return void
+     */
+    private function initializePairs(array $data): void
     {
         foreach ($data as $key => $value) {
             $this->dataHolder[$key] = new Pair($key, $value);
@@ -207,7 +221,7 @@ class Dictionary extends BaseCollection implements DictionaryInterface
      */
     public function last()
     {
-        if ($this->count() == 0) {
+        if ($this->count() === 0) {
             throw new InvalidOperationException('You cannot get the last element of an empty collection');
         }
 
@@ -217,14 +231,14 @@ class Dictionary extends BaseCollection implements DictionaryInterface
     }
 
     /**
-     * Update elements in the collection by
+     * Updates elements in the collection by
      * applying a given callback function.
      *
      * @param callable $callback
      * 
      * @return \PHPCollections\Collections\Dictionary|null
      */
-    public function map(callable $callback)
+    public function map(callable $callback): ?Dictionary
     {
         $matcheds = array_map($callback, $this->toArray());
 
@@ -238,23 +252,27 @@ class Dictionary extends BaseCollection implements DictionaryInterface
      * 
      * @return \PHPCollections\Collections\Dictionary
      */
-    public function merge(Dictionary $newDictionary)
+    public function merge(Dictionary $newDictionary): Dictionary
     {
         foreach ($newDictionary->toArray() as $key => $value) {
             $this->checkType(['key' => $key, 'value' => $value]);
         }
 
-        return new $this($this->keyType, $this->valueType, array_merge($this->toArray(), $newDictionary->toArray()));
+        return new $this(
+            $this->keyType,
+            $this->valueType,
+            array_merge($this->toArray(), $newDictionary->toArray())
+        );
     }
 
     /**
-     * Remove a value from the dictionary.
+     * Removes a value from the dictionary.
      *
      * @param mixed $key
      * 
      * @return bool
      */
-    public function remove($key)
+    public function remove($key): bool
     {
         $exits = $this->dataHolder->offsetExists($key);
 
@@ -266,14 +284,14 @@ class Dictionary extends BaseCollection implements DictionaryInterface
     }
 
     /**
-     * Sort collection data by values
+     * Sorts the collection data by values
      * applying a given callback.
      *
      * @param callable $callback
      * 
-     * @return bool
+     * @return \PHPCollections\Collections\Dictionary|null
      */
-    public function sort(callable $callback)
+    public function sort(callable $callback): ?Dictionary
     {
         $data = $this->toArray();
 
@@ -286,7 +304,7 @@ class Dictionary extends BaseCollection implements DictionaryInterface
      *
      * @return array
      */
-    public function toArray()
+    public function toArray(): array
     {
         $array = [];
 
@@ -301,15 +319,15 @@ class Dictionary extends BaseCollection implements DictionaryInterface
      * Returns a JSON representation
      * of your dictionary data.
      *
-     * @return array
+     * @return string
      */
-    public function toJson()
+    public function toJson(): string
     {
         return json_encode($this->dataHolder);
     }
 
     /**
-     * Update the value of one Pair
+     * Updates the value of one Pair
      * in the collection.
      *
      * @param mixed $key
@@ -317,7 +335,7 @@ class Dictionary extends BaseCollection implements DictionaryInterface
      * 
      * @return bool
      */
-    public function update($key, $value)
+    public function update($key, $value): bool
     {
         $this->checkType(['key' => $key, 'value' => $value]);
 

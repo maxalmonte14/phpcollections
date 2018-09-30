@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace PHPCollections\Collections;
 
 use Countable;
@@ -11,7 +13,7 @@ use InvalidArgumentException;
 class Stack implements Countable
 {
     /**
-     * The data container
+     * The data container.
      *
      * @var array
      */
@@ -19,50 +21,54 @@ class Stack implements Countable
 
     /**
      * The type of the values
-     * for this Stack
+     * for this Stack.
      *
      * @var mixed
      */
     private $type;
 
     /**
-     * The Stack class constructor
+     * Initialize class properties.
      *
      * @param string $type
      */
-    public function __construct($type)
+    public function __construct(string $type)
     {
         $this->data = [];
         $this->type = $type;
     }
 
     /**
-     * Determine if the passed value is
+     * Determines if the passed value is
      * of the type specified in the type
-     * attribute, if not raise and Exception.
+     * attribute, if not raises and Exception.
      *
      * @param  mixed $value
      * @throws \InvalidArgumentException
      * 
      * @return void
      */
-    private function checkType($value)
+    private function checkType($value): void
     {
         $type = is_object($value) ? get_class($value) : gettype($value);
 
         if ($type != $this->type) {
             throw new InvalidArgumentException(
-                sprintf('The type specified for this collection is %s, you cannot pass a value of type %s', $this->type, $type)
+                sprintf(
+                    'The type specified for this collection is %s, you cannot pass a value of type %s',
+                    $this->type,
+                    $type
+                )
             );
         }
     }
 
     /**
-     * Clear the data values.
+     * Clears the data values.
      *
      * @return void
      */
-    public function clear()
+    public function clear(): void
     {
         $this->data = [];
     }
@@ -72,23 +78,23 @@ class Stack implements Countable
      *
      * @return int
      */
-    public function count()
+    public function count(): int
     {
         return count($this->data);
     }
 
     /**
-     * Check if the stack is empty.
+     * Checks if the stack is empty.
      *
      * @return bool
      */
-    public function isEmpty()
+    public function isEmpty(): bool
     {
         return $this->count() === 0;
     }
 
     /**
-     * Get the element at
+     * Gets the element at
      * the end of the Stack.
      *
      * @return mixed
@@ -99,7 +105,7 @@ class Stack implements Countable
     }
 
     /**
-     * Pop the element at
+     * Pops the element at
      * the end of the stack.
      *
      * @return mixed
@@ -110,12 +116,12 @@ class Stack implements Countable
     }
 
     /**
-     * Add a new element at
+     * Adds a new element at
      * the end of the Stack.
      *
-     * @param  mixed $value
+     * @param mixed $value
      * 
-     * @return void
+     * @return mixed
      */
     public function push($value)
     {

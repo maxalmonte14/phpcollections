@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace PHPCollections\Collections;
 
 use OutOfRangeException;
@@ -14,13 +16,13 @@ use PHPCollections\Exceptions\InvalidOperationException;
 class ArrayList extends BaseCollection implements CollectionInterface, IterableInterface, SortableInterface
 {
     /**
-     * Add a new element to the collection.
+     * Adds a new element to the collection.
      *
      * @param mixed $value
      * 
      * @return void
      */
-    public function add($value)
+    public function add($value): void
     {
         $data = $this->toArray();
 
@@ -29,27 +31,27 @@ class ArrayList extends BaseCollection implements CollectionInterface, IterableI
     }
 
     /**
-     * Check if the collection
+     * Checks if the collection
      * contains a given value.
      *
      * @param mixed $needle
      * 
      * @return bool
      */
-    public function contains($needle)
+    public function contains($needle): bool
     {
         return in_array($needle, $this->toArray());
     }
 
     /**
-     * Return all the coincidences found
+     * Returns all the coincidences found
      * for the given callback or null.
      *
      * @param callable $callback
      * 
      * @return \PHPCollections\ArrayList|null
      */
-    public function filter(callable $callback)
+    public function filter(callable $callback): ?ArrayList
     {
         $matcheds = [];
 
@@ -63,15 +65,15 @@ class ArrayList extends BaseCollection implements CollectionInterface, IterableI
     }
 
     /**
-     * Search one or more elements in
-     * the collection.
+     * Searches for one or more elements
+     * in the collection.
      *
      * @param callable $callback
-     * @param boolean $shouldStop
+     * @param bool $shouldStop
      * 
      * @return \PHPCollections\ArrayList|null
      */
-    public function find(callable $callback, $shouldStop = false)
+    public function find(callable $callback, bool $shouldStop = false): ?ArrayList
     {
         $matcheds = [];
 
@@ -89,7 +91,7 @@ class ArrayList extends BaseCollection implements CollectionInterface, IterableI
     }
 
     /**
-     * Get the first element of the collection.
+     * Gets the first element of the collection.
      *
      * @throws \OutOfRangeException
      * 
@@ -97,21 +99,21 @@ class ArrayList extends BaseCollection implements CollectionInterface, IterableI
      */
     public function first()
     {
-        if ($this->count() == 0) {
-            throw new OutOfRangeException("You're trying to get data into an empty collection.");
+        if ($this->count() === 0) {
+            throw new OutOfRangeException('You\'re trying to get data from an empty collection.');
         }
 
         return $this->dataHolder[0];
     }
 
     /**
-     * Iterate over every element of the collection.
+     * Iterates over every element of the collection.
      *
      * @param callable $callback
      * 
      * @return void
      */
-    public function forEach(callable $callback)
+    public function forEach(callable $callback): void
     {
         $data = $this->toArray();
 
@@ -120,20 +122,20 @@ class ArrayList extends BaseCollection implements CollectionInterface, IterableI
     }
 
     /**
-     * Get the element specified
+     * Gets the element specified
      * at the given index.
      *
      * @param int $offset
      * 
      * @return mixed
      */
-    public function get($offset)
+    public function get(int $offset)
     {
         return $this->dataHolder->offsetGet($offset);
     }
 
     /**
-     * Get the last element of the collection.
+     * Gets the last element of the collection.
      *
      * @throws \OutOfRangeException
      * 
@@ -141,22 +143,22 @@ class ArrayList extends BaseCollection implements CollectionInterface, IterableI
      */
     public function last()
     {
-        if ($this->count() == 0) {
-            throw new OutOfRangeException("You're trying to get data into an empty collection.");
+        if ($this->count() === 0) {
+            throw new OutOfRangeException('You\'re trying to get data from an empty collection.');
         }
 
         return $this->dataHolder[$this->count() - 1];
     }
 
     /**
-     * Update elements in the collection by
+     * Updates elements in the collection by
      * applying a given callback function.
      *
      * @param callable $callback
      * 
      * @return \PHPCollections\ArrayList|null
      */
-    public function map(callable $callback)
+    public function map(callable $callback): ?ArrayList
     {
         $matcheds = array_map($callback, $this->toArray());
 
@@ -164,21 +166,21 @@ class ArrayList extends BaseCollection implements CollectionInterface, IterableI
     }
 
     /**
-     * Merge new data with the actual
+     * Merges new data with the actual
      * collection and returns a new one.
      *
      * @param array $data
      * 
      * @return \PHPCollections\ArrayList
      */
-    public function merge(array $data)
+    public function merge(array $data): ArrayList
     {
         return new $this(array_merge($this->toArray(), $data));
     }
     
     /**
-     * Return a random element of
-     * the collection
+     * Returns a random element of
+     * the collection.
      *
      * @throws \PHPCollections\Exceptions\InvalidOperationException
      * 
@@ -186,7 +188,7 @@ class ArrayList extends BaseCollection implements CollectionInterface, IterableI
      */
     public function rand()
     {
-        if ($this->count() == 0) {
+        if ($this->count() === 0) {
             throw new InvalidOperationException('You cannot get a random element from an empty collection.');
         }
 
@@ -196,38 +198,38 @@ class ArrayList extends BaseCollection implements CollectionInterface, IterableI
     }
 
     /**
-     * Remove an item from the collection
-     * and repopulate the data array.
+     * Removes an item from the collection
+     * and repopulates the data array.
      *
      * @param int $offset
      * @throws \OutOfRangeException
      * 
      * @return void
      */
-    public function remove($offset)
+    public function remove(int $offset): void
     {
-        if ($this->count() == 0) {
-            throw new OutOfRangeException("You're trying to remove data into a empty collection.");
+        if ($this->count() === 0) {
+            throw new OutOfRangeException('You\'re trying to remove data from an empty collection.');
         }
         
         if (!$this->dataHolder->offsetExists($offset)) {
-            throw new OutOfRangeException("The {$offset} index do not exits for this collection.");
+            throw new OutOfRangeException(sprintf('The %d index does not exits for this collection.', $offset));
         }
 
         $this->dataHolder->offsetUnset($offset);
     }
 
     /**
-     * Return a new collection with the
+     * Returns a new collection with the
      * reversed values.
      *
      * @throws \PHPCollections\Exceptions\InvalidOperationException
      * 
      * @return \PHPCollections\ArrayList
      */
-    public function reverse()
+    public function reverse(): ArrayList
     {
-        if ($this->count() == 0) {
+        if ($this->count() === 0) {
             throw new InvalidOperationException('You cannot reverse an empty collection.');
         }
 
@@ -235,14 +237,14 @@ class ArrayList extends BaseCollection implements CollectionInterface, IterableI
     }
 
     /**
-     * Sort collection data by values
+     * Sorts collection's data by values
      * applying a given callback.
      *
      * @param callable $callback
      * 
      * @return bool
      */
-    public function sort(callable $callback)
+    public function sort(callable $callback): bool
     {
         $data = $this->toArray();
         $isSorted = usort($data, $callback);
@@ -252,7 +254,7 @@ class ArrayList extends BaseCollection implements CollectionInterface, IterableI
     }
 
     /**
-     * Update the value of the element
+     * Updates the value of the element
      * at the given index.
      *
      * @param int $index
@@ -260,7 +262,7 @@ class ArrayList extends BaseCollection implements CollectionInterface, IterableI
      * 
      * @return bool
      */
-    public function update($index, $value)
+    public function update(int $index, $value): bool
     {
         if (!$this->exists($index)) {
             throw new InvalidOperationException('You cannot update a non-existent value');
