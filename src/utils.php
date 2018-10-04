@@ -2,9 +2,10 @@
 
 /**
  * Return the correct article
- * for preceding a specific word
+ * for preceding a specific word.
  *
  * @param  string $word
+ * 
  * @return string
  */
 function getArticle(string $word) :string

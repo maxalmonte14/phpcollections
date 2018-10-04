@@ -9,7 +9,7 @@ use JsonSerializable;
 use PHPCollections\DataHolder;
 
 /**
- * The base for countable and
+ * The base class for countable and
  * JSON serializable collections.
  */
 abstract class BaseCollection implements Countable, JsonSerializable
@@ -20,13 +20,6 @@ abstract class BaseCollection implements Countable, JsonSerializable
      * @var \PHPCollections\DataHolder
      */
     protected $dataHolder;
-
-    /**
-     * Represents the index of the data array.
-     *
-     * @var int
-     */
-    private $position = 0;
 
     /**
      * Initializes the dataHolder property.

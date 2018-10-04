@@ -11,7 +11,7 @@ use PHPCollections\Interfaces\CollectionInterface;
 use PHPCollections\Exceptions\InvalidOperationException;
 
 /**
- * A list of values of any type
+ * A list of values of any type.
  */
 class ArrayList extends BaseCollection implements CollectionInterface, IterableInterface, SortableInterface
 {

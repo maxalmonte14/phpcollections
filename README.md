@@ -2,8 +2,6 @@
 
 PHPCollections is a set of data structures that try to make your life easier when you're working with PHP and large sets of data. Inspired by languages like Java or C#, PHPCollections offers data structures like List, Map, Stack and more, check it out!
 
-> **Note**: This package is under actual development, so maybe all the possible features cannot be available at the time you install it.
-
 ## Requirements
 
 ```
@@ -13,7 +11,7 @@ PHP >= 7.1
 ## Installation
 
 ```
-composer require "maxalmonte14/phpcollections dev-master"
+composer require "maxalmonte14/phpcollections"
 ``` 
 
 ## Examples
@@ -62,3 +60,9 @@ $posts->add(new Post(1, 'PHP 7.2 release notes'));
 $posts->add(new Post(2, 'New Laravel 5.5 LTS make:factory command'));
 $posts->add(5); // Everything is fine, I need this 5 anyway
 ```
+
+## Features
+
+- Different types of collections like Dictionariy, Stack and GenericList.
+- Simple API.
+- Lightweight, no extra packages needed.

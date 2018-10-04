@@ -17,15 +17,15 @@ use PHPCollections\Exceptions\InvalidOperationException;
 class GenericList extends BaseCollection implements CollectionInterface, IterableInterface, SortableInterface
 {
     /**
-     * The type of data that's
-     * gonna be stored.
+     * The type of data that
+     * will be stored.
      *
      * @var mixed
      */
     private $type;
 
     /**
-     * Initializes class properties.
+     * Initializes the class properties.
      *
      * @param string $type
      * @param array $data
@@ -150,7 +150,8 @@ class GenericList extends BaseCollection implements CollectionInterface, Iterabl
     }
 
     /**
-     * Returns the object at the specified index.
+     * Returns the object at the specified index
+     * or null if it's not defined.
      *
      * @param int $offset.
      * @throws \OutOfRangeException
@@ -239,7 +240,7 @@ class GenericList extends BaseCollection implements CollectionInterface, Iterabl
 
     /**
      * Removes an item from the collection
-     * and repopulate the data array.
+     * and repopulate the data container.
      *
      * @param int $offset
      * @throws \OutOfRangeException
@@ -261,11 +262,11 @@ class GenericList extends BaseCollection implements CollectionInterface, Iterabl
     }
 
     /**
-     * Repopulates the data array.
+     * Repopulates the data container.
      *
      * @return void
      */
-    public function repopulate(): void
+    private function repopulate(): void
     {
         $oldData = array_values($this->toArray());
         $this->dataHolder->setContainer($oldData);
