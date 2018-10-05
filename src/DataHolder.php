@@ -67,7 +67,7 @@ class DataHolder implements ArrayAccess, IteratorAggregate
      * Gets a value from the container.
      *
      * @param mixed $offset
-     
+     *
      * @return mixed|null
      */
     public function offsetGet($offset)
