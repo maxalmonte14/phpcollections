@@ -63,6 +63,6 @@ $posts->add(5); // Everything is fine, I need this 5 anyway
 
 ## Features
 
-- Different types of collections like Dictionariy, Stack and GenericList.
+- Different types of collections like Dictionary, Stack and GenericList.
 - Simple API.
 - Lightweight, no extra packages needed.
