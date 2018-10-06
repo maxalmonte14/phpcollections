@@ -2,7 +2,7 @@
 
 namespace Tests\Unit;
 
-use Exception;
+use StdClass;
 use ArrayObject;
 use PHPUnit\Framework\TestCase;
 use PHPCollections\Collections\GenericList;
@@ -41,14 +41,35 @@ class GenericListTest extends TestCase
         $this->assertCount(4, $this->list);
     }
 
+    /** 
+     * @test 
+     * @expectedException InvalidArgumentException
+     * @expectedExceptionMessage You cannot store primitive types on a GenericList
+     */
+    public function canNotCreatePrimitiveTypeCollection()
+    {
+        // Here an InvalidArgumentException is thrown!
+        $newList = new GenericList('string', 'John', 'Finch', 'Shaw', 'Lionel');
+    }
+
     /**
      * @test
-     * @expectedException InvalidArgumentException
      */
     public function canAddAnElementToList()
     {
         $this->assertCount(9, $this->list);
-        $this->list->add(new Exception()); // Here an InvalidArgumentException is thrown!
+        $this->list->add(new ArrayObject(['name' => 'Samaritan']));
+    }
+
+    /**
+     * @test
+     * @expectedException InvalidArgumentException
+     * @expectedExceptionMessage The type specified for this collection is 
+     * ArrayObject, you cannot pass an object of type stdClass
+     */
+    public function canNotAddAnElementOfDifferentTypeToList()
+    {
+        $this->list->add(new StdClass()); // Here an InvalidArgumentException is thrown!
     }
 
     /** @test */

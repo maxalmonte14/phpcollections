@@ -25,7 +25,7 @@ class GenericList extends BaseCollection implements CollectionInterface, Iterabl
     private $type;
 
     /**
-     * Initializes the class properties.
+     * Creates a new GenericList.
      *
      * @param string $type
      * @param array $data
@@ -70,13 +70,15 @@ class GenericList extends BaseCollection implements CollectionInterface, Iterabl
      */
     private function checkType($data): void
     {
-        if (!$data instanceof $this->type) {
-            $type = is_object($data) ? get_class($data) : gettype($data);
+        if (! is_object($data)) {
+            throw new InvalidArgumentException('You cannot store primitive types on a GenericList');
+        }
 
+        if (! $data instanceof $this->type) {
             throw new InvalidArgumentException(
                 sprintf(
-                    'The type specified for this collection is %s, you cannot pass a value of type %s',
-                    $this->type, $type
+                    'The type specified for this collection is %s, you cannot pass an object of type %s',
+                    $this->type, get_class($data)
                 )
             );
         }
@@ -164,7 +166,7 @@ class GenericList extends BaseCollection implements CollectionInterface, Iterabl
             throw new OutOfRangeException('You\'re trying to get data from an empty collection.');
         }
         
-        if (!$this->dataHolder->offsetExists($offset)) {
+        if (! $this->dataHolder->offsetExists($offset)) {
             throw new OutOfRangeException(sprintf('The %d index do not exits for this collection.', $offset));
         }
 
@@ -253,7 +255,7 @@ class GenericList extends BaseCollection implements CollectionInterface, Iterabl
             throw new OutOfRangeException('You\'re trying to remove data into a empty collection.');
         }
         
-        if (!$this->dataHolder->offsetExists($offset)) {
+        if (! $this->dataHolder->offsetExists($offset)) {
             throw new OutOfRangeException(sprintf('The %d index do not exits for this collection.', $offset));
         }
 
@@ -345,7 +347,7 @@ class GenericList extends BaseCollection implements CollectionInterface, Iterabl
     {
         $this->checkType($value);
 
-        if (!$this->exists($index)) {
+        if (! $this->exists($index)) {
             throw new InvalidOperationException('You cannot update a non-existent value');
         }
 
