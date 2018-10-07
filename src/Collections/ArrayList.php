@@ -91,22 +91,6 @@ class ArrayList extends BaseCollection implements CollectionInterface, IterableI
     }
 
     /**
-     * Gets the first element of the collection.
-     *
-     * @throws \OutOfRangeException
-     * 
-     * @return mixed
-     */
-    public function first()
-    {
-        if ($this->count() === 0) {
-            throw new OutOfRangeException('You\'re trying to get data from an empty collection.');
-        }
-
-        return $this->dataHolder[0];
-    }
-
-    /**
      * Iterates over every element of the collection.
      *
      * @param callable $callback
@@ -132,22 +116,6 @@ class ArrayList extends BaseCollection implements CollectionInterface, IterableI
     public function get(int $offset)
     {
         return $this->dataHolder->offsetGet($offset);
-    }
-
-    /**
-     * Gets the last element of the collection.
-     *
-     * @throws \OutOfRangeException
-     * 
-     * @return mixed
-     */
-    public function last()
-    {
-        if ($this->count() === 0) {
-            throw new OutOfRangeException('You\'re trying to get data from an empty collection.');
-        }
-
-        return $this->dataHolder[$this->count() - 1];
     }
 
     /**

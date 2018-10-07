@@ -109,22 +109,6 @@ class GenericList extends BaseCollection implements ObjectCollectionInterface, I
     }
 
     /**
-     * Gets the first element of the collection.
-     *
-     * @throws \OutOfRangeException
-     * 
-     * @return mixed
-     */
-    public function first()
-    {
-        if ($this->count() === 0) {
-            throw new OutOfRangeException('You\'re trying to get data into an empty collection.');
-        }
-
-        return $this->dataHolder[0];
-    }
-
-    /**
      * Iterates over every element of the collection.
      *
      * @param callable $callback
@@ -159,22 +143,6 @@ class GenericList extends BaseCollection implements ObjectCollectionInterface, I
         }
 
         return $this->dataHolder->offsetGet($offset);
-    }
-
-    /**
-     * Gets the last element of the collection.
-     *
-     * @throws \OutOfRangeException
-     * 
-     * @return mixed
-     */
-    public function last()
-    {
-        if ($this->count() === 0) {
-            throw new OutOfRangeException('You\'re trying to get data from an empty collection.');
-        }
-
-        return $this->dataHolder[$this->count() - 1];
     }
 
     /**

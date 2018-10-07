@@ -6,6 +6,7 @@ namespace PHPCollections\Collections;
 
 use Countable;
 use JsonSerializable;
+use OutOfRangeException;
 use PHPCollections\DataHolder;
 
 /**
@@ -65,6 +66,22 @@ abstract class BaseCollection implements Countable, JsonSerializable
     }
 
     /**
+     * Gets the first element in the collection.
+     *
+     * @throws \OutOfRangeException
+     * 
+     * @return mixed
+     */
+    public function first()
+    {
+        if ($this->count() === 0) {
+            throw new OutOfRangeException('You\'re trying to get data from an empty collection');
+        }
+
+        return array_values($this->toArray())[0];
+    }
+
+    /**
      * Defines the behavior of the collection
      * when json_encode is called.
      *
@@ -73,6 +90,22 @@ abstract class BaseCollection implements Countable, JsonSerializable
     public function jsonSerialize(): array
     {
         return $this->toArray();
+    }
+
+    /**
+     * Gets the last element of the collection.
+     *
+     * @throws \OutOfRangeException
+     * 
+     * @return mixed
+     */
+    public function last()
+    {
+        if ($this->count() === 0) {
+            throw new OutOfRangeException('You\'re trying to get data from an empty collection');
+        }
+
+        return array_values($this->toArray())[$this->count() - 1];
     }
 
     /**

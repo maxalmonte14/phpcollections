@@ -120,8 +120,8 @@ class DictionaryTest extends TestCase
 
     /**
      * @test
-     * @expectedException PHPCollections\Exceptions\InvalidOperationException
-     * @expectedExceptionMessage You cannot get the first element of an empty collection
+     * @expectedException \OutOfRangeException
+     * @expectedExceptionMessage You're trying to get data from an empty collection
      */
     public function canGetFirstElement()
     {
@@ -134,8 +134,8 @@ class DictionaryTest extends TestCase
 
     /**
      * @test
-     * @expectedException PHPCollections\Exceptions\InvalidOperationException
-     * @expectedExceptionMessage You cannot get the last element of an empty collection
+     * @expectedException \OutOfRangeException
+     * @expectedExceptionMessage You're trying to get data from an empty collection
      */
     public function canGetLastElement()
     {

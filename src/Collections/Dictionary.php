@@ -140,24 +140,6 @@ class Dictionary extends BaseCollection implements DictionaryInterface
     }
 
     /**
-     * Returns the first element in the collection.
-     *
-     * @throws \PHPCollections\Exceptions\InvalidOperationException
-     * 
-     * @return mixed
-     */
-    public function first()
-    {
-        if ($this->count() === 0) {
-            throw new InvalidOperationException('You cannot get the first element of an empty collection');
-        }
-
-        foreach ($this->dataHolder as $key => $value) {
-            return $this->get($key);
-        }
-    }
-
-    /**
      * Iterates over every element of the collection.
      *
      * @param callable $callback
@@ -219,25 +201,6 @@ class Dictionary extends BaseCollection implements DictionaryInterface
         foreach ($data as $key => $value) {
             $this->dataHolder[$key] = new Pair($key, $value);
         }
-    }
-
-    /**
-     * Returns the last element of
-     * the collection.
-     *
-     * @throws \PHPCollections\Exceptions\InvalidOperationException
-     * 
-     * @return mixed
-     */
-    public function last()
-    {
-        if ($this->count() === 0) {
-            throw new InvalidOperationException('You cannot get the last element of an empty collection');
-        }
-
-        $values = array_values($this->toArray());
-        
-        return $values[$this->count() - 1];
     }
 
     /**
