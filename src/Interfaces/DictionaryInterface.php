@@ -10,7 +10,7 @@ interface DictionaryInterface
     
     public function get($key);
 
-    public function remove($key): bool;
+    public function remove($key): void;
 
     public function update($key, $value): bool;    
 }
