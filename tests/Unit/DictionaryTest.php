@@ -121,6 +121,7 @@ class DictionaryTest extends TestCase
     /**
      * @test
      * @expectedException PHPCollections\Exceptions\InvalidOperationException
+     * @expectedExceptionMessage You cannot get the first element of an empty collection
      */
     public function canGetFirstElement()
     {
@@ -134,6 +135,7 @@ class DictionaryTest extends TestCase
     /**
      * @test
      * @expectedException PHPCollections\Exceptions\InvalidOperationException
+     * @expectedExceptionMessage You cannot get the last element of an empty collection
      */
     public function canGetLastElement()
     {

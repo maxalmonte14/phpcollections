@@ -41,17 +41,6 @@ class GenericListTest extends TestCase
         $this->assertCount(4, $this->list);
     }
 
-    /** 
-     * @test 
-     * @expectedException InvalidArgumentException
-     * @expectedExceptionMessage You cannot store primitive types on a GenericList
-     */
-    public function canNotCreatePrimitiveTypeCollection()
-    {
-        // Here an InvalidArgumentException is thrown!
-        $newList = new GenericList('string', 'John', 'Finch', 'Shaw', 'Lionel');
-    }
-
     /**
      * @test
      */
@@ -225,15 +214,12 @@ class GenericListTest extends TestCase
 
     /**
      * @test
-     * @expectedException InvalidArgumentException
      */
     public function canUpdateAnElement()
     {
         $isUpdated = $this->list->update(0, new ArrayObject(['name' => 'Elliot']));
         $this->assertTrue($isUpdated);
         $this->assertEquals('Elliot', $this->list->get(0)->offsetGet('name'));
-
-        $this->list->update(0, 'Elliot'); // Here an InvalidArgumentException is thrown!
     }
 
     /** @test */
