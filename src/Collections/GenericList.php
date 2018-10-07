@@ -148,7 +148,7 @@ class GenericList extends BaseCollection implements ObjectCollectionInterface, I
      * 
      * @return object
      */
-    public function get(int $offset)
+    public function get(int $offset): object
     {
         if ($this->count() === 0) {
             throw new OutOfRangeException('You\'re trying to get data from an empty collection.');

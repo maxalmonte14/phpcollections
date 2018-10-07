@@ -8,7 +8,7 @@ interface ObjectCollectionInterface
 {
     public function add(object $value): void;
     
-    public function get(int $offset);
+    public function get(int $offset): object;
 
     public function remove(int $offset): void;
 
