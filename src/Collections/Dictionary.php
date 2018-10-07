@@ -8,6 +8,7 @@ use InvalidArgumentException;
 use PHPCollections\Checker;
 use PHPCollections\Interfaces\SortableInterface;
 use PHPCollections\Interfaces\DictionaryInterface;
+use PHPCollections\Interfaces\MergeableInterface;
 use PHPCollections\Exceptions\InvalidOperationException;
 
 /**
@@ -15,7 +16,7 @@ use PHPCollections\Exceptions\InvalidOperationException;
  * represented by a generic
  * type key and value.
  */
-class Dictionary extends BaseCollection implements DictionaryInterface
+class Dictionary extends BaseCollection implements DictionaryInterface, MergeableInterface, SortableInterface
 {
     /**
      * The type of the keys
@@ -67,36 +68,6 @@ class Dictionary extends BaseCollection implements DictionaryInterface
     {
         $this->validateEntry($key, $value);
         $this->dataHolder->offsetSet($key, new Pair($key, $value));
-    }
-
-    /**
-     * Validates that a key and value are of the
-     * specified types in the class.
-     * 
-     * @param mixed $key
-     * @param mixed $value
-     * @throws \InvalidArgumentException
-     * 
-     * @return bool
-     */
-    private function validateEntry($key, $value): bool
-    {
-        Checker::valueIsOfType(
-            $key, $this->keyType,
-            sprintf(
-                "The %s type specified for this dictionary is %s, you cannot pass %s %s",
-                'key', $this->keyType, getArticle(gettype($key)), gettype($key)
-            )
-        );
-        Checker::valueIsOfType(
-            $value, $this->valueType,
-            sprintf(
-                "The %s type specified for this dictionary is %s, you cannot pass %s %s",
-                'value', $this->valueType, getArticle(gettype($value)), gettype($value)
-            )
-        );
-
-        return true;
     }
 
     /**
@@ -226,11 +197,16 @@ class Dictionary extends BaseCollection implements DictionaryInterface
      * 
      * @return \PHPCollections\Collections\Dictionary
      */
-    public function merge(Dictionary $newDictionary): Dictionary
+    public function merge(BaseCollection $newDictionary): BaseCollection
     {
-        $newDictionary->forEach(function ($value, $key) {
-            $this->validateEntry($key, $value);
-        });
+        Checker::isEqual(
+            $newDictionary->getKeyType(), $this->getKeyType(),
+            sprintf('The new Dictionary key should be of type %s', $this->getKeyType())
+        );
+        Checker::isEqual(
+            $newDictionary->getValueType(), $this->getValueType(),
+            sprintf('The new Dictionary value type should be of type %s', $this->getValueType())
+        );
 
         return new $this(
             $this->keyType,
@@ -243,29 +219,33 @@ class Dictionary extends BaseCollection implements DictionaryInterface
      * Removes a value from the dictionary.
      *
      * @param mixed $key
+     * @throws \OutOfRangeException
      * 
      * @return bool
      */
-    public function remove($key): bool
+    public function remove($key): void
     {
-        $exits = $this->dataHolder->offsetExists($key);
-
-        if ($exits) {
-            $this->dataHolder->offsetUnset($key);
+        if ($this->isEmpty()) {
+            throw new OutOfRangeException('You\'re trying to remove data from an empty collection');
+        }
+        
+        if (!$this->dataHolder->offsetExists($key)) {
+            throw new OutOfRangeException(sprintf('The %s key does not exists for this collection', $key));
         }
 
-        return $exits;
+        $this->dataHolder->offsetUnset($key);
     }
 
     /**
-     * Sorts the collection data by values
-     * applying a given callback.
+     * Returns a new Dictionary with the
+     * values ordered by a given callback
+     * if couldn't sort returns null.
      *
      * @param callable $callback
      * 
      * @return \PHPCollections\Collections\Dictionary|null
      */
-    public function sort(callable $callback): ?Dictionary
+    public function sort(callable $callback): ?BaseCollection
     {
         $data = $this->toArray();
 
@@ -322,5 +302,35 @@ class Dictionary extends BaseCollection implements DictionaryInterface
         $this->dataHolder[$key]->setValue($value);
         
         return $this->dataHolder[$key]->getValue() === $value;
+    }
+
+    /**
+     * Validates that a key and value are of the
+     * specified types in the class.
+     * 
+     * @param mixed $key
+     * @param mixed $value
+     * @throws \InvalidArgumentException
+     * 
+     * @return bool
+     */
+    private function validateEntry($key, $value): bool
+    {
+        Checker::valueIsOfType(
+            $key, $this->keyType,
+            sprintf(
+                "The %s type specified for this dictionary is %s, you cannot pass %s %s",
+                'key', $this->keyType, getArticle(gettype($key)), gettype($key)
+            )
+        );
+        Checker::valueIsOfType(
+            $value, $this->valueType,
+            sprintf(
+                "The %s type specified for this dictionary is %s, you cannot pass %s %s",
+                'value', $this->valueType, getArticle(gettype($value)), gettype($value)
+            )
+        );
+
+        return true;
     }
 }

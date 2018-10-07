@@ -9,13 +9,14 @@ use InvalidArgumentException;
 use PHPCollections\Checker;
 use PHPCollections\Interfaces\IterableInterface;
 use PHPCollections\Interfaces\SortableInterface;
+use PHPCollections\Interfaces\MergeableInterface;
 use PHPCollections\Interfaces\ObjectCollectionInterface;
 use PHPCollections\Exceptions\InvalidOperationException;
 
 /**
  * A list for a generic type of data.
  */
-class GenericList extends BaseCollection implements ObjectCollectionInterface, IterableInterface, SortableInterface
+class GenericList extends BaseCollection implements ObjectCollectionInterface, IterableInterface, MergeableInterface, SortableInterface
 {
     /**
      * The error message to show when
@@ -134,7 +135,7 @@ class GenericList extends BaseCollection implements ObjectCollectionInterface, I
      */
     public function get(int $offset): object
     {
-        if ($this->count() === 0) {
+        if ($this->isEmpty()) {
             throw new OutOfRangeException('You\'re trying to get data from an empty collection.');
         }
         
@@ -161,21 +162,20 @@ class GenericList extends BaseCollection implements ObjectCollectionInterface, I
     }
 
     /**
-     * Merges new data with the actual
-     * collection and returns a new one.
+     * Merges two GenericList into a new one.
      *
      * @param array $data
      * @throws \InvalidArgumentException
      * 
      * @return \PHPCollections\Collections\GenericList
      */
-    public function merge(array $data): GenericList
+    public function merge(BaseCollection $newGenericList): BaseCollection
     {
-        foreach ($data as $value) {
+        $newGenericList->forEach(function ($value, $key) {
             Checker::objectIsOfType($value, $this->type, sprintf($this->error, get_class($value)));
-        }
+        });
 
-        return new $this($this->type, ...array_merge($this->toArray(), $data));
+        return new $this($this->type, ...array_merge($this->toArray(), $newGenericList->toArray()));
     }
 
     /**
@@ -188,7 +188,7 @@ class GenericList extends BaseCollection implements ObjectCollectionInterface, I
      */
     public function rand()
     {
-        if ($this->count() === 0) {
+        if ($this->isEmpty()) {
             throw new InvalidOperationException('You cannot get a random element from an empty collection.');
         }
 
@@ -208,7 +208,7 @@ class GenericList extends BaseCollection implements ObjectCollectionInterface, I
      */
     public function remove(int $offset): void
     {
-        if ($this->count() === 0) {
+        if ($this->isEmpty()) {
             throw new OutOfRangeException('You\'re trying to remove data into a empty collection.');
         }
         
@@ -241,7 +241,7 @@ class GenericList extends BaseCollection implements ObjectCollectionInterface, I
      */
     public function reverse(): GenericList
     {
-        if ($this->count() === 0) {
+        if ($this->isEmpty()) {
             throw new InvalidOperationException('You cannot reverse an empty collection.');
         }
 
@@ -274,20 +274,20 @@ class GenericList extends BaseCollection implements ObjectCollectionInterface, I
     }
 
     /**
-     * Sorts the collection data by values
-     * applying a given callback.
+     * Returns a new GenericList with the
+     * values ordered by a given callback
+     * if couldn't sort returns null.
+     * 
      *
      * @param callable $callback
      * 
-     * @return bool
+     * @return \PHPCollections\Collections\GenericList|null
      */
-    public function sort(callable $callback): bool
+    public function sort(callable $callback): ?BaseCollection
     {
         $data = $this->toArray();
-        $isSorted = usort($data, $callback);
 
-        $this->dataHolder->setContainer($data);
-        return $isSorted;
+        return usort($data, $callback) ? new $this($this->type, ...$data): null;
     }
 
     /**

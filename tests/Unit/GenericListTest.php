@@ -148,11 +148,11 @@ class GenericListTest extends TestCase
     /** @test */
     public function canSortTheList()
     {
-        $isSorted = $this->list->sort(function ($a, $b) {
+        $newList = $this->list->sort(function ($a, $b) {
             return $a->offsetGet('name') <=> $b->offsetGet('name');
         });
-        $this->assertTrue($isSorted);
-        $this->assertEquals('Cal', $this->list->get(0)->offsetGet('name'));
+
+        $this->assertEquals('Cal', $newList->get(0)->offsetGet('name'));
     }
 
     /**
@@ -192,7 +192,11 @@ class GenericListTest extends TestCase
     public function canMergeNewDataIntoNewList()
     {
         $newList = $this->list->merge(
-            [new ArrayObject(['name' => 'Max']), new ArrayObject(['name' => 'Alex'])]
+            new GenericList(
+                ArrayObject::class,
+                new ArrayObject(['name' => 'Max']),
+                new ArrayObject(['name' => 'Alex'])
+            )
         );
         $this->assertCount(11, $newList);
         $this->assertEquals('Max', $newList->get(9)->offsetGet('name'));

@@ -116,7 +116,7 @@ class ArrayListTest extends TestCase
     public function canMergeNewDataIntoNewArrayList()
     {
         $numbers = new ArrayList([1,2,3,4,5]);
-        $newArrayList = $numbers->merge([6,7,8,9,10]);
+        $newArrayList = $numbers->merge(new ArrayList([6,7,8,9,10]));
         $this->assertCount(10, $newArrayList);
         $this->assertEquals(1, $newArrayList->first());
         $this->assertEquals(10, $newArrayList->last());
