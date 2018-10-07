@@ -13,6 +13,25 @@ use InvalidArgumentException;
 class Checker
 {
     /**
+     * Checks that two values are equals.
+     * 
+     * @param mixed $firstValue
+     * @param mixed $secondValue
+     * @param string $message
+     * @throws \InvalidArgumentException
+     * 
+     * @return bool
+     */
+    public static function isEqual($firstValue, $secondValue, string $message): bool
+    {
+        if ($firstValue !== $secondValue) {
+            throw new InvalidArgumentException($message);
+        }
+
+        return true;
+    }
+
+    /**
      * Checks that a value is and object
      * if not throws an exception.
      * 
