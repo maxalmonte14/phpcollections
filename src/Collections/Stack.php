@@ -6,6 +6,7 @@ namespace PHPCollections\Collections;
 
 use Countable;
 use InvalidArgumentException;
+use PHPCollections\Checker;
 
 /**
  * A generic LIFO Stack.
@@ -28,7 +29,7 @@ class Stack implements Countable
     private $type;
 
     /**
-     * Initialize class properties.
+     * Creates a new Stack.
      *
      * @param string $type
      */
@@ -36,31 +37,6 @@ class Stack implements Countable
     {
         $this->data = [];
         $this->type = $type;
-    }
-
-    /**
-     * Determines if the passed value is
-     * of the type specified in the type
-     * attribute, if not raises and Exception.
-     *
-     * @param  mixed $value
-     * @throws \InvalidArgumentException
-     * 
-     * @return void
-     */
-    private function checkType($value): void
-    {
-        $type = is_object($value) ? get_class($value) : gettype($value);
-
-        if ($type != $this->type) {
-            throw new InvalidArgumentException(
-                sprintf(
-                    'The type specified for this collection is %s, you cannot pass a value of type %s',
-                    $this->type,
-                    $type
-                )
-            );
-        }
     }
 
     /**
@@ -120,12 +96,18 @@ class Stack implements Countable
      * the end of the Stack.
      *
      * @param mixed $value
+     * @throws \InvalidArgumentException
      * 
      * @return mixed
      */
     public function push($value)
     {
-        $this->checkType($value);
+        $message = sprintf(
+            'The type specified for this collection is %s, you cannot pass a value of type %s',
+            $this->type, gettype($value)
+        );
+
+        Checker::valueIsOfType($value, $this->type, $message);
 
         $this->data[] = $value;
         

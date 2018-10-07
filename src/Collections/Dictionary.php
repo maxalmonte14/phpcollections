@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace PHPCollections\Collections;
 
 use InvalidArgumentException;
+use PHPCollections\Checker;
 use PHPCollections\Interfaces\SortableInterface;
 use PHPCollections\Interfaces\DictionaryInterface;
 use PHPCollections\Exceptions\InvalidOperationException;
@@ -33,17 +34,22 @@ class Dictionary extends BaseCollection implements DictionaryInterface
     private $valueType;
 
     /**
-     * Initializes the class properties.
+     * Creates a new Dictionary.
      *
      * @param mixed $keyType
      * @param mixed $valueType
      * @param array $data
+     * @throws \InvalidArgumentException
      */
     public function __construct($keyType, $valueType, array $data = [])
     {
         $this->keyType = $keyType;
         $this->valueType = $valueType;
         
+        foreach ($data as $key => $value) {
+            $this->validateEntry($key, $value);
+        }
+
         parent::__construct($data);
         $this->initializePairs($data);
     }
@@ -53,40 +59,44 @@ class Dictionary extends BaseCollection implements DictionaryInterface
      *
      * @param mixed $key
      * @param mixed $value
+     * @throws \InvalidArgumentException
      * 
      * @return void
      */
     public function add($key, $value): void
     {
-        $this->checkType(['key' => $key, 'value' => $value]);
+        $this->validateEntry($key, $value);
         $this->dataHolder->offsetSet($key, new Pair($key, $value));
     }
 
     /**
-     * Determines if the passed data is
-     * of the type specified in the keyType/valueType
-     * attribute, if not throws and InvalidArgumentException.
-     *
-     * @param array $values
+     * Validates that a key and value are of the
+     * specified types in the class.
+     * 
+     * @param mixed $key
+     * @param mixed $value
      * @throws \InvalidArgumentException
      * 
-     * @return void
+     * @return bool
      */
-    private function checkType(array $values): void
+    private function validateEntry($key, $value): bool
     {
-        foreach ($values as $key => $value) {
-            $type = is_object($value) ? get_class($value) : gettype($value);
-            $toEval = ($key === 'key') ? $this->keyType : $this->valueType;
+        Checker::valueIsOfType(
+            $key, $this->keyType,
+            sprintf(
+                "The %s type specified for this dictionary is %s, you cannot pass %s %s",
+                'key', $this->keyType, getArticle(gettype($key)), gettype($key)
+            )
+        );
+        Checker::valueIsOfType(
+            $value, $this->valueType,
+            sprintf(
+                "The %s type specified for this dictionary is %s, you cannot pass %s %s",
+                'value', $this->valueType, getArticle(gettype($value)), gettype($value)
+            )
+        );
 
-            if ($type != $toEval) {
-                throw new InvalidArgumentException(
-                    sprintf(
-                        'The %s type specified for this dictionary is %s, you cannot pass %s %s',
-                        $key,$toEval, getArticle($type), $type
-                    )
-                );
-            }
-        }
+        return true;
     }
 
     /**
@@ -249,14 +259,15 @@ class Dictionary extends BaseCollection implements DictionaryInterface
      * Merges two dictionaries into a new one.
      *
      * @param \PHPCollections\Collections\Dictionary $newDictionary
+     * @throws \InvalidArgumentException
      * 
      * @return \PHPCollections\Collections\Dictionary
      */
     public function merge(Dictionary $newDictionary): Dictionary
     {
-        foreach ($newDictionary->toArray() as $key => $value) {
-            $this->checkType(['key' => $key, 'value' => $value]);
-        }
+        $newDictionary->forEach(function ($value, $key) {
+            $this->validateEntry($key, $value);
+        });
 
         return new $this(
             $this->keyType,
@@ -295,7 +306,7 @@ class Dictionary extends BaseCollection implements DictionaryInterface
     {
         $data = $this->toArray();
 
-        return usort($data, $callback) ? new $this($this->keyType, $this->valueType, $data) : null;
+        return uasort($data, $callback) ? new $this($this->keyType, $this->valueType, $data) : null;
     }
 
     /**
@@ -332,12 +343,14 @@ class Dictionary extends BaseCollection implements DictionaryInterface
      *
      * @param mixed $key
      * @param mixed $value
+     * @throws \InvalidArgumentException
+     * @throws \PHPCollections\Exceptions\InvalidOperationException
      * 
      * @return bool
      */
     public function update($key, $value): bool
     {
-        $this->checkType(['key' => $key, 'value' => $value]);
+        $this->validateEntry($key, $value);
 
         if (!$this->dataHolder->offsetExists($key)) {
             throw new InvalidOperationException('You cannot update a non-existent value');

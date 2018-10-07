@@ -6,21 +6,32 @@ namespace PHPCollections\Collections;
 
 use OutOfRangeException;
 use InvalidArgumentException;
+use PHPCollections\Checker;
 use PHPCollections\Interfaces\IterableInterface;
 use PHPCollections\Interfaces\SortableInterface;
-use PHPCollections\Interfaces\CollectionInterface;
+use PHPCollections\Interfaces\ObjectCollectionInterface;
 use PHPCollections\Exceptions\InvalidOperationException;
 
 /**
  * A list for a generic type of data.
  */
-class GenericList extends BaseCollection implements CollectionInterface, IterableInterface, SortableInterface
+class GenericList extends BaseCollection implements ObjectCollectionInterface, IterableInterface, SortableInterface
 {
+    /**
+     * The error message to show when
+     * someone try to store a value of a
+     * different type than the specified
+     * in the type property.
+     * 
+     * @var string
+     */
+    private $error;
+
     /**
      * The type of data that
      * will be stored.
      *
-     * @var mixed
+     * @var string
      */
     private $type;
 
@@ -29,13 +40,15 @@ class GenericList extends BaseCollection implements CollectionInterface, Iterabl
      *
      * @param string $type
      * @param array $data
+     * @throws \InvalidArgumentException 
      */
-    public function __construct(string $type, ...$data)
+    public function __construct(string $type, object ...$data)
     {
         $this->type = $type;
+        $this->error = "The type specified for this collection is {$type}, you cannot pass an object of type %s";
 
         foreach ($data as $value) {
-            $this->checkType($value);
+            Checker::objectIsOfType($value, $this->type, sprintf($this->error, get_class($value)));
         }
         
         parent::__construct($data);
@@ -45,43 +58,18 @@ class GenericList extends BaseCollection implements CollectionInterface, Iterabl
      * Adds a new object to the collection.
      *
      * @param mixed $value
+     * @throws \InvalidArgumentException
      * 
      * @return void
      */
     public function add($value): void
     {
-        $this->checkType($value);
+        Checker::objectIsOfType($value, $this->type, sprintf($this->error, get_class($value)));
 
         $data = $this->toArray();
 
         array_push($data, $value);
         $this->dataHolder->setContainer($data);
-    }
-
-    /**
-     * Determines if the passed data is
-     * of the type specified in the type
-     * attribute, if not throws and Exception.
-     *
-     * @param mixed $data
-     * @throws \InvalidArgumentException
-     * 
-     * @return void
-     */
-    private function checkType($data): void
-    {
-        if (! is_object($data)) {
-            throw new InvalidArgumentException('You cannot store primitive types on a GenericList');
-        }
-
-        if (! $data instanceof $this->type) {
-            throw new InvalidArgumentException(
-                sprintf(
-                    'The type specified for this collection is %s, you cannot pass an object of type %s',
-                    $this->type, get_class($data)
-                )
-            );
-        }
     }
 
     /**
@@ -209,13 +197,14 @@ class GenericList extends BaseCollection implements CollectionInterface, Iterabl
      * collection and returns a new one.
      *
      * @param array $data
+     * @throws \InvalidArgumentException
      * 
      * @return \PHPCollections\Collections\GenericList
      */
     public function merge(array $data): GenericList
     {
         foreach ($data as $value) {
-            $this->checkType($value);
+            Checker::objectIsOfType($value, $this->type, sprintf($this->error, get_class($value)));
         }
 
         return new $this($this->type, ...array_merge($this->toArray(), $data));
@@ -339,13 +328,14 @@ class GenericList extends BaseCollection implements CollectionInterface, Iterabl
      *
      * @param int $index
      * @param mixed $value
+     * @throws \InvalidArgumentException     
      * @throws \PHPCollections\Exceptions\InvalidOperationException
      * 
      * @return bool
      */
-    public function update(int $index, $value): bool
+    public function update(int $index, object $value): bool
     {
-        $this->checkType($value);
+        Checker::objectIsOfType($value, $this->type, sprintf($this->error, get_class($value)));
 
         if (! $this->exists($index)) {
             throw new InvalidOperationException('You cannot update a non-existent value');
