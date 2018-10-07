@@ -74,11 +74,21 @@ abstract class BaseCollection implements Countable, JsonSerializable
      */
     public function first()
     {
-        if ($this->count() === 0) {
+        if ($this->isEmpty()) {
             throw new OutOfRangeException('You\'re trying to get data from an empty collection');
         }
 
         return array_values($this->toArray())[0];
+    }
+
+    /**
+     * Checks if the collection is empty.
+     *
+     * @return bool
+     */
+    public function isEmpty(): bool
+    {
+        return $this->count() === 0;
     }
 
     /**
@@ -101,7 +111,7 @@ abstract class BaseCollection implements Countable, JsonSerializable
      */
     public function last()
     {
-        if ($this->count() === 0) {
+        if ($this->isEmpty()) {
             throw new OutOfRangeException('You\'re trying to get data from an empty collection');
         }
 
