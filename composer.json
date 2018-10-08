@@ -38,7 +38,7 @@
         ]
     },
     "require-dev": {
-        "phpunit/phpunit": "^6.4",
+        "phpunit/phpunit": "^7.4",
         "evert/phpdoc-md": "^0.2.0"
     }
 }
