@@ -1,3 +1,7 @@
+[![StyleCI](https://github.styleci.io/repos/106444310/shield?branch=master)](https://github.styleci.io/repos/106444310)
+[![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/maxalmonte14/phpcollections/badges/quality-score.png?b=master)](https://scrutinizer-ci.com/g/maxalmonte14/phpcollections/?branch=master)
+[![Build Status](https://scrutinizer-ci.com/g/maxalmonte14/phpcollections/badges/build.png?b=master)](https://scrutinizer-ci.com/g/maxalmonte14/phpcollections/build-status/master)
+
 ## About PHPCollections
 
 PHPCollections is a set of data structures that try to make your life easier when you're working with PHP and large sets of data. Inspired by languages like Java or C#, PHPCollections offers data structures like List, Map, Stack and more, check it out!
@@ -5,14 +9,14 @@ PHPCollections is a set of data structures that try to make your life easier whe
 ## Requirements
 
 ```
-PHP >= 7.1
+PHP >= 7.2
 ```
 
 ## Installation
 
 ```
 composer require "maxalmonte14/phpcollections"
-``` 
+```
 
 ## Examples
 
