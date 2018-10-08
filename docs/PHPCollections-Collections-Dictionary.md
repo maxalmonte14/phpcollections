@@ -8,7 +8,7 @@ type key and value.
 * Class name: Dictionary
 * Namespace: PHPCollections\Collections
 * This class extends: BaseCollection
-* This class implements: DictionaryInterface
+* This class implements: DictionaryInterface, MergeableInterface, SortableInterface
 
 Properties
 ----------
@@ -38,7 +38,7 @@ Methods
 
     void PHPCollections\Collections\Dictionary::__construct(mixed $keyType, mixed $valueType, array $data = [])
 
-Initializes the class properties.
+Creates a new Dictionary.
 
 * Visibility: **public**
 
@@ -46,6 +46,9 @@ Initializes the class properties.
 * $keyType **mixed**
 * $valueType **mixed**
 * $data **array**
+
+#### Throws
+* **\InvalidArgumentException**
 
 ### add
 
@@ -58,19 +61,6 @@ Adds a new value to the dictionary.
 #### Arguments
 * $key **mixed**
 * $value **mixed**
-
-### checkType
-
-    void PHPCollections\Collections\Dictionary::checkType(mixed $values)
-
-Determines if the passed data is
-of the type specified in the keyType/valueType
-attribute, if not throws and InvalidArgumentException.
-
-* Visibility: **private**
-
-#### Arguments
-* $values **mixed**
 
 #### Throws
 * **\InvalidArgumentException**
@@ -97,17 +87,6 @@ Finds an element based on a given callback.
 
 #### Arguments
 * $callback **callable**
-
-### first
-
-    mixed PHPCollections\Collections\Dictionary::first()
-
-Returns the first element in the collection.
-
-* Visibility: **public**
-
-#### Throws
-**\PHPCollections\Exceptions\InvalidOperationException**
 
 ### forEach
 
@@ -159,18 +138,6 @@ Populates the container with Pair objects.
 #### Arguments
 * $data **array**
 
-### last
-
-    mixed PHPCollections\Collections\Dictionary::last()
-
-Returns the last element of
-the collection.
-
-* Visibility: **public**
-
-#### Throws
-* **\PHPCollections\Exceptions\InvalidOperationException**
-
 ### map
 
     ?Dictionary PHPCollections\Collections\Dictionary::map(callable $callback)
@@ -194,9 +161,12 @@ Merges two dictionaries into a new one.
 #### Arguments
 * $newDictionary **PHPCollections\Collections\Dictionary**
 
+#### Throws
+* **\InvalidArgumentException**
+
 ### remove
 
-    bool PHPCollections\Collections\Dictionary::remove(mixed key)
+    boolean PHPCollections\Collections\Dictionary::remove(mixed key)
 
 Removes a value from the dictionary.
 
@@ -209,8 +179,7 @@ Removes a value from the dictionary.
 
     ?Dictionary PHPCollections\Collections\Dictionary::sort(callable $callback)
 
-Sorts the collection data by values
-applying a given callback.
+Returns a new Dictionary with the values ordered by a given callback if couldn't sort returns null.
 
 * Visibility: **public**
 
@@ -241,7 +210,7 @@ of your dictionary data.
 
 ### update
 
-    bool PHPCollections\Collections\Dictionary::update(mixed $key, mixed $value)
+    boolean PHPCollections\Collections\Dictionary::update(mixed $key, mixed $value)
 
 Updates the value of one Pair
 in the collection.
@@ -251,3 +220,22 @@ in the collection.
 #### Arguments
 * $key **mixed**
 * $value **mixed**
+
+#### Throws
+* **\InvalidArgumentException**
+* **\PHPCollections\Exceptions\InvalidOperationException**
+
+### validateEntry
+
+    boolean PHPCollections\Collections\Dictionary::validateEntry(mixed $key, mixed $value)
+
+Validates that a key and value are of the specified types in the class.
+
+* Visibility: **private**
+
+#### Arguments
+* $key **mixed**
+* $value **mixed**
+
+#### Throws
+* **\InvalidArgumentException**

@@ -62,12 +62,42 @@ exists in the collection.
 #### Arguments
 * $offset **mixed**
 
+### first
+
+    mixed PHPCollections\Collections\BaseCollection::first()
+
+Gets the first element in the collection.
+
+* Visibility: **public**
+
+#### Throws
+**\OutOfRangeException**
+
+### isEmpty
+
+    boolean PHPCollections\Collections\BaseCollection::isEmpty()
+
+Checks if the collection is empty.
+
+* Visibility: **public**
+
+#### Throws
+**\OutOfRangeException**
+
 ### jsonSerialize
 
     array PHPCollections\Collections\BaseCollection::jsonSerialize()
 
 Defines the behavior of the collection
 when json_encode is called.
+
+* Visibility: **public**
+
+### last
+
+    mixed PHPCollections\Collections\BaseCollection::last()
+
+Gets the last element in the collection.
 
 * Visibility: **public**
 

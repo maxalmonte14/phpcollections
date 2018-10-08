@@ -97,9 +97,7 @@ class DictionaryTest extends TestCase
     public function canRemoveDataByIndex()
     {
         $this->dictionary->add('post', 'Lorem ipsum dolor sit amet...');
-        $removed = $this->dictionary->remove('post');
-        
-        $this->assertTrue($removed);
+        $this->dictionary->remove('post');
         $this->assertArrayNotHasKey('post', $this->dictionary->toArray());
     }
 

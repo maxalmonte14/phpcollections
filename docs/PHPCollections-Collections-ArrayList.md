@@ -5,7 +5,7 @@ A list of values of any type.
 
 * Class name: ArrayList
 * Namespace: PHPCollections\Collections
-* This class implements: CollectionInterface, IterableInterface, SortableInterface
+* This class implements: CollectionInterface, IterableInterface, MergeableInterface, SortableInterface
 
 Methods
 -------
@@ -58,17 +58,6 @@ for the given callback or null.
 * $callback **callable**
 * $shouldStop **boolean**
 
-### first
-
-    mixed PHPCollections\Collections\ArrayList::first()
-
-Gets the first element of the collection.
-
-* Visibility: **public**
-
-#### Throws
-**\OutOfRangeException**
-
 ### forEach
 
     void PHPCollections\Collections\ArrayList::forEach(callable $callback)
@@ -92,14 +81,6 @@ at the given index.
 #### Arguments
 * $offset **integer**
 
-### last
-
-    mixed PHPCollections\Collections\ArrayList::last()
-
-Gets the last element of the collection.
-
-* Visibility: **public**
-
 ### map
 
     ?ArrayList PHPCollections\Collections\ArrayList::map(callable $callback)
@@ -114,15 +95,14 @@ applying a given callback function.
 
 ### merge
 
-    ArrayList PHPCollections\Collections\ArrayList::merge(array $data)
+    ArrayList PHPCollections\Collections\ArrayList::merge(ArrayList $newArrayList)
 
-Merges new data with the actual
-collection and returns a new one.
+Merges two ArrayList into a new one.
 
 * Visibility: **public**
 
 #### Arguments
-* $data **array**
+* $newArrayList **\PHPCollections\Collections\ArrayList**
 
 ### rand
 
@@ -165,10 +145,9 @@ reversed values.
 
 ### sort
 
-    bool PHPCollections\Collections\ArrayList::sort(callable $callback)
+    ?ArrayList PHPCollections\Collections\ArrayList::sort(callable $callback)
 
-Sorts collection's data by values
-applying a given callback.
+Returns a new ArrayList with the values ordered by a given callback if couldn't sort returns null.
 
 * Visibility: **public**
 

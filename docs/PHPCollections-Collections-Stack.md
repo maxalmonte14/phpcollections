@@ -34,28 +34,12 @@ Methods
 
     void PHPCollections\Collections\Stack::__construct(string $type)
 
-Initialize class properties.
+Creates a new Stack.
 
 * Visibility: **public**
 
 #### Arguments
 * $type **string**
-
-### checkType
-
-    void PHPCollections\Collections\Stack::checkType(mixed $value)
-
-Determines if the passed value is
-of the type specified in the type
-attribute, if not raises and Exception.
-
-* Visibility: **private**
-
-#### Arguments
-* $value **mixed**
-
-#### Throws
-* **\InvalidArgumentException**
 
 ### clear
 
@@ -110,3 +94,6 @@ the end of the Stack.
 
 #### Arguments
 * $value **mixed**
+
+#### Throws
+* **\InvalidArgumentException**

@@ -6,14 +6,22 @@ A list for a generic type of data.
 * Class name: GenericList
 * Namespace: PHPCollections\Collections
 * This class extends: BaseCollection
-* This class implements: CollectionInterface, IterableInterface, SortableInterface
+* This class implements: ObjectCollectionInterface, IterableInterface, MergeableInterface,SortableInterface
 
 Properties
 ----------
 
+### $error
+
+    private string $error
+
+The error message to show when someone try to store a value of a different type than the specified in the type property.
+
+* Visibility: **private**
+
 ### $type
 
-    private mixed $type
+    private string $type
 
 The type of data that
 will be stored.
@@ -25,15 +33,18 @@ Methods
 
 ### __construct
 
-    void PHPCollections\Collections\GenericList::__construct(string $type, array $data)
+    void PHPCollections\Collections\GenericList::__construct(string $type, object ...$data)
 
-Initializes the class properties.
+Creates a new GenericList.
 
 * Visibility: **public**
 
 #### Arguments
 * $type **string**
-* $data **array**
+* $data **object ...**
+
+#### Throws
+* **\InvalidArgumentException**
 
 ### add
 
@@ -45,19 +56,6 @@ Adds a new object to the collection.
 
 #### Arguments
 * $value **mixed**
-
-### checkType
-
-    void PHPCollections\Collections\GenericList::checkType(mixed $data)
-
-Determines if the passed data is
-of the type specified in the type
-attribute, if not throws and Exception.
-
-* Visibility: **private**
-
-#### Arguments
-* $values **mixed**
 
 #### Throws
 * **\InvalidArgumentException**
@@ -86,17 +84,6 @@ matches whith the callback criteria.
 #### Arguments
 * $callback **callable**
 
-### first
-
-    mixed PHPCollections\Collections\GenericList::first()
-
-Gets the first element of the collection.
-
-* Visibility: **public**
-
-#### Throws
-**\OutOfRangeException**
-
 ### forEach
 
     void PHPCollections\Collections\GenericList::forEach(callable $callback)
@@ -123,17 +110,6 @@ or null if it's not defined.
 #### Throws
 * **\OutOfRangeException**
 
-### last
-
-    mixed PHPCollections\Collections\GenericList::last()
-
-Gets the last element of the collection.
-
-* Visibility: **public**
-
-#### Throws
-* **\OutOfRangeException**
-
 ### map
 
     ?GenericList PHPCollections\Collections\GenericList::map(callable $callback)
@@ -148,15 +124,17 @@ applying a given callback function.
 
 ### merge
 
-    GenericList PHPCollections\Collections\GenericList::merge(array $data)
+    GenericList PHPCollections\Collections\GenericList::merge(GenericList $newGenericList)
 
-Merges new data with the actual
-collection and returns a new one.
+Merges two GenericList into a new one.
 
 * Visibility: **public**
 
 #### Arguments
-* $data **array**
+* $data **\PHPCollections\Collections\GenericList**
+
+#### Throws
+* **\InvalidArgumentException**
 
 ### rand
 
@@ -217,10 +195,9 @@ the collection.
 
 ### sort
 
-    bool PHPCollections\Collections\GenericList::sort(callable $callback)
+    ?GenericList PHPCollections\Collections\GenericList::sort(callable $callback)
 
-Sorts the collection data by values
-applying a given callback.
+Returns a new GenericList with the values ordered by a given callback if couldn't sort returns null.
 
 * Visibility: **public**
 
@@ -242,3 +219,4 @@ at the given index.
 
 #### Throws
 * **\PHPCollections\Exceptions\InvalidOperationException**
+* **\InvalidArgumentException**
