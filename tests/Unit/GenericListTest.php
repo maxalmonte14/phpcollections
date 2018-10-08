@@ -140,6 +140,7 @@ class GenericListTest extends TestCase
     {
         $newList = $this->list->map(function ($value) {
             $value['name'] = sprintf('%s %s', 'Sr.', $value['name']);
+
             return $value;
         });
         $this->assertEquals('Sr. John', $newList->get(0)->offsetGet('name'));

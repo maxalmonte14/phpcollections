@@ -95,6 +95,7 @@ class Stack implements Countable
      * the end of the Stack.
      *
      * @param mixed $value
+     *
      * @throws \InvalidArgumentException
      *
      * @return mixed

@@ -194,6 +194,7 @@ class Dictionary extends BaseCollection implements DictionaryInterface, Mergeabl
      * Merges two dictionaries into a new one.
      *
      * @param \PHPCollections\Collections\Dictionary $newDictionary
+     *
      * @throws \InvalidArgumentException
      *
      * @return \PHPCollections\Collections\Dictionary
@@ -220,6 +221,7 @@ class Dictionary extends BaseCollection implements DictionaryInterface, Mergeabl
      * Removes a value from the dictionary.
      *
      * @param mixed $key
+     *
      * @throws \OutOfRangeException
      *
      * @return bool

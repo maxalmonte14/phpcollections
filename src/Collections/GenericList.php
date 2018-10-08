@@ -39,7 +39,7 @@ class GenericList extends BaseCollection implements ObjectCollectionInterface, I
      * Creates a new GenericList.
      *
      * @param string $type
-     * @param array $data
+     * @param array  $data
      *
      * @throws \InvalidArgumentException
      */
