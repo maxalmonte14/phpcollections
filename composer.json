@@ -1,7 +1,19 @@
 {
     "name": "maxalmonte14/phpcollections",
     "description": "A set of collections for PHP.",
-    "keywords": ["collection"],
+    "keywords": [
+        "collection",
+        "php",
+        "php7",
+        "php-library",
+        "collections",
+        "collection",
+        "generic",
+        "arraylist",
+        "stack",
+        "dictionary",
+        "pair"
+    ],
     "license": "MIT",
     "support": {
         "issues": "https://github.com/maxalmonte14/phpcollections/issues",
@@ -15,7 +27,7 @@
         }
     ],
     "require": {
-        "php": ">=7.1"
+        "php": ">=7.2"
     },
     "autoload": {
         "psr-4": {
