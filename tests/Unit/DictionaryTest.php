@@ -2,9 +2,9 @@
 
 namespace Tests\Unit;
 
-use \ArrayObject;
-use PHPUnit\Framework\TestCase;
+use ArrayObject;
 use PHPCollections\Collections\Dictionary;
+use PHPUnit\Framework\TestCase;
 
 class DictionaryTest extends TestCase
 {
@@ -69,7 +69,7 @@ class DictionaryTest extends TestCase
         $this->assertEquals('programmer', $job);
 
         $nullPointer = $this->dictionary->get('posts');
-        
+
         $this->assertNull($nullPointer);
     }
 
@@ -88,7 +88,7 @@ class DictionaryTest extends TestCase
     public function canConvertDictionaryToArray()
     {
         $array = $this->dictionary->toArray();
-        
+
         $this->assertArrayHasKey('job', $array);
         $this->assertEquals('programmer', $array['job']);
     }
@@ -107,7 +107,7 @@ class DictionaryTest extends TestCase
         $dictionary = new Dictionary('string', 'array');
         $dictionary->add('books', ['Code smart', 'JS the good parts', 'Laravel up and running']);
         $dictionary->add('videogames', ['Assasin Creed', 'God of war', 'Need for speed']);
-        
+
         $newDictionary = $dictionary->filter(function ($key, $value) {
             return $key === 'videogames';
         });
@@ -126,7 +126,7 @@ class DictionaryTest extends TestCase
         $this->assertEquals('Max', $this->dictionary->first());
 
         $newDictionary = new Dictionary('string', 'int');
-        
+
         $newDictionary->first(); // Here an InvalidOperationException is thrown!
     }
 
@@ -139,7 +139,7 @@ class DictionaryTest extends TestCase
     {
         $this->assertEquals('23', $this->dictionary->last());
         $newDictionary = new Dictionary('string', 'int');
-        
+
         $newDictionary->last(); // Here an InvalidOperationException is thrown!
     }
 
@@ -150,7 +150,7 @@ class DictionaryTest extends TestCase
     public function canUpdateElementByIndex()
     {
         $isUpdated = $this->dictionary->update('job', 'PHP developer');
-        
+
         $this->assertTrue($isUpdated);
         $this->assertEquals('PHP developer', $this->dictionary->get('job'));
         $this->dictionary->update('height', '2.80'); // Here an InvalidOperationException is thrown!
@@ -166,7 +166,7 @@ class DictionaryTest extends TestCase
         $dictionary1->add('english-spanish', ['one' => 'uno', 'two' => 'dos']);
 
         $translations = $dictionary1->merge(
-            new Dictionary('string', 'array', ['english-japanese' => array('one' => 'ichi', 'two' => 'ni')])
+            new Dictionary('string', 'array', ['english-japanese' => ['one' => 'ichi', 'two' => 'ni']])
         );
 
         $this->assertNotNull($translations);
@@ -184,7 +184,7 @@ class DictionaryTest extends TestCase
     public function canGetKeyType()
     {
         $key = $this->dictionary->getKeyType();
-        
+
         $this->assertInternalType('string', $key);
     }
 
@@ -192,7 +192,7 @@ class DictionaryTest extends TestCase
     public function canGetValueType()
     {
         $value = $this->dictionary->getValueType();
-        
+
         $this->assertInternalType('string', $value);
     }
 
@@ -202,7 +202,7 @@ class DictionaryTest extends TestCase
         $sortedDictionary = $this->dictionary->sort(function ($x, $y) {
             return strlen($x) <=> strlen($y);
         });
-        
+
         $this->assertEquals('a little bit', $sortedDictionary->last());
     }
 
@@ -210,7 +210,7 @@ class DictionaryTest extends TestCase
     public function canIterateOverEachElement()
     {
         $this->dictionary->forEach(function (&$value, $key) {
-            $value = $value . 'x';
+            $value = $value.'x';
         });
 
         $this->assertEquals('Maxx', $this->dictionary->get('name'));

@@ -57,7 +57,7 @@ abstract class BaseCollection implements Countable, JsonSerializable
      * exists in the collection.
      *
      * @param mixed $offset
-     * 
+     *
      * @return bool
      */
     public function exists($offset): bool
@@ -69,7 +69,7 @@ abstract class BaseCollection implements Countable, JsonSerializable
      * Gets the first element in the collection.
      *
      * @throws \OutOfRangeException
-     * 
+     *
      * @return mixed
      */
     public function first()
@@ -106,7 +106,7 @@ abstract class BaseCollection implements Countable, JsonSerializable
      * Gets the last element of the collection.
      *
      * @throws \OutOfRangeException
-     * 
+     *
      * @return mixed
      */
     public function last()

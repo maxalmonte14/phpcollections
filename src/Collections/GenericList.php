@@ -5,13 +5,12 @@ declare(strict_types=1);
 namespace PHPCollections\Collections;
 
 use OutOfRangeException;
-use InvalidArgumentException;
 use PHPCollections\Checker;
+use PHPCollections\Exceptions\InvalidOperationException;
 use PHPCollections\Interfaces\IterableInterface;
-use PHPCollections\Interfaces\SortableInterface;
 use PHPCollections\Interfaces\MergeableInterface;
 use PHPCollections\Interfaces\ObjectCollectionInterface;
-use PHPCollections\Exceptions\InvalidOperationException;
+use PHPCollections\Interfaces\SortableInterface;
 
 /**
  * A list for a generic type of data.
@@ -23,7 +22,7 @@ class GenericList extends BaseCollection implements ObjectCollectionInterface, I
      * someone try to store a value of a
      * different type than the specified
      * in the type property.
-     * 
+     *
      * @var string
      */
     private $error;
@@ -41,7 +40,8 @@ class GenericList extends BaseCollection implements ObjectCollectionInterface, I
      *
      * @param string $type
      * @param array $data
-     * @throws \InvalidArgumentException 
+     *
+     * @throws \InvalidArgumentException
      */
     public function __construct(string $type, object ...$data)
     {
@@ -51,7 +51,7 @@ class GenericList extends BaseCollection implements ObjectCollectionInterface, I
         foreach ($data as $value) {
             Checker::objectIsOfType($value, $this->type, sprintf($this->error, get_class($value)));
         }
-        
+
         parent::__construct($data);
     }
 
@@ -59,8 +59,9 @@ class GenericList extends BaseCollection implements ObjectCollectionInterface, I
      * Adds a new object to the collection.
      *
      * @param mixed $value
+     *
      * @throws \InvalidArgumentException
-     * 
+     *
      * @return void
      */
     public function add($value): void
@@ -78,10 +79,10 @@ class GenericList extends BaseCollection implements ObjectCollectionInterface, I
      * for the given callback or null.
      *
      * @param callable $callback
-     * 
+     *
      * @return \PHPCollections\Collections\GenericList|null
      */
-    public function filter(callable $callback): ?GenericList
+    public function filter(callable $callback): ?self
     {
         $matcheds = [];
 
@@ -90,7 +91,7 @@ class GenericList extends BaseCollection implements ObjectCollectionInterface, I
                 $matcheds[] = $value;
             }
         }
-        
+
         return count($matcheds) > 0 ? new $this($this->type, ...array_values($matcheds)) : null;
     }
 
@@ -99,7 +100,7 @@ class GenericList extends BaseCollection implements ObjectCollectionInterface, I
      * matches whith the callback criteria.
      *
      * @param callable $callback
-     * 
+     *
      * @return mixed
      */
     public function find(callable $callback)
@@ -113,7 +114,7 @@ class GenericList extends BaseCollection implements ObjectCollectionInterface, I
      * Iterates over every element of the collection.
      *
      * @param callable $callback
-     * 
+     *
      * @return void
      */
     public function forEach(callable $callback): void
@@ -128,9 +129,10 @@ class GenericList extends BaseCollection implements ObjectCollectionInterface, I
      * Returns the object at the specified index
      * or null if it's not defined.
      *
-     * @param int $offset.
+     * @param int $offset
+     *
      * @throws \OutOfRangeException
-     * 
+     *
      * @return object
      */
     public function get(int $offset): object
@@ -138,8 +140,8 @@ class GenericList extends BaseCollection implements ObjectCollectionInterface, I
         if ($this->isEmpty()) {
             throw new OutOfRangeException('You\'re trying to get data from an empty collection.');
         }
-        
-        if (! $this->dataHolder->offsetExists($offset)) {
+
+        if (!$this->dataHolder->offsetExists($offset)) {
             throw new OutOfRangeException(sprintf('The %d index do not exits for this collection.', $offset));
         }
 
@@ -151,10 +153,10 @@ class GenericList extends BaseCollection implements ObjectCollectionInterface, I
      * applying a given callback function.
      *
      * @param callable $callback
-     * 
+     *
      * @return \PHPCollections\Collections\GenericList|null
      */
-    public function map(callable $callback): ?GenericList
+    public function map(callable $callback): ?self
     {
         $matcheds = array_map($callback, $this->toArray());
 
@@ -165,8 +167,9 @@ class GenericList extends BaseCollection implements ObjectCollectionInterface, I
      * Merges two GenericList into a new one.
      *
      * @param array $data
+     *
      * @throws \InvalidArgumentException
-     * 
+     *
      * @return \PHPCollections\Collections\GenericList
      */
     public function merge(BaseCollection $newGenericList): BaseCollection
@@ -183,7 +186,7 @@ class GenericList extends BaseCollection implements ObjectCollectionInterface, I
      * the collection.
      *
      * @throws \PHPCollections\Exceptions\InvalidOperationException
-     * 
+     *
      * @return mixed
      */
     public function rand()
@@ -193,7 +196,7 @@ class GenericList extends BaseCollection implements ObjectCollectionInterface, I
         }
 
         $randomIndex = array_rand($this->toArray());
-        
+
         return $this->get($randomIndex);
     }
 
@@ -202,8 +205,9 @@ class GenericList extends BaseCollection implements ObjectCollectionInterface, I
      * and repopulate the data container.
      *
      * @param int $offset
+     *
      * @throws \OutOfRangeException
-     * 
+     *
      * @return void
      */
     public function remove(int $offset): void
@@ -211,8 +215,8 @@ class GenericList extends BaseCollection implements ObjectCollectionInterface, I
         if ($this->isEmpty()) {
             throw new OutOfRangeException('You\'re trying to remove data into a empty collection.');
         }
-        
-        if (! $this->dataHolder->offsetExists($offset)) {
+
+        if (!$this->dataHolder->offsetExists($offset)) {
             throw new OutOfRangeException(sprintf('The %d index do not exits for this collection.', $offset));
         }
 
@@ -236,10 +240,10 @@ class GenericList extends BaseCollection implements ObjectCollectionInterface, I
      * reversed values.
      *
      * @throws \PHPCollections\Exceptions\InvalidOperationException
-     * 
+     *
      * @return \PHPCollections\Collections\GenericList
      */
-    public function reverse(): GenericList
+    public function reverse(): self
     {
         if ($this->isEmpty()) {
             throw new InvalidOperationException('You cannot reverse an empty collection.');
@@ -253,11 +257,11 @@ class GenericList extends BaseCollection implements ObjectCollectionInterface, I
      * the collection.
      *
      * @param callable $callback
-     * @param boolean $shouldStop
-     * 
+     * @param bool     $shouldStop
+     *
      * @return PHPCollections\GenericList|null
      */
-    public function search(callable $callback, bool $shouldStop = false): ?GenericList
+    public function search(callable $callback, bool $shouldStop = false): ?self
     {
         $matcheds = [];
 
@@ -277,40 +281,41 @@ class GenericList extends BaseCollection implements ObjectCollectionInterface, I
      * Returns a new GenericList with the
      * values ordered by a given callback
      * if couldn't sort returns null.
-     * 
+     *
      *
      * @param callable $callback
-     * 
+     *
      * @return \PHPCollections\Collections\GenericList|null
      */
     public function sort(callable $callback): ?BaseCollection
     {
         $data = $this->toArray();
 
-        return usort($data, $callback) ? new $this($this->type, ...$data): null;
+        return usort($data, $callback) ? new $this($this->type, ...$data) : null;
     }
 
     /**
      * Updates the value of the element
      * at the given index.
      *
-     * @param int $index
+     * @param int   $index
      * @param mixed $value
-     * @throws \InvalidArgumentException     
+     *
+     * @throws \InvalidArgumentException
      * @throws \PHPCollections\Exceptions\InvalidOperationException
-     * 
+     *
      * @return bool
      */
     public function update(int $index, object $value): bool
     {
         Checker::objectIsOfType($value, $this->type, sprintf($this->error, get_class($value)));
 
-        if (! $this->exists($index)) {
+        if (!$this->exists($index)) {
             throw new InvalidOperationException('You cannot update a non-existent value');
         }
 
         $this->dataHolder[$index] = $value;
-        
+
         return $this->dataHolder[$index] === $value;
     }
 }

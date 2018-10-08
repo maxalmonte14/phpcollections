@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace PHPCollections\Collections;
 
 use Countable;
-use InvalidArgumentException;
 use PHPCollections\Checker;
 
 /**
@@ -97,7 +96,7 @@ class Stack implements Countable
      *
      * @param mixed $value
      * @throws \InvalidArgumentException
-     * 
+     *
      * @return mixed
      */
     public function push($value)
@@ -110,7 +109,7 @@ class Stack implements Countable
         Checker::valueIsOfType($value, $this->type, $message);
 
         $this->data[] = $value;
-        
+
         return $value;
     }
 }

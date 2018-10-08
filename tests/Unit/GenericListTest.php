@@ -2,10 +2,10 @@
 
 namespace Tests\Unit;
 
-use StdClass;
 use ArrayObject;
-use PHPUnit\Framework\TestCase;
 use PHPCollections\Collections\GenericList;
+use PHPUnit\Framework\TestCase;
+use StdClass;
 
 class GenericListTest extends TestCase
 {
@@ -53,7 +53,7 @@ class GenericListTest extends TestCase
     /**
      * @test
      * @expectedException InvalidArgumentException
-     * @expectedExceptionMessage The type specified for this collection is 
+     * @expectedExceptionMessage The type specified for this collection is
      * ArrayObject, you cannot pass an object of type stdClass
      */
     public function canNotAddAnElementOfDifferentTypeToList()
@@ -230,7 +230,7 @@ class GenericListTest extends TestCase
     public function canIterateOverEachElement()
     {
         $this->list->forEach(function ($value, $key) {
-            $value->offsetSet('name', $value->offsetGet('name') . 'x');
+            $value->offsetSet('name', $value->offsetGet('name').'x');
         });
 
         $this->assertEquals('Johnx', $this->list->get(0)->offsetGet('name'));

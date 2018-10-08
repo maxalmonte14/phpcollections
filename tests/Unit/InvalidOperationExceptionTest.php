@@ -2,9 +2,8 @@
 
 namespace Tests\Unit;
 
-use PHPUnit\Framework\TestCase;
-use PHPCollections\GenericList;
 use PHPCollections\Exceptions\InvalidOperationException;
+use PHPUnit\Framework\TestCase;
 
 class InvalidOperationExceptionTest extends TestCase
 {

@@ -7,10 +7,10 @@ namespace PHPCollections\Interfaces;
 interface DictionaryInterface
 {
     public function add($key, $value): void;
-    
+
     public function get($key);
 
     public function remove($key): void;
 
-    public function update($key, $value): bool;    
+    public function update($key, $value): bool;
 }

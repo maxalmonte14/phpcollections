@@ -5,11 +5,11 @@ declare(strict_types=1);
 namespace PHPCollections\Collections;
 
 use OutOfRangeException;
-use PHPCollections\Interfaces\IterableInterface;
-use PHPCollections\Interfaces\SortableInterface;
-use PHPCollections\Interfaces\MergeableInterface;
-use PHPCollections\Interfaces\CollectionInterface;
 use PHPCollections\Exceptions\InvalidOperationException;
+use PHPCollections\Interfaces\CollectionInterface;
+use PHPCollections\Interfaces\IterableInterface;
+use PHPCollections\Interfaces\MergeableInterface;
+use PHPCollections\Interfaces\SortableInterface;
 
 /**
  * A list of values of any type.
@@ -20,7 +20,7 @@ class ArrayList extends BaseCollection implements CollectionInterface, IterableI
      * Adds a new element to the collection.
      *
      * @param mixed $value
-     * 
+     *
      * @return void
      */
     public function add($value): void
@@ -36,7 +36,7 @@ class ArrayList extends BaseCollection implements CollectionInterface, IterableI
      * contains a given value.
      *
      * @param mixed $needle
-     * 
+     *
      * @return bool
      */
     public function contains($needle): bool
@@ -49,10 +49,10 @@ class ArrayList extends BaseCollection implements CollectionInterface, IterableI
      * for the given callback or null.
      *
      * @param callable $callback
-     * 
+     *
      * @return \PHPCollections\ArrayList|null
      */
-    public function filter(callable $callback): ?ArrayList
+    public function filter(callable $callback): ?self
     {
         $matcheds = [];
 
@@ -70,11 +70,11 @@ class ArrayList extends BaseCollection implements CollectionInterface, IterableI
      * in the collection.
      *
      * @param callable $callback
-     * @param bool $shouldStop
-     * 
+     * @param bool     $shouldStop
+     *
      * @return \PHPCollections\ArrayList|null
      */
-    public function find(callable $callback, bool $shouldStop = false): ?ArrayList
+    public function find(callable $callback, bool $shouldStop = false): ?self
     {
         $matcheds = [];
 
@@ -95,7 +95,7 @@ class ArrayList extends BaseCollection implements CollectionInterface, IterableI
      * Iterates over every element of the collection.
      *
      * @param callable $callback
-     * 
+     *
      * @return void
      */
     public function forEach(callable $callback): void
@@ -111,7 +111,7 @@ class ArrayList extends BaseCollection implements CollectionInterface, IterableI
      * at the given index.
      *
      * @param int $offset
-     * 
+     *
      * @return mixed
      */
     public function get(int $offset)
@@ -124,10 +124,10 @@ class ArrayList extends BaseCollection implements CollectionInterface, IterableI
      * applying a given callback function.
      *
      * @param callable $callback
-     * 
+     *
      * @return \PHPCollections\ArrayList|null
      */
-    public function map(callable $callback): ?ArrayList
+    public function map(callable $callback): ?self
     {
         $matcheds = array_map($callback, $this->toArray());
 
@@ -138,20 +138,20 @@ class ArrayList extends BaseCollection implements CollectionInterface, IterableI
      * Merges two ArrayList into a new one.
      *
      * @param \PHPCollections\Collections\ArrayList $newArrayList
-     * 
+     *
      * @return \PHPCollections\Collections\ArrayList
      */
     public function merge(BaseCollection $newArrayList): BaseCollection
     {
         return new $this(array_merge($this->toArray(), $newArrayList->toArray()));
     }
-    
+
     /**
      * Returns a random element of
      * the collection.
      *
      * @throws \PHPCollections\Exceptions\InvalidOperationException
-     * 
+     *
      * @return mixed
      */
     public function rand()
@@ -161,7 +161,7 @@ class ArrayList extends BaseCollection implements CollectionInterface, IterableI
         }
 
         $randomIndex = array_rand($this->dataHolder);
-        
+
         return $this->get($randomIndex);
     }
 
@@ -170,8 +170,9 @@ class ArrayList extends BaseCollection implements CollectionInterface, IterableI
      * and repopulates the data array.
      *
      * @param int $offset
+     *
      * @throws \OutOfRangeException
-     * 
+     *
      * @return void
      */
     public function remove(int $offset): void
@@ -179,7 +180,7 @@ class ArrayList extends BaseCollection implements CollectionInterface, IterableI
         if ($this->isEmpty()) {
             throw new OutOfRangeException('You\'re trying to remove data from an empty collection');
         }
-        
+
         if (!$this->dataHolder->offsetExists($offset)) {
             throw new OutOfRangeException(sprintf('The %d index does not exists for this collection', $offset));
         }
@@ -192,10 +193,10 @@ class ArrayList extends BaseCollection implements CollectionInterface, IterableI
      * reversed values.
      *
      * @throws \PHPCollections\Exceptions\InvalidOperationException
-     * 
+     *
      * @return \PHPCollections\ArrayList
      */
-    public function reverse(): ArrayList
+    public function reverse(): self
     {
         if ($this->isEmpty()) {
             throw new InvalidOperationException('You cannot reverse an empty collection');
@@ -210,7 +211,7 @@ class ArrayList extends BaseCollection implements CollectionInterface, IterableI
      * if couldn't sort returns null.
      *
      * @param callable $callback
-     * 
+     *
      * @return \PHPCollections\Collections\ArrayList|null
      */
     public function sort(callable $callback): ?BaseCollection
@@ -224,9 +225,9 @@ class ArrayList extends BaseCollection implements CollectionInterface, IterableI
      * Updates the value of the element
      * at the given index.
      *
-     * @param int $index
+     * @param int   $index
      * @param mixed $value
-     * 
+     *
      * @return bool
      */
     public function update(int $index, $value): bool
@@ -236,7 +237,7 @@ class ArrayList extends BaseCollection implements CollectionInterface, IterableI
         }
 
         $this->dataHolder->offsetSet($index, $value);
-        
+
         return $this->dataHolder->offsetGet($index) === $value;
     }
 }

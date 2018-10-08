@@ -2,9 +2,9 @@
 
 namespace Tests\Unit;
 
-use StdClass;
-use PHPUnit\Framework\TestCase;
 use PHPCollections\Collections\ArrayList;
+use PHPUnit\Framework\TestCase;
+use StdClass;
 
 class ArrayListTest extends TestCase
 {
@@ -84,13 +84,13 @@ class ArrayListTest extends TestCase
     {
         $newArrayList = $this->arrayList->map(function ($val) {
             if ($val == false) {
-                return "Empty value";
+                return 'Empty value';
             } else {
                 return $val;
             }
         });
 
-        $this->assertContains("Empty value", $newArrayList->toArray());
+        $this->assertContains('Empty value', $newArrayList->toArray());
     }
 
     /** @test */
@@ -115,8 +115,9 @@ class ArrayListTest extends TestCase
     /** @test */
     public function canMergeNewDataIntoNewArrayList()
     {
-        $numbers = new ArrayList([1,2,3,4,5]);
-        $newArrayList = $numbers->merge(new ArrayList([6,7,8,9,10]));
+        $numbers = new ArrayList([1, 2, 3, 4, 5]);
+        $newArrayList = $numbers->merge(new ArrayList([6, 7, 8, 9, 10]));
+
         $this->assertCount(10, $newArrayList);
         $this->assertEquals(1, $newArrayList->first());
         $this->assertEquals(10, $newArrayList->last());

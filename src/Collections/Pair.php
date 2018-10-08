@@ -41,7 +41,7 @@ class Pair
      * property by its value.
      *
      * @param string $name
-     * 
+     *
      * @return mixed
      */
     public function __get(string $name)
@@ -75,7 +75,7 @@ class Pair
      * Sets the value of the value property.
      *
      * @param mixed $value
-     * 
+     *
      * @return void
      */
     public function setValue($value): void

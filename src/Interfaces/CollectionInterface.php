@@ -7,7 +7,7 @@ namespace PHPCollections\Interfaces;
 interface CollectionInterface
 {
     public function add($value): void;
-    
+
     public function get(int $offset);
 
     public function remove(int $offset): void;

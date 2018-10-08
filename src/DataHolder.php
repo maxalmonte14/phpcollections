@@ -15,14 +15,14 @@ class DataHolder implements ArrayAccess, IteratorAggregate
 {
     /**
      * The array for storing data.
-     * 
+     *
      * @var array
      */
     private $container;
 
     /**
      * Initializes the container property.
-     * 
+     *
      * @param array $data
      */
     public function __construct(array $data = [])
@@ -32,7 +32,7 @@ class DataHolder implements ArrayAccess, IteratorAggregate
 
     /**
      * Returns the container array.
-     * 
+     *
      * @return array
      */
     public function getContainer(): array
@@ -55,7 +55,7 @@ class DataHolder implements ArrayAccess, IteratorAggregate
      * Checks if an offset exists in the container.
      *
      * @param mixed $offset
-     * 
+     *
      * @return bool
      */
     public function offsetExists($offset): bool
@@ -72,7 +72,7 @@ class DataHolder implements ArrayAccess, IteratorAggregate
      */
     public function offsetGet($offset)
     {
-        return $this->container[$offset] ?? null; 
+        return $this->container[$offset] ?? null;
     }
 
     /**
@@ -80,7 +80,7 @@ class DataHolder implements ArrayAccess, IteratorAggregate
      *
      * @param mixed $offset
      * @param mixed $value
-     * 
+     *
      * @return void
      */
     public function offsetSet($offset, $value): void
@@ -92,7 +92,7 @@ class DataHolder implements ArrayAccess, IteratorAggregate
      * Unsets an offset from the container.
      *
      * @param mixed $offset
-     * 
+     *
      * @return void
      */
     public function offsetUnset($offset): void
@@ -102,9 +102,9 @@ class DataHolder implements ArrayAccess, IteratorAggregate
 
     /**
      * Sets the container array.
-     * 
+     *
      * @param array $data
-     * 
+     *
      * @return void
      */
     public function setContainer(array $data): void

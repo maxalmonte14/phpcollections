@@ -2,8 +2,8 @@
 
 namespace Tests\Unit;
 
-use PHPUnit\Framework\TestCase;
 use PHPCollections\DataHolder;
+use PHPUnit\Framework\TestCase;
 
 class DataHolderTest extends TestCase
 {
@@ -13,7 +13,7 @@ class DataHolderTest extends TestCase
     {
         $this->dataHolder = new DataHolder([
             'name' => 'Max',
-            'age' => '24',
+            'age'  => '24',
         ]);
     }
 

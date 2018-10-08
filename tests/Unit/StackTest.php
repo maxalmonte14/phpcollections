@@ -2,8 +2,8 @@
 
 namespace Tests\Unit;
 
-use PHPUnit\Framework\TestCase;
 use PHPCollections\Collections\Stack;
+use PHPUnit\Framework\TestCase;
 
 class StackTest extends TestCase
 {

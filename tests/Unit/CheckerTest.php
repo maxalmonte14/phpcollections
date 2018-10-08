@@ -2,9 +2,9 @@
 
 namespace Tests\Unit;
 
-use StdClass;
 use PHPCollections\Checker;
 use PHPUnit\Framework\TestCase;
+use StdClass;
 
 class CheckerTest extends TestCase
 {
@@ -16,7 +16,7 @@ class CheckerTest extends TestCase
         $this->assertTrue($isChecked);
     }
 
-    /** 
+    /**
      * @test
      * @expectedException InvalidArgumentException
      * @expectedExceptionMessage You're not passing a stdClass object
@@ -34,7 +34,7 @@ class CheckerTest extends TestCase
         $this->assertTrue($isObject);
     }
 
-    /** 
+    /**
      * @test
      * @expectedException InvalidArgumentException
      * @expectedExceptionMessage You're not passing an object
@@ -52,7 +52,7 @@ class CheckerTest extends TestCase
         $this->assertTrue($isChecked);
     }
 
-    /** 
+    /**
      * @test
      * @expectedException InvalidArgumentException
      * @expectedExceptionMessage You're not passing a string

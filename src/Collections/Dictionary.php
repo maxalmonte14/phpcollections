@@ -4,12 +4,11 @@ declare(strict_types=1);
 
 namespace PHPCollections\Collections;
 
-use InvalidArgumentException;
 use PHPCollections\Checker;
-use PHPCollections\Interfaces\SortableInterface;
+use PHPCollections\Exceptions\InvalidOperationException;
 use PHPCollections\Interfaces\DictionaryInterface;
 use PHPCollections\Interfaces\MergeableInterface;
-use PHPCollections\Exceptions\InvalidOperationException;
+use PHPCollections\Interfaces\SortableInterface;
 
 /**
  * A Pair object collection
@@ -40,13 +39,14 @@ class Dictionary extends BaseCollection implements DictionaryInterface, Mergeabl
      * @param mixed $keyType
      * @param mixed $valueType
      * @param array $data
+     *
      * @throws \InvalidArgumentException
      */
     public function __construct($keyType, $valueType, array $data = [])
     {
         $this->keyType = $keyType;
         $this->valueType = $valueType;
-        
+
         foreach ($data as $key => $value) {
             $this->validateEntry($key, $value);
         }
@@ -60,8 +60,9 @@ class Dictionary extends BaseCollection implements DictionaryInterface, Mergeabl
      *
      * @param mixed $key
      * @param mixed $value
+     *
      * @throws \InvalidArgumentException
-     * 
+     *
      * @return void
      */
     public function add($key, $value): void
@@ -75,10 +76,10 @@ class Dictionary extends BaseCollection implements DictionaryInterface, Mergeabl
      * a given callback.
      *
      * @param callable $callback
-     * 
+     *
      * @return \PHPCollections\Collections\Dictionary|null
      */
-    public function filter(callable $callback): ?Dictionary
+    public function filter(callable $callback): ?self
     {
         $matcheds = [];
 
@@ -95,7 +96,7 @@ class Dictionary extends BaseCollection implements DictionaryInterface, Mergeabl
      * Finds an element based on a given callback.
      *
      * @param callable $callback
-     * 
+     *
      * @return mixed|null
      */
     public function find(callable $callback)
@@ -114,7 +115,7 @@ class Dictionary extends BaseCollection implements DictionaryInterface, Mergeabl
      * Iterates over every element of the collection.
      *
      * @param callable $callback
-     * 
+     *
      * @return void
      */
     public function forEach(callable $callback): void
@@ -130,7 +131,7 @@ class Dictionary extends BaseCollection implements DictionaryInterface, Mergeabl
      * key or null if it's not defined.
      *
      * @param mixed $key
-     * 
+     *
      * @return mixed|null
      */
     public function get($key)
@@ -164,7 +165,7 @@ class Dictionary extends BaseCollection implements DictionaryInterface, Mergeabl
      * Populates the container with Pair objects.
      *
      * @param array $data
-     * 
+     *
      * @return void
      */
     private function initializePairs(array $data): void
@@ -179,10 +180,10 @@ class Dictionary extends BaseCollection implements DictionaryInterface, Mergeabl
      * applying a given callback function.
      *
      * @param callable $callback
-     * 
+     *
      * @return \PHPCollections\Collections\Dictionary|null
      */
-    public function map(callable $callback): ?Dictionary
+    public function map(callable $callback): ?self
     {
         $matcheds = array_map($callback, $this->toArray());
 
@@ -194,7 +195,7 @@ class Dictionary extends BaseCollection implements DictionaryInterface, Mergeabl
      *
      * @param \PHPCollections\Collections\Dictionary $newDictionary
      * @throws \InvalidArgumentException
-     * 
+     *
      * @return \PHPCollections\Collections\Dictionary
      */
     public function merge(BaseCollection $newDictionary): BaseCollection
@@ -220,7 +221,7 @@ class Dictionary extends BaseCollection implements DictionaryInterface, Mergeabl
      *
      * @param mixed $key
      * @throws \OutOfRangeException
-     * 
+     *
      * @return bool
      */
     public function remove($key): void
@@ -228,7 +229,7 @@ class Dictionary extends BaseCollection implements DictionaryInterface, Mergeabl
         if ($this->isEmpty()) {
             throw new OutOfRangeException('You\'re trying to remove data from an empty collection');
         }
-        
+
         if (!$this->dataHolder->offsetExists($key)) {
             throw new OutOfRangeException(sprintf('The %s key does not exists for this collection', $key));
         }
@@ -242,7 +243,7 @@ class Dictionary extends BaseCollection implements DictionaryInterface, Mergeabl
      * if couldn't sort returns null.
      *
      * @param callable $callback
-     * 
+     *
      * @return \PHPCollections\Collections\Dictionary|null
      */
     public function sort(callable $callback): ?BaseCollection
@@ -286,9 +287,10 @@ class Dictionary extends BaseCollection implements DictionaryInterface, Mergeabl
      *
      * @param mixed $key
      * @param mixed $value
+     *
      * @throws \InvalidArgumentException
      * @throws \PHPCollections\Exceptions\InvalidOperationException
-     * 
+     *
      * @return bool
      */
     public function update($key, $value): bool
@@ -300,18 +302,19 @@ class Dictionary extends BaseCollection implements DictionaryInterface, Mergeabl
         }
 
         $this->dataHolder[$key]->setValue($value);
-        
+
         return $this->dataHolder[$key]->getValue() === $value;
     }
 
     /**
      * Validates that a key and value are of the
      * specified types in the class.
-     * 
+     *
      * @param mixed $key
      * @param mixed $value
+     *
      * @throws \InvalidArgumentException
-     * 
+     *
      * @return bool
      */
     private function validateEntry($key, $value): bool
@@ -319,14 +322,14 @@ class Dictionary extends BaseCollection implements DictionaryInterface, Mergeabl
         Checker::valueIsOfType(
             $key, $this->keyType,
             sprintf(
-                "The %s type specified for this dictionary is %s, you cannot pass %s %s",
+                'The %s type specified for this dictionary is %s, you cannot pass %s %s',
                 'key', $this->keyType, getArticle(gettype($key)), gettype($key)
             )
         );
         Checker::valueIsOfType(
             $value, $this->valueType,
             sprintf(
-                "The %s type specified for this dictionary is %s, you cannot pass %s %s",
+                'The %s type specified for this dictionary is %s, you cannot pass %s %s',
                 'value', $this->valueType, getArticle(gettype($value)), gettype($value)
             )
         );
