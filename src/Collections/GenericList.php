@@ -259,7 +259,7 @@ class GenericList extends BaseCollection implements ObjectCollectionInterface, I
      * @param callable $callback
      * @param bool     $shouldStop
      *
-     * @return PHPCollections\GenericList|null
+     * @return \PHPCollections\Collections\GenericList|null
      */
     public function search(callable $callback, bool $shouldStop = false): ?self
     {

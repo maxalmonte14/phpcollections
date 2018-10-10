@@ -50,7 +50,7 @@ class ArrayList extends BaseCollection implements CollectionInterface, IterableI
      *
      * @param callable $callback
      *
-     * @return \PHPCollections\ArrayList|null
+     * @return \PHPCollections\Collections\ArrayList|null
      */
     public function filter(callable $callback): ?self
     {
@@ -72,7 +72,7 @@ class ArrayList extends BaseCollection implements CollectionInterface, IterableI
      * @param callable $callback
      * @param bool     $shouldStop
      *
-     * @return \PHPCollections\ArrayList|null
+     * @return \PHPCollections\Collections\ArrayList|null
      */
     public function find(callable $callback, bool $shouldStop = false): ?self
     {
@@ -125,7 +125,7 @@ class ArrayList extends BaseCollection implements CollectionInterface, IterableI
      *
      * @param callable $callback
      *
-     * @return \PHPCollections\ArrayList|null
+     * @return \PHPCollections\Collections\ArrayList|null
      */
     public function map(callable $callback): ?self
     {
@@ -160,7 +160,7 @@ class ArrayList extends BaseCollection implements CollectionInterface, IterableI
             throw new InvalidOperationException('You cannot get a random element from an empty collection');
         }
 
-        $randomIndex = array_rand($this->dataHolder);
+        $randomIndex = array_rand($this->toArray());
 
         return $this->get($randomIndex);
     }
@@ -194,7 +194,7 @@ class ArrayList extends BaseCollection implements CollectionInterface, IterableI
      *
      * @throws \PHPCollections\Exceptions\InvalidOperationException
      *
-     * @return \PHPCollections\ArrayList
+     * @return \PHPCollections\Collections\ArrayList
      */
     public function reverse(): self
     {
