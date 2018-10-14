@@ -50,6 +50,14 @@ Returns the length of the collection.
 
 * Visibility: **public**
 
+### diff
+
+    Basecollection PHPCollections\Collections\BaseCollection::diff(Basecollection $collection)
+
+Gets the difference between two collections.
+
+* Visibility: **public abstract**
+
 ### exists
 
     boolean PHPCollections\Collections\BaseCollection::exists(mixed $offset)
