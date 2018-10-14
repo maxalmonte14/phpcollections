@@ -65,6 +65,20 @@ Adds a new value to the dictionary.
 #### Throws
 * **\InvalidArgumentException**
 
+### diff
+
+    Dictionary PHPCollections\Collections\Dictionary::diff(Dictionary $newDictionary)
+
+ Gets the difference between two Dictionary.
+
+* Visibility: **public**
+
+#### Arguments
+* $newDictionary **\PHPCollections\Collections\Dictionary**
+
+#### Throws
+* **\PHPCollections\Exceptions\InvalidOperationException**
+
 ### filter
 
     ?Dictionary PHPCollections\Collections\Dictionary::filter(callable $callback)

@@ -60,6 +60,20 @@ Adds a new object to the collection.
 #### Throws
 * **\InvalidArgumentException**
 
+### diff
+
+    GenericList PHPCollections\Collections\GenericList::diff(GenericList $newGenericList)
+
+ Gets the difference between two GenericList.
+
+* Visibility: **public**
+
+#### Arguments
+* $newGenericList **\PHPCollections\Collections\GenericList**
+
+#### Throws
+* **\PHPCollections\Exceptions\InvalidOperationException**
+
 ### filter
 
     ?GenericList PHPCollections\Collections\GenericList::filter(callable $callback)

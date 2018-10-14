@@ -33,6 +33,20 @@ Adds a new element to the collection.
 #### Arguments
 * $needle **mixed**
 
+### diff
+
+    ArrayList PHPCollections\Collections\ArrayList::diff(ArrayList $newArrayList)
+
+ Gets the difference between two ArrayList.
+
+* Visibility: **public**
+
+#### Arguments
+* $newArrayList **\PHPCollections\Collections\ArrayList**
+
+#### Throws
+* **\PHPCollections\Exceptions\InvalidOperationException**
+
 ### filter
 
     ?ArrayList PHPCollections\Collections\ArrayList::filter(callable $callback)
