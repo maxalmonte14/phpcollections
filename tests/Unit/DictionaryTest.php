@@ -3,8 +3,10 @@
 namespace Tests\Unit;
 
 use ArrayObject;
+use StdClass;
 use PHPCollections\Collections\Dictionary;
 use PHPUnit\Framework\TestCase;
+use PHPCollections\Collections\GenericList;
 
 class DictionaryTest extends TestCase
 {
@@ -215,5 +217,64 @@ class DictionaryTest extends TestCase
 
         $this->assertEquals('Maxx', $this->dictionary->get('name'));
         $this->assertEquals('programmerx', $this->dictionary->get('job'));
+    }
+
+    /** @test */
+    public function canCompareTwoDictionary()
+    {
+        $newDictionary = new Dictionary('string', 'string', [
+            'drink' => 'no',
+            'smoke' => 'no',
+            'dance' => 'a little bit'
+        ]);
+
+        $diffDictionary = $this->dictionary->diff($newDictionary);
+
+        $this->assertInstanceOf(Dictionary::class, $diffDictionary);
+        $this->assertEquals($diffDictionary->get('job'), 'programmer');
+        $this->assertCount(4, $diffDictionary);
+    }
+
+    /** @test */
+    public function canNotCompareTwoDictionaryOfDifferentKeyTypes()
+    {
+        $this->expectException('\PHPCollections\Exceptions\InvalidOperationException');
+        $this->expectExceptionMessage('The key type for this Dictionary is string, you cannot pass a Dictionary with integer as key type');
+
+        $newDictionary = new Dictionary(
+            'integer', 'string', [1 => 'one', 2 => 'two', 3 => 'three', 4 => 'four', 5 => 'five']
+        );
+
+        $diffDictionary = $this->dictionary->diff($newDictionary); // Here an InvalidOperationException is thrown!
+    }
+
+    /** @test */
+    public function canNotCompareTwoDictionaryOfDifferentValueTypes()
+    {
+        $this->expectException('\PHPCollections\Exceptions\InvalidOperationException');
+        $this->expectExceptionMessage('The value type for this Dictionary is string, you cannot pass a Dictionary with integer as value type');
+
+        $newDictionary = new Dictionary(
+            'string', 'integer', ['one' => 1, 'two' => 2, 'three' => 3, 'four' => 4, 'five' => 5]
+        );
+
+        $diffDictionary = $this->dictionary->diff($newDictionary); // Here an InvalidOperationException is thrown!
+    }
+
+    /**
+     * @test
+     */
+    public function canNotCompareADictionaryAgainstAnotherTypeOfCollection()
+    {
+        $this->expectException('\PHPCollections\Exceptions\InvalidOperationException');
+        $this->expectExceptionMessage('You should only compare a Dictionary against another Dictionary');
+
+        $newDictionary = new GenericList(
+            StdClass::class,
+            new StdClass(['name' => 'John']),
+            new StdClass(['name' => 'Carter'])
+        );
+
+        $diffDictionary = $this->dictionary->diff($newDictionary); // Here an InvalidOperationException is thrown!
     }
 }

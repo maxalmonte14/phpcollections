@@ -5,6 +5,7 @@ namespace Tests\Unit;
 use PHPCollections\Collections\ArrayList;
 use PHPUnit\Framework\TestCase;
 use StdClass;
+use PHPCollections\Collections\GenericList;
 
 class ArrayListTest extends TestCase
 {
@@ -192,5 +193,33 @@ class ArrayListTest extends TestCase
 
         $this->assertFalse($this->arrayList->contains('Max'));
         $this->arrayList->remove(0); // Here an OutOfRangeException is thrown!
+    }
+
+    /** @test */
+    public function canCompareTwoArrayList()
+    {
+        $newList = new ArrayList(['Max', 5, false]);
+        $diffList = $this->arrayList->diff($newList);
+
+        $this->assertInstanceOf(ArrayList::class, $diffList);
+        $this->assertTrue($diffList->contains(null));
+        $this->assertCount(2, $diffList);
+    }
+
+    /**
+     * @test
+     */
+    public function canNotCompareAnArrayListAgainstAnotherTypeOfCollection()
+    {
+        $this->expectException('\PHPCollections\Exceptions\InvalidOperationException');
+        $this->expectExceptionMessage('You should only compare an ArrayList against another ArrayList');
+
+        $newList = new GenericList(
+            StdClass::class,
+            new StdClass(['name' => 'John']),
+            new StdClass(['name' => 'Carter'])
+        );
+
+        $diffList = $this->arrayList->diff($newList); // Here an InvalidOperationException is thrown!
     }
 }

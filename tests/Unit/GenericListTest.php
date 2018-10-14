@@ -6,6 +6,7 @@ use ArrayObject;
 use PHPCollections\Collections\GenericList;
 use PHPUnit\Framework\TestCase;
 use StdClass;
+use PHPCollections\Collections\ArrayList;
 
 class GenericListTest extends TestCase
 {
@@ -235,5 +236,57 @@ class GenericListTest extends TestCase
         });
 
         $this->assertEquals('Johnx', $this->list->get(0)->offsetGet('name'));
+    }
+
+    /** @test */
+    public function canCompareTwoGenericListOfTheSameType()
+    {
+        $newList = new GenericList(
+            ArrayObject::class,
+            new ArrayObject(['name' => 'John']),
+            new ArrayObject(['name' => 'Finch']),
+            new ArrayObject(['name' => 'Shaw']),
+            new ArrayObject(['name' => 'Carter'])
+        );
+
+        $diffList = $this->list->diff($newList);
+
+        $this->assertInstanceOf(GenericList::class, $diffList);
+        $this->assertEquals('Kara', $diffList->first()['name']);
+        $this->assertEquals('Lionel', $diffList->last()['name']);
+        $this->assertCount(5, $diffList);
+    }
+
+    /** @test */
+    public function canNotCompareTwoGenericListOfDifferentTypes()
+    {
+        $this->expectException('\PHPCollections\Exceptions\InvalidOperationException');
+        $this->expectExceptionMessage('This is a collection of ArrayObject objects, you cannot pass a collection of StdClass objects');
+
+        $newList = new GenericList(
+            StdClass::class,
+            new StdClass(['name' => 'John']),
+            new StdClass(['name' => 'Finch']),
+            new StdClass(['name' => 'Shaw']),
+            new StdClass(['name' => 'Carter'])
+        );
+
+        $diffList = $this->list->diff($newList); // Here an InvalidOperationException is thrown!
+    }
+
+    /** @test */
+    public function canNotCompareAGenericListAgainstAnotherTypeOfCollection()
+    {
+        $this->expectException('\PHPCollections\Exceptions\InvalidOperationException');
+        $this->expectExceptionMessage('You should only compare a GenericList against another GenericList');
+
+        $newList = new ArrayList([
+            new StdClass(['name' => 'John']),
+            new StdClass(['name' => 'Finch']),
+            new StdClass(['name' => 'Shaw']),
+            new StdClass(['name' => 'Carter'])
+        ]);
+
+        $diffList = $this->list->diff($newList); // Here an InvalidOperationException is thrown!
     }
 }
