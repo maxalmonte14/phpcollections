@@ -72,6 +72,38 @@ class Dictionary extends BaseCollection implements DictionaryInterface, Mergeabl
     }
 
     /**
+     * Gets the difference between two Dictionary.
+     *
+     * @param \PHPCollections\Collections\Dictionary $newDictionary
+     *
+     * @throws \PHPCollections\Exceptions\InvalidOperationException
+     *
+     * @return \PHPCollections\Collections\Dictionary
+     */
+    public function diff(BaseCollection $newDictionary): BaseCollection
+    {
+        if (!is_a($newDictionary, self::class)) {
+            throw new InvalidOperationException('You should only compare a Dictionary against another Dictionary');
+        }
+
+        if ($this->keyType !== $newDictionary->getKeyType()) {
+            throw new InvalidOperationException(sprintf('The key type for this Dictionary is %s, you cannot pass a Dictionary with %s as key type', $this->keyType, $newDictionary->getKeyType()));
+        }
+
+        if ($this->valueType !== $newDictionary->getValueType()) {
+            throw new InvalidOperationException(sprintf('The value type for this Dictionary is %s, you cannot pass a Dictionary with %s as value types', $this->valueType, $newDictionary->getValueType()));
+        }
+
+        $diffValues = array_udiff_uassoc($this->toArray(), $newDictionary->toArray(), function ($firstValue, $secondValue) {
+            return $firstValue <=> $secondValue;
+        }, function ($firstKey, $secondKey) {
+            return $firstKey <=> $secondKey;
+        });
+
+        return new self($this->keyType, $this->valueType, $diffValues);
+    }
+
+    /**
      * Filters the collection applying
      * a given callback.
      *

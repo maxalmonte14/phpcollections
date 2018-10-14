@@ -53,6 +53,15 @@ abstract class BaseCollection implements Countable, JsonSerializable
     }
 
     /**
+     * Gets the difference between two collections.
+     *
+     * @param \PHPCollections\Collections\BaseCollection $collection
+     *
+     * @return \PHPCollections\Collections\BaseCollection
+     */
+    public abstract function diff(self $collection): self;
+
+    /**
      * Checks if the given index
      * exists in the collection.
      *

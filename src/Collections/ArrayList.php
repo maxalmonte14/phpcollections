@@ -45,6 +45,32 @@ class ArrayList extends BaseCollection implements CollectionInterface, IterableI
     }
 
     /**
+     * Gets the difference between two ArrayList.
+     *
+     * @param \PHPCollections\Collections\ArrayList $newArrayList
+     *
+     * @throws \PHPCollections\Exceptions\InvalidOperationException
+     *
+     * @return \PHPCollections\Collections\ArrayList
+     */
+    public function diff(BaseCollection $newArrayList): BaseCollection
+    {
+        if (!is_a($newArrayList, self::class)) {
+            throw new InvalidOperationException('You should only compare an ArrayList against another ArrayList');
+        }
+
+        $diffValues = array_udiff($this->toArray(), $newArrayList->toArray(), function ($firstValue, $secondValue) {
+            if (gettype($firstValue) !== gettype($secondValue)) {
+                return -1;
+            }
+
+            return $firstValue <=> $secondValue;
+        });
+
+        return new self($diffValues);
+    }
+
+    /**
      * Returns all the coincidences found
      * for the given callback or null.
      *

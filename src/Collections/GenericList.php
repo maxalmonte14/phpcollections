@@ -75,6 +75,32 @@ class GenericList extends BaseCollection implements ObjectCollectionInterface, I
     }
 
     /**
+     * Gets the difference between two GenericList.
+     *
+     * @param \PHPCollections\Collections\GenericList $newGenericList
+     *
+     * @throws \PHPCollections\Exceptions\InvalidOperationException
+     *
+     * @return \PHPCollections\Collections\GenericList
+     */
+    public function diff(BaseCollection $newGenericList): BaseCollection
+    {
+        if (!is_a($newGenericList, self::class)) {
+            throw new InvalidOperationException('You should only compare a GenericList against another GenericList');
+        }
+
+        if ($this->type !== $newGenericList->getType()) {
+            throw new InvalidOperationException("This is a collection of {$this->type} objects, you cannot pass a collection of {$newGenericList->getType()} objects");
+        }
+
+        $diffValues = array_udiff($this->toArray(), $newGenericList->toArray(), function ($firstValue, $secondValue) {
+            return $firstValue <=> $secondValue;
+        });
+
+        return new self($this->type, ...$diffValues);
+    }
+
+    /**
      * Returns all the coincidences found
      * for the given callback or null.
      *
@@ -146,6 +172,16 @@ class GenericList extends BaseCollection implements ObjectCollectionInterface, I
         }
 
         return $this->dataHolder->offsetGet($offset);
+    }
+
+    /**
+     * Returns the type property.
+     *
+     * @return string
+     */
+    private function getType(): string
+    {
+        return $this->type;
     }
 
     /**
