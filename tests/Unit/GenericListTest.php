@@ -289,4 +289,13 @@ class GenericListTest extends TestCase
 
         $diffList = $this->list->diff($newList); // Here an InvalidOperationException is thrown!
     }
+
+    /** @test */
+    public function canSliceAGenericList()
+    {
+        $this->assertCount(7, $this->list->slice(2));
+        $this->assertCount(7, $this->list->slice(2, null));
+        $this->assertCount(5, $this->list->slice(2, 5));
+        $this->assertNull((new GenericList(\StdClass::class))->slice(2));
+    }
 }

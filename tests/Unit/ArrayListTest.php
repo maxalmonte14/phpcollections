@@ -206,9 +206,7 @@ class ArrayListTest extends TestCase
         $this->assertCount(2, $diffList);
     }
 
-    /**
-     * @test
-     */
+    /** @test */
     public function canNotCompareAnArrayListAgainstAnotherTypeOfCollection()
     {
         $this->expectException('\PHPCollections\Exceptions\InvalidOperationException');
@@ -221,5 +219,14 @@ class ArrayListTest extends TestCase
         );
 
         $diffList = $this->arrayList->diff($newList); // Here an InvalidOperationException is thrown!
+    }
+
+    /** @test */
+    public function canSliceAnArrayList()
+    {
+        $this->assertCount(3, $this->arrayList->slice(2));
+        $this->assertCount(3, $this->arrayList->slice(2, null));
+        $this->assertCount(3, $this->arrayList->slice(2, 3));
+        $this->assertNull((new ArrayList())->slice(2));
     }
 }

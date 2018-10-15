@@ -157,6 +157,18 @@ reversed values.
 #### Throws
 * **\PHPCollections\Exceptions\InvalidOperationException**
 
+### slice
+
+    ?ArrayList PHPCollections\Collections\ArrayList::slice(int $offset, ?int $length = null)
+
+ Returns a portion of the ArrayList.
+
+* Visibility: **public**
+
+#### Arguments
+* $offset **int**
+* $length **int**
+
 ### sort
 
     ?ArrayList PHPCollections\Collections\ArrayList::sort(callable $callback)

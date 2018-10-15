@@ -207,6 +207,18 @@ the collection.
 * $callback **callable**
 * $shouldStop **boolean**
 
+### slice
+
+    ?GenericList PHPCollections\Collections\GenericList::slice(int $offset, ?int $length = null)
+
+ Returns a portion of the GenericList.
+
+* Visibility: **public**
+
+#### Arguments
+* $offset **int**
+* $length **int**
+
 ### sort
 
     ?GenericList PHPCollections\Collections\GenericList::sort(callable $callback)

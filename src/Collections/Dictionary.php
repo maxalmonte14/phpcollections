@@ -272,6 +272,21 @@ class Dictionary extends BaseCollection implements DictionaryInterface, Mergeabl
     }
 
     /**
+     * Returns a portion of the Dictionary.
+     *
+     * @param int      $offset
+     * @param int|null $length
+     *
+     * @return PHPCollections\Collections\Dictionary|null
+     */
+    public function slice(int $offset, ?int $length = null): ?BaseCollection
+    {
+        $newData = array_slice($this->toArray(), $offset, $length, true);
+
+        return count($newData) > 0 ? new self($this->keyType, $this->valueType, $newData) : null;
+    }
+
+    /**
      * Returns a new Dictionary with the
      * values ordered by a given callback
      * if couldn't sort returns null.

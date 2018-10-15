@@ -314,6 +314,21 @@ class GenericList extends BaseCollection implements ObjectCollectionInterface, I
     }
 
     /**
+     * Returns a portion of the GenericList.
+     *
+     * @param int      $offset
+     * @param int|null $length
+     *
+     * @return PHPCollections\Collections\GenericList|null
+     */
+    public function slice(int $offset, ?int $length = null): ?BaseCollection
+    {
+        $newData = array_slice($this->toArray(), $offset, $length);
+
+        return count($newData) > 0 ? new self($this->type, ...$newData) : null;
+    }
+
+    /**
      * Returns a new GenericList with the
      * values ordered by a given callback
      * if couldn't sort returns null.

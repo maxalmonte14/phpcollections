@@ -189,6 +189,18 @@ Removes a value from the dictionary.
 #### Arguments
 * $key **mixed**
 
+### slice
+
+    ?Dictionary PHPCollections\Collections\Dictionary::slice(int $offset, ?int $length = null)
+
+ Returns a portion of the Dictionary.
+
+* Visibility: **public**
+
+#### Arguments
+* $offset **int**
+* $length **int**
+
 ### sort
 
     ?Dictionary PHPCollections\Collections\Dictionary::sort(callable $callback)

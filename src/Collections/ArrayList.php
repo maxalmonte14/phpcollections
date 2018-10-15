@@ -232,6 +232,21 @@ class ArrayList extends BaseCollection implements CollectionInterface, IterableI
     }
 
     /**
+     * Returns a portion of the ArrayList.
+     *
+     * @param int      $offset
+     * @param int|null $length
+     *
+     * @return PHPCollections\Collections\ArrayList|null
+     */
+    public function slice(int $offset, ?int $length = null): ?BaseCollection
+    {
+        $newData = array_slice($this->toArray(), $offset, $length);
+
+        return count($newData) > 0 ? new self($newData) : null;
+    }
+
+    /**
      * Returns a new ArrayList with the
      * values ordered by a given callback
      * if couldn't sort returns null.

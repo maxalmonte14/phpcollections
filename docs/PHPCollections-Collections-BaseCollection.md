@@ -117,3 +117,15 @@ Returns a plain array with
 your dictionary data.
 
 * Visibility: **public**
+
+### slice
+
+    ?BaseCollection PHPCollections\Collections\BaseCollection::slice(int $offset, ?int $length = null)
+
+ Returns a portion of the collection.
+
+* Visibility: **public abstract**
+
+#### Arguments
+* $offset **int**
+* $length **int**

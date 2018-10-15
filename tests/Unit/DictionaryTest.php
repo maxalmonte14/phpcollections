@@ -261,9 +261,7 @@ class DictionaryTest extends TestCase
         $diffDictionary = $this->dictionary->diff($newDictionary); // Here an InvalidOperationException is thrown!
     }
 
-    /**
-     * @test
-     */
+    /** @test */
     public function canNotCompareADictionaryAgainstAnotherTypeOfCollection()
     {
         $this->expectException('\PHPCollections\Exceptions\InvalidOperationException');
@@ -276,5 +274,14 @@ class DictionaryTest extends TestCase
         );
 
         $diffDictionary = $this->dictionary->diff($newDictionary); // Here an InvalidOperationException is thrown!
+    }
+
+    /** @test */
+    public function canSliceADictionary()
+    {
+        $this->assertCount(5, $this->dictionary->slice(2));
+        $this->assertCount(5, $this->dictionary->slice(2, null));
+        $this->assertCount(4, $this->dictionary->slice(2, 4));
+        $this->assertNull((new Dictionary('string', 'string'))->slice(2));
     }
 }

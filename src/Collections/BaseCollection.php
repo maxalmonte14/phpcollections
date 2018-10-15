@@ -128,6 +128,16 @@ abstract class BaseCollection implements Countable, JsonSerializable
     }
 
     /**
+     * Returns a portion of the collection.
+     *
+     * @param int      $offset
+     * @param int|null $lenght
+     *
+     * @return \PHPCollections\Collections\BaseCollection
+     */
+    public abstract function slice(int $offset, ?int $lenght): ?self;
+
+    /**
      * Returns a plain array with
      * your dictionary data.
      *
