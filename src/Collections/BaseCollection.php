@@ -43,6 +43,19 @@ abstract class BaseCollection implements Countable, JsonSerializable
     }
 
     /**
+     * Checks if the collection
+     * contains a given value.
+     *
+     * @param mixed $needle
+     *
+     * @return bool
+     */
+    public function contains($needle): bool
+    {
+        return in_array($needle, $this->toArray());
+    }
+
+    /**
      * Returns the length of the collection.
      *
      * @return int

@@ -298,4 +298,11 @@ class GenericListTest extends TestCase
         $this->assertCount(5, $this->list->slice(2, 5));
         $this->assertNull((new GenericList(\StdClass::class))->slice(2));
     }
+
+    /** @test */
+    public function canCheckIfTheGenericListContainsAGivenValue()
+    {
+        $this->assertTrue($this->list->contains(new ArrayObject(['name' => 'John'])));
+        $this->assertFalse($this->list->contains(new ArrayObject(['name' => 'Max'])));
+    }
 }

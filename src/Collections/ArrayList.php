@@ -32,19 +32,6 @@ class ArrayList extends BaseCollection implements CollectionInterface, IterableI
     }
 
     /**
-     * Checks if the collection
-     * contains a given value.
-     *
-     * @param mixed $needle
-     *
-     * @return bool
-     */
-    public function contains($needle): bool
-    {
-        return in_array($needle, $this->toArray());
-    }
-
-    /**
      * Gets the difference between two ArrayList.
      *
      * @param \PHPCollections\Collections\ArrayList $newArrayList

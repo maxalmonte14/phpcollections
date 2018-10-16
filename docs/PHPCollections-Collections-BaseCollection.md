@@ -42,6 +42,18 @@ Reinitializes the dataHolder property.
 
 * Visibility: **public**
 
+### contains
+
+    boolean PHPCollections\Collections\ArrayList::contains(mixed $needle)
+
+ Checks if the collection
+ contains a given value.
+
+* Visibility: **public**
+
+#### Arguments
+* $needle **mixed**
+
 ### count
 
     integer PHPCollections\Collections\BaseCollection::count()

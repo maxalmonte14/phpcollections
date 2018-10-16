@@ -284,4 +284,11 @@ class DictionaryTest extends TestCase
         $this->assertCount(4, $this->dictionary->slice(2, 4));
         $this->assertNull((new Dictionary('string', 'string'))->slice(2));
     }
+
+    /** @test */
+    public function canCheckIfTheDictionaryContainsAGivenValue()
+    {
+        $this->assertTrue($this->dictionary->contains('Max'));
+        $this->assertFalse($this->dictionary->contains('Almonte'));
+    }
 }
