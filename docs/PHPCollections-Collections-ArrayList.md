@@ -47,19 +47,6 @@ for the given callback or null.
 #### Arguments
 * $callback **callable**
 
-### find
-
-    ?ArrayList PHPCollections\Collections\ArrayList::find(callable $callback, boolean $shouldStop = false)
-
- Searches for one or more elements
- in the collection.
-
-* Visibility: **public**
-
-#### Arguments
-* $callback **callable**
-* $shouldStop **boolean**
-
 ### forEach
 
     void PHPCollections\Collections\ArrayList::forEach(callable $callback)

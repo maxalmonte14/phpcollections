@@ -91,17 +91,6 @@ a given callback.
 #### Arguments
 * $callback **callable**
 
-### find
-
-    ?mixed PHPCollections\Collections\Dictionary::find(callable $callback)
-
-Finds an element based on a given callback.
-
-* Visibility: **public**
-
-#### Arguments
-* $callback **callable**
-
 ### forEach
 
     void PHPCollections\Collections\Dictionary::forEach(callable $callback)

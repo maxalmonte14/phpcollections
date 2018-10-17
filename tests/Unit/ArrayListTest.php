@@ -95,25 +95,6 @@ class ArrayListTest extends TestCase
     }
 
     /** @test */
-    public function canFindMatchingElements()
-    {
-        $elements = $this->arrayList->find(function ($v, $k) {
-            return $v != false;
-        });
-
-        $this->assertCount(3, $elements);
-        $this->assertFalse($elements->contains(false));
-        $this->assertFalse($elements->contains(null));
-
-        $singleElement = $this->arrayList->find(function ($v, $k) {
-            return !is_string($v);
-        }, true);
-
-        $this->assertCount(1, $singleElement);
-        $this->assertEquals(5, $singleElement->get(0));
-    }
-
-    /** @test */
     public function canMergeNewDataIntoNewArrayList()
     {
         $numbers = new ArrayList([1, 2, 3, 4, 5]);

@@ -69,17 +69,6 @@ class GenericListTest extends TestCase
         $this->assertCount(0, $this->list);
     }
 
-    /** @test */
-    public function canFindOneOrMoreMatchingElements()
-    {
-        $arrayObject = $this->list->find(function ($value) {
-            return $value['name'] === 'Finch';
-        });
-
-        $this->assertEquals('Finch', $arrayObject->offsetGet('name'));
-        $this->assertNotEquals('Lionel', $arrayObject->offsetGet('name'));
-    }
-
     /**
      * @test
      * @expectedException OutOfRangeException
@@ -118,21 +107,6 @@ class GenericListTest extends TestCase
             return strlen($value['name']) > 10;
         });
 
-        $this->assertNull($anotherList);
-    }
-
-    /** @test */
-    public function canSearchOneOrMoreMatchingElementsOfTheList()
-    {
-        $newList = $this->list->search(function ($value) {
-            return strlen($value['name']) > 4;
-        });
-        $this->assertCount(3, $newList);
-        $this->assertEquals('Finch', $newList->get(0)->offsetGet('name'));
-
-        $anotherList = $this->list->search(function ($value) {
-            return strlen($value['name']) > 10;
-        });
         $this->assertNull($anotherList);
     }
 

@@ -49,22 +49,6 @@ class DictionaryTest extends TestCase
     }
 
     /** @test */
-    public function canFindOneOrMoreElementsByValue()
-    {
-        $name = $this->dictionary->find(function ($value) {
-            return $value === 'Max';
-        });
-
-        $this->assertEquals('Max', $name);
-        $this->assertNotEquals('Lionel', $name);
-
-        $nullPointer = $this->dictionary->find(function ($value) {
-            return $value === 'Lionel';
-        });
-        $this->assertNull($nullPointer);
-    }
-
-    /** @test */
     public function canGetAnElementByIndex()
     {
         $job = $this->dictionary->get('job');

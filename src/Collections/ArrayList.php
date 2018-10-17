@@ -79,32 +79,6 @@ class ArrayList extends BaseCollection implements CollectionInterface, IterableI
     }
 
     /**
-     * Searches for one or more elements
-     * in the collection.
-     *
-     * @param callable $callback
-     * @param bool     $shouldStop
-     *
-     * @return \PHPCollections\Collections\ArrayList|null
-     */
-    public function find(callable $callback, bool $shouldStop = false): ?self
-    {
-        $matcheds = [];
-
-        foreach ($this->dataHolder as $key => $item) {
-            if ($callback($item, $key) === true) {
-                $matcheds[] = $item;
-
-                if ($shouldStop) {
-                    break;
-                }
-            }
-        }
-
-        return count($matcheds) > 0 ? new $this($matcheds) : null;
-    }
-
-    /**
      * Iterates over every element of the collection.
      *
      * @param callable $callback

@@ -125,25 +125,6 @@ class Dictionary extends BaseCollection implements DictionaryInterface, Mergeabl
     }
 
     /**
-     * Finds an element based on a given callback.
-     *
-     * @param callable $callback
-     *
-     * @return mixed|null
-     */
-    public function find(callable $callback)
-    {
-        foreach ($this->dataHolder as $pair) {
-            if ($callback($pair->getValue(), $pair->getKey()) === true) {
-                $matched = $pair->getValue();
-                break;
-            }
-        }
-
-        return $matched ?? null;
-    }
-
-    /**
      * Iterates over every element of the collection.
      *
      * @param callable $callback
