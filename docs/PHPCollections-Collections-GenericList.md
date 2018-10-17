@@ -86,18 +86,6 @@ for the given callback or null.
 #### Arguments
 * $callback **callable**
 
-### find
-
-    ?mixed PHPCollections\Collections\GenericList::find(callable $callback)
-
-Returns the first element that
-matches whith the callback criteria.
-
-* Visibility: **public**
-
-#### Arguments
-* $callback **callable**
-
 ### forEach
 
     void PHPCollections\Collections\GenericList::forEach(callable $callback)
@@ -193,19 +181,6 @@ reversed values.
 
 #### Throws
 * **\PHPCollections\Exceptions\InvalidOperationException**
-
-### search
-
-    ?GenericList PHPCollections\Collections\GenericList::search(callable $callback, boolean $shouldStop = false)
-
-Searches one or more elements in
-the collection.
-
-* Visibility: **public**
-
-#### Arguments
-* $callback **callable**
-* $shouldStop **boolean**
 
 ### slice
 

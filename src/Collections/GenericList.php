@@ -122,21 +122,6 @@ class GenericList extends BaseCollection implements ObjectCollectionInterface, I
     }
 
     /**
-     * Returns the first element that
-     * matches whith the callback criteria.
-     *
-     * @param callable $callback
-     *
-     * @return mixed
-     */
-    public function find(callable $callback)
-    {
-        $dataset = $this->search($callback, true);
-
-        return $dataset->get(0) ?? null;
-    }
-
-    /**
      * Iterates over every element of the collection.
      *
      * @param callable $callback
@@ -286,31 +271,6 @@ class GenericList extends BaseCollection implements ObjectCollectionInterface, I
         }
 
         return new $this($this->type, ...array_reverse($this->toArray()));
-    }
-
-    /**
-     * Searches one or more elements in
-     * the collection.
-     *
-     * @param callable $callback
-     * @param bool     $shouldStop
-     *
-     * @return \PHPCollections\Collections\GenericList|null
-     */
-    public function search(callable $callback, bool $shouldStop = false): ?self
-    {
-        $matcheds = [];
-
-        foreach ($this->dataHolder as $key => $item) {
-            if ($callback($item, $key) === true) {
-                $matcheds[] = $item;
-                if ($shouldStop) {
-                    break;
-                }
-            }
-        }
-
-        return count($matcheds) > 0 ? new $this($this->type, ...$matcheds) : null;
     }
 
     /**
