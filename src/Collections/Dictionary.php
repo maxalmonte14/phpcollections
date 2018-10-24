@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace PHPCollections\Collections;
 
+use OutOfRangeException;
 use PHPCollections\Checker;
 use PHPCollections\Exceptions\InvalidOperationException;
 use PHPCollections\Interfaces\DictionaryInterface;
@@ -258,7 +259,7 @@ class Dictionary extends BaseCollection implements DictionaryInterface, Mergeabl
      * @param int      $offset
      * @param int|null $length
      *
-     * @return PHPCollections\Collections\Dictionary|null
+     * @return \PHPCollections\Collections\Dictionary|null
      */
     public function slice(int $offset, ?int $length = null): ?BaseCollection
     {

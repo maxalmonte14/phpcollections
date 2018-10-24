@@ -72,7 +72,7 @@ abstract class BaseCollection implements Countable, JsonSerializable
      *
      * @return \PHPCollections\Collections\BaseCollection
      */
-    public abstract function diff(self $collection): self;
+    abstract public function diff(self $collection): self;
 
     /**
      * Checks if the given index
@@ -148,7 +148,7 @@ abstract class BaseCollection implements Countable, JsonSerializable
      *
      * @return \PHPCollections\Collections\BaseCollection
      */
-    public abstract function slice(int $offset, ?int $lenght): ?self;
+    abstract public function slice(int $offset, ?int $lenght): ?self;
 
     /**
      * Returns a plain array with

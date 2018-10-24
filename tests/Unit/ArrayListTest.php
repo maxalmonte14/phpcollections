@@ -3,9 +3,9 @@
 namespace Tests\Unit;
 
 use PHPCollections\Collections\ArrayList;
+use PHPCollections\Collections\GenericList;
 use PHPUnit\Framework\TestCase;
 use StdClass;
-use PHPCollections\Collections\GenericList;
 
 class ArrayListTest extends TestCase
 {

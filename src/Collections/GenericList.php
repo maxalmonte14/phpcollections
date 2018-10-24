@@ -195,7 +195,7 @@ class GenericList extends BaseCollection implements ObjectCollectionInterface, I
      */
     public function merge(BaseCollection $newGenericList): BaseCollection
     {
-        $newGenericList->forEach(function ($value, $key) {
+        $newGenericList->forEach(function ($value) {
             Checker::objectIsOfType($value, $this->type, sprintf($this->error, get_class($value)));
         });
 
@@ -279,7 +279,7 @@ class GenericList extends BaseCollection implements ObjectCollectionInterface, I
      * @param int      $offset
      * @param int|null $length
      *
-     * @return PHPCollections\Collections\GenericList|null
+     * @return \PHPCollections\Collections\GenericList|null
      */
     public function slice(int $offset, ?int $length = null): ?BaseCollection
     {

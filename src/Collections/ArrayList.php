@@ -198,7 +198,7 @@ class ArrayList extends BaseCollection implements CollectionInterface, IterableI
      * @param int      $offset
      * @param int|null $length
      *
-     * @return PHPCollections\Collections\ArrayList|null
+     * @return \PHPCollections\Collections\ArrayList|null
      */
     public function slice(int $offset, ?int $length = null): ?BaseCollection
     {

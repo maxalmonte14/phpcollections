@@ -3,10 +3,10 @@
 namespace Tests\Unit;
 
 use ArrayObject;
+use PHPCollections\Collections\ArrayList;
 use PHPCollections\Collections\GenericList;
 use PHPUnit\Framework\TestCase;
 use StdClass;
-use PHPCollections\Collections\ArrayList;
 
 class GenericListTest extends TestCase
 {
@@ -258,7 +258,7 @@ class GenericListTest extends TestCase
             new StdClass(['name' => 'John']),
             new StdClass(['name' => 'Finch']),
             new StdClass(['name' => 'Shaw']),
-            new StdClass(['name' => 'Carter'])
+            new StdClass(['name' => 'Carter']),
         ]);
 
         $diffList = $this->list->diff($newList); // Here an InvalidOperationException is thrown!

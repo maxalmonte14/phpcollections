@@ -3,10 +3,10 @@
 namespace Tests\Unit;
 
 use ArrayObject;
-use StdClass;
 use PHPCollections\Collections\Dictionary;
-use PHPUnit\Framework\TestCase;
 use PHPCollections\Collections\GenericList;
+use PHPUnit\Framework\TestCase;
+use StdClass;
 
 class DictionaryTest extends TestCase
 {
@@ -209,7 +209,7 @@ class DictionaryTest extends TestCase
         $newDictionary = new Dictionary('string', 'string', [
             'drink' => 'no',
             'smoke' => 'no',
-            'dance' => 'a little bit'
+            'dance' => 'a little bit',
         ]);
 
         $diffDictionary = $this->dictionary->diff($newDictionary);
