@@ -79,6 +79,20 @@ Adds a new value to the dictionary.
 #### Throws
 * **\PHPCollections\Exceptions\InvalidOperationException**
 
+### equals
+
+    boolean PHPCollections\Collections\Dictionary::equals(Dictionary $collection)
+
+Determines if two Dictionary objects are equal.
+
+* Visibility: **public**
+
+#### Arguments
+* $collection **\PHPCollections\Collections\Dictionary**
+
+#### Throws
+* **\PHPCollections\Exceptions\InvalidOperationException**
+
 ### filter
 
     ?Dictionary PHPCollections\Collections\Dictionary::filter(callable $callback)

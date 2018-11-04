@@ -105,6 +105,22 @@ class Dictionary extends BaseCollection implements DictionaryInterface, Mergeabl
     }
 
     /**
+     * Determines if two Dictionary objects are equal.
+     *
+     * @param \PHPCollections\Collections\Dictionary $newDictionary
+     *
+     * @return \PHPCollections\Collections\Dictionary
+     */
+    public function equals(BaseCollection $newDictionary): bool
+    {
+        if (!$newDictionary instanceof self) {
+            throw new InvalidOperationException('You should only compare an Dictionary against another Dictionary');
+        }
+
+        return $this->toArray() == $newDictionary->toArray();
+    }
+
+    /**
      * Filters the collection applying
      * a given callback.
      *

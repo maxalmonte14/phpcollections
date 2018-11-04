@@ -210,4 +210,21 @@ class ArrayListTest extends TestCase
         $this->assertCount(3, $this->arrayList->slice(2, 3));
         $this->assertNull((new ArrayList())->slice(2));
     }
+
+    /** @test */
+    public function canCheckIfTwoArrayListAreEqual()
+    {
+        $newArrayList = new ArrayList(['Max', 5, false, new StdClass(), null,]);
+
+        $this->assertTrue($this->arrayList->equals($newArrayList));
+        $this->assertFalse($this->arrayList->equals(new ArrayList(['Max', 5, false])));
+    }
+
+    /** @test */
+    public function canNotCheckIfAnArrayListIsEqualToAnotherTypeOfCollection()
+    {
+        $this->expectException('\PHPCollections\Exceptions\InvalidOperationException');
+        $this->expectExceptionMessage('You should only compare an ArrayList against another ArrayList');
+        $this->arrayList->equals(new GenericList(StdClass::class));
+    }
 }

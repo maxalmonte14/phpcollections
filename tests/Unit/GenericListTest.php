@@ -279,4 +279,34 @@ class GenericListTest extends TestCase
         $this->assertTrue($this->list->contains(new ArrayObject(['name' => 'John'])));
         $this->assertFalse($this->list->contains(new ArrayObject(['name' => 'Max'])));
     }
+
+    /** @test */
+    public function canCheckIfTwoGenericListAreEqual()
+    {
+        $newGenericList = new GenericList(
+            ArrayObject::class,
+            new ArrayObject(['name' => 'John']),
+            new ArrayObject(['name' => 'Finch']),
+            new ArrayObject(['name' => 'Shaw']),
+            new ArrayObject(['name' => 'Carter']),
+            new ArrayObject(['name' => 'Kara']),
+            new ArrayObject(['name' => 'Snow']),
+            new ArrayObject(['name' => 'Zoey']),
+            new ArrayObject(['name' => 'Cal']),
+            new ArrayObject(['name' => 'Lionel'])
+        );
+
+        $this->assertTrue($this->list->equals($newGenericList));
+        $this->assertFalse(
+            $this->list->equals(new GenericList(ArrayObject::class, new ArrayObject(['name' => 'Max'])))
+        );
+    }
+
+    /** @test */
+    public function canNotCheckIfAnGenericListIsEqualToAnotherTypeOfCollection()
+    {
+        $this->expectException('\PHPCollections\Exceptions\InvalidOperationException');
+        $this->expectExceptionMessage('You should only compare an GenericList against another GenericList');
+        $this->list->equals(new ArrayList(['first', 'second', 'third']));
+    }
 }

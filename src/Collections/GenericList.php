@@ -101,6 +101,22 @@ class GenericList extends BaseCollection implements ObjectCollectionInterface, I
     }
 
     /**
+     * Determines if two GenericList objects are equal.
+     *
+     * @param \PHPCollections\Collections\GenericList $newGenericList
+     *
+     * @return \PHPCollections\Collections\GenericList
+     */
+    public function equals(BaseCollection $newGenericList): bool
+    {
+        if (!$newGenericList instanceof self) {
+            throw new InvalidOperationException('You should only compare an GenericList against another GenericList');
+        }
+
+        return $this->toArray() == $newGenericList->toArray();
+    }
+
+    /**
      * Returns all the coincidences found
      * for the given callback or null.
      *

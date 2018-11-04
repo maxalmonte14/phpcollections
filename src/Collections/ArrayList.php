@@ -58,6 +58,22 @@ class ArrayList extends BaseCollection implements CollectionInterface, IterableI
     }
 
     /**
+     * Determines if two ArrayList objects are equal.
+     *
+     * @param \PHPCollections\Collections\ArrayList $newArrayList
+     *
+     * @return \PHPCollections\Collections\ArrayList
+     */
+    public function equals(BaseCollection $newArrayList): bool
+    {
+        if (!$newArrayList instanceof self) {
+            throw new InvalidOperationException('You should only compare an ArrayList against another ArrayList');
+        }
+
+        return $this->toArray() == $newArrayList->toArray();
+    }
+
+    /**
      * Returns all the coincidences found
      * for the given callback or null.
      *

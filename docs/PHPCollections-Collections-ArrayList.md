@@ -35,6 +35,20 @@ Adds a new element to the collection.
 #### Throws
 * **\PHPCollections\Exceptions\InvalidOperationException**
 
+### equals
+
+    boolean PHPCollections\Collections\ArrayList::equals(ArrayList $collection)
+
+Determines if two ArrayList objects are equal.
+
+* Visibility: **public**
+
+#### Arguments
+* $collection **\PHPCollections\Collections\ArrayList**
+
+#### Throws
+* **\PHPCollections\Exceptions\InvalidOperationException**
+
 ### filter
 
     ?ArrayList PHPCollections\Collections\ArrayList::filter(callable $callback)

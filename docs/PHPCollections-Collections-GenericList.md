@@ -74,6 +74,20 @@ Adds a new object to the collection.
 #### Throws
 * **\PHPCollections\Exceptions\InvalidOperationException**
 
+### equals
+
+    boolean PHPCollections\Collections\GenericList::equals(GenericList $collection)
+
+Determines if two GenericList objects are equal.
+
+* Visibility: **public**
+
+#### Arguments
+* $collection **\PHPCollections\Collections\GenericList**
+
+#### Throws
+* **\PHPCollections\Exceptions\InvalidOperationException**
+
 ### filter
 
     ?GenericList PHPCollections\Collections\GenericList::filter(callable $callback)

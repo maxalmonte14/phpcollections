@@ -88,6 +88,15 @@ abstract class BaseCollection implements Countable, JsonSerializable
     }
 
     /**
+     * Determines if two collections are equal.
+     *
+     * @param \PHPCollections\Collections\BaseCollection $collection
+     *
+     * @return \PHPCollections\Collections\BaseCollection
+     */
+    abstract public function equals(self $collection): bool;
+
+    /**
      * Gets the first element in the collection.
      *
      * @throws \OutOfRangeException

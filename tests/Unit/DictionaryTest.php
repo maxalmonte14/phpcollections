@@ -275,4 +275,29 @@ class DictionaryTest extends TestCase
         $this->assertTrue($this->dictionary->contains('Max'));
         $this->assertFalse($this->dictionary->contains('Almonte'));
     }
+
+    /** @test */
+    public function canCheckIfTwoDictionaryObjectsAreEqual()
+    {
+        $newDictionary = new Dictionary('string', 'string', [
+            'name'  => 'Max',
+            'job'   => 'programmer',
+            'drink' => 'no',
+            'smoke' => 'no',
+            'dance' => 'a little bit',
+            'drugs' => 'no',
+            'age'   => '23',
+        ]);
+
+        $this->assertTrue($this->dictionary->equals($newDictionary));
+        $this->assertFalse($this->dictionary->equals(new Dictionary('string', 'string')));
+    }
+
+    /** @test */
+    public function canNotCheckIfAnDictionaryIsEqualToAnotherTypeOfCollection()
+    {
+        $this->expectException('\PHPCollections\Exceptions\InvalidOperationException');
+        $this->expectExceptionMessage('You should only compare an Dictionary against another Dictionary');
+        $this->dictionary->equals(new GenericList(StdClass::class));
+    }
 }

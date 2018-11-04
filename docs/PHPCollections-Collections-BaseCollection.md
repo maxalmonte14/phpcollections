@@ -70,6 +70,9 @@ Gets the difference between two collections.
 
 * Visibility: **public abstract**
 
+#### Arguments
+* $collection **\PHPCollections\Collections\BaseCollection**
+
 ### exists
 
     boolean PHPCollections\Collections\BaseCollection::exists(mixed $offset)
@@ -79,8 +82,16 @@ exists in the collection.
 
 * Visibility: **public**
 
+### equals
+
+    boolean PHPCollections\Collections\BaseCollection::equals(BaseCollection $collection)
+
+Determines if two collections are equal.
+
+* Visibility: **public abstract**
+
 #### Arguments
-* $offset **mixed**
+* $collection **\PHPCollections\Collections\BaseCollection**
 
 ### first
 
