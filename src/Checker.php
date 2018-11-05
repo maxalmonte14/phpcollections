@@ -66,7 +66,7 @@ class Checker
      */
     public static function objectIsOfType(object $object, string $type, string $message): bool
     {
-        if (!is_a($object, $type)) {
+        if (!$object instanceof $type) {
             throw new InvalidArgumentException($message);
         }
 

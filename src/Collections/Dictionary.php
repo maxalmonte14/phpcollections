@@ -83,7 +83,7 @@ class Dictionary extends BaseCollection implements DictionaryInterface, Mergeabl
      */
     public function diff(BaseCollection $newDictionary): BaseCollection
     {
-        if (!is_a($newDictionary, self::class)) {
+        if (!$newDictionary instanceof self) {
             throw new InvalidOperationException('You should only compare a Dictionary against another Dictionary');
         }
 

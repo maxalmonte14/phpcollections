@@ -85,7 +85,7 @@ class GenericList extends BaseCollection implements ObjectCollectionInterface, I
      */
     public function diff(BaseCollection $newGenericList): BaseCollection
     {
-        if (!is_a($newGenericList, self::class)) {
+        if (!$newGenericList instanceof self) {
             throw new InvalidOperationException('You should only compare a GenericList against another GenericList');
         }
 

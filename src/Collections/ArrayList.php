@@ -42,7 +42,7 @@ class ArrayList extends BaseCollection implements CollectionInterface, IterableI
      */
     public function diff(BaseCollection $newArrayList): BaseCollection
     {
-        if (!is_a($newArrayList, self::class)) {
+        if (!$newArrayList instanceof self) {
             throw new InvalidOperationException('You should only compare an ArrayList against another ArrayList');
         }
 
