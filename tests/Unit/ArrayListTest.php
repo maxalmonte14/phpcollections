@@ -227,4 +227,27 @@ class ArrayListTest extends TestCase
         $this->expectExceptionMessage('You should only compare an ArrayList against another ArrayList');
         $this->arrayList->equals(new GenericList(StdClass::class));
     }
+
+    /** @test */
+    public function canSumANumericFieldOfTheArrayList()
+    {
+        $newList = new ArrayList([18, 12, 23, 16, 14,]);
+        $totalPoints = $newList->sum(function ($points) {
+            return $points;
+        });
+
+        $this->assertEquals(83, $totalPoints);
+    }
+
+    /** @test */
+    public function canNotSumANonNumericFieldOfTheArrayList()
+    {
+        $newList = new ArrayList(['Kyle Lowry', 'Danny Green', 'Kawhi Leonard', 'Paskal Siakam', 'Serge Ibaka',]);
+
+        $this->expectException('\PHPCollections\Exceptions\InvalidOperationException');
+        $this->expectExceptionMessage('You cannot sum non-numeric values');
+        $newList->sum(function ($name) {
+            return $name;
+        }); // Here an InvalidOperationException is thrown!
+    }
 }

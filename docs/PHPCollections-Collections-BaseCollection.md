@@ -152,3 +152,17 @@ your dictionary data.
 #### Arguments
 * $offset **int**
 * $length **int**
+
+### sum
+
+    float PHPCollections\Collections\BaseCollection::sum(callable $callback)
+
+Returns the sum of a set of values.
+
+* Visibility: **public**
+
+#### Arguments
+* $callback **callable**
+
+#### Throws
+**\OutOfRangeException**

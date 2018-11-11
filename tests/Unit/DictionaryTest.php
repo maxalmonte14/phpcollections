@@ -300,4 +300,45 @@ class DictionaryTest extends TestCase
         $this->expectExceptionMessage('You should only compare an Dictionary against another Dictionary');
         $this->dictionary->equals(new GenericList(StdClass::class));
     }
+
+    /** @test */
+    public function canSumANumericFieldOfTheDictionary()
+    {
+        $newList = new Dictionary(
+            'string', 'integer',
+            [
+                'Kyle Lowry' => 18,
+                'Danny Green'=> 12,
+                'Kawhi Leonard'=> 23,
+                'Paskal Siakam'=> 16,
+                'Serge Ibaka'=> 14,
+            ]
+        );
+        $totalPoints = $newList->sum(function ($pair) {
+            return $pair->getValue();
+        });
+
+        $this->assertEquals(83, $totalPoints);
+    }
+
+    /** @test */
+    public function canNotSumANonNumericFieldOfTheDictionary()
+    {
+        $newList = new Dictionary(
+            'string', 'integer',
+            [
+                'Kyle Lowry' => 18,
+                'Danny Green'=> 12,
+                'Kawhi Leonard'=> 23,
+                'Paskal Siakam'=> 16,
+                'Serge Ibaka'=> 14,
+            ]
+        );
+
+        $this->expectException('\PHPCollections\Exceptions\InvalidOperationException');
+        $this->expectExceptionMessage('You cannot sum non-numeric values');
+        $newList->sum(function ($pair) {
+            return $pair->getKey();
+        }); // Here an InvalidOperationException is thrown!
+    }
 }

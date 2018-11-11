@@ -283,7 +283,7 @@ class GenericListTest extends TestCase
     /** @test */
     public function canCheckIfTwoGenericListAreEqual()
     {
-        $newGenericList = new GenericList(
+        $newList = new GenericList(
             ArrayObject::class,
             new ArrayObject(['name' => 'John']),
             new ArrayObject(['name' => 'Finch']),
@@ -296,17 +296,54 @@ class GenericListTest extends TestCase
             new ArrayObject(['name' => 'Lionel'])
         );
 
-        $this->assertTrue($this->list->equals($newGenericList));
+        $this->assertTrue($this->list->equals($newList));
         $this->assertFalse(
             $this->list->equals(new GenericList(ArrayObject::class, new ArrayObject(['name' => 'Max'])))
         );
     }
 
     /** @test */
-    public function canNotCheckIfAnGenericListIsEqualToAnotherTypeOfCollection()
+    public function canNotCheckIfAGenericListIsEqualToAnotherTypeOfCollection()
     {
         $this->expectException('\PHPCollections\Exceptions\InvalidOperationException');
         $this->expectExceptionMessage('You should only compare an GenericList against another GenericList');
-        $this->list->equals(new ArrayList(['first', 'second', 'third']));
+        $this->list->equals(new ArrayList(['first', 'second', 'third'])); // Here an InvalidOperationException is thrown!
+    }
+
+    /** @test */
+    public function canSumANumericFieldOfTheGenericList()
+    {
+        $newList = new GenericList(
+            ArrayObject::class,
+            new ArrayObject(['name' => 'Kyle Lowry', 'points' => 18]),
+            new ArrayObject(['name' => 'Danny Green', 'points' => 12]),
+            new ArrayObject(['name' => 'Kawhi Leonard', 'points' => 23]),
+            new ArrayObject(['name' => 'Paskal Siakam', 'points' => 16]),
+            new ArrayObject(['name' => 'Serge Ibaka', 'points' => 14])
+        );
+        $totalPoints = $newList->sum(function ($arrayObject) {
+            return $arrayObject->offsetGet('points');
+        });
+
+        $this->assertEquals(83, $totalPoints);
+    }
+
+    /** @test */
+    public function canNotSumANonNumericFieldOfTheGenericList()
+    {
+        $newList = new GenericList(
+            ArrayObject::class,
+            new ArrayObject(['name' => 'Kyle Lowry', 'points' => 18]),
+            new ArrayObject(['name' => 'Danny Green', 'points' => 12]),
+            new ArrayObject(['name' => 'Kawhi Leonard', 'points' => 23]),
+            new ArrayObject(['name' => 'Paskal Siakam', 'points' => 16]),
+            new ArrayObject(['name' => 'Serge Ibaka', 'points' => 14])
+        );
+
+        $this->expectException('\PHPCollections\Exceptions\InvalidOperationException');
+        $this->expectExceptionMessage('You cannot sum non-numeric values');
+        $newList->sum(function ($arrayObject) {
+            return $arrayObject->offsetGet('name');
+        }); // Here an InvalidOperationException is thrown!
     }
 }

@@ -8,6 +8,7 @@ use Countable;
 use JsonSerializable;
 use OutOfRangeException;
 use PHPCollections\DataHolder;
+use PHPCollections\Exceptions\InvalidOperationException;
 
 /**
  * The base class for countable and
@@ -158,6 +159,30 @@ abstract class BaseCollection implements Countable, JsonSerializable
      * @return \PHPCollections\Collections\BaseCollection
      */
     abstract public function slice(int $offset, ?int $lenght): ?self;
+
+    /**
+     * Returns the sum of a set of values.
+     *
+     * @param callable $callback
+     *
+     * @throws \PHPCollections\Exceptions\InvalidOperationException
+     *
+     * @return float
+     */
+    public function sum(callable $callback): float
+    {
+        $sum = 0;
+
+        foreach ($this->dataHolder as $value) {
+            if (!is_numeric($result = call_user_func($callback, $value))) {
+                throw new InvalidOperationException('You cannot sum non-numeric values');
+            }
+
+            $sum += $result;
+        }
+
+        return $sum;
+    }
 
     /**
      * Returns a plain array with
