@@ -214,7 +214,7 @@ class ArrayListTest extends TestCase
     /** @test */
     public function canCheckIfTwoArrayListAreEqual()
     {
-        $newArrayList = new ArrayList(['Max', 5, false, new StdClass(), null,]);
+        $newArrayList = new ArrayList(['Max', 5, false, new StdClass(), null]);
 
         $this->assertTrue($this->arrayList->equals($newArrayList));
         $this->assertFalse($this->arrayList->equals(new ArrayList(['Max', 5, false])));
@@ -231,7 +231,7 @@ class ArrayListTest extends TestCase
     /** @test */
     public function canSumANumericFieldOfTheArrayList()
     {
-        $newList = new ArrayList([18, 12, 23, 16, 14,]);
+        $newList = new ArrayList([18, 12, 23, 16, 14]);
         $totalPoints = $newList->sum(function ($points) {
             return $points;
         });
@@ -242,7 +242,7 @@ class ArrayListTest extends TestCase
     /** @test */
     public function canNotSumANonNumericFieldOfTheArrayList()
     {
-        $newList = new ArrayList(['Kyle Lowry', 'Danny Green', 'Kawhi Leonard', 'Paskal Siakam', 'Serge Ibaka',]);
+        $newList = new ArrayList(['Kyle Lowry', 'Danny Green', 'Kawhi Leonard', 'Paskal Siakam', 'Serge Ibaka']);
 
         $this->expectException('\PHPCollections\Exceptions\InvalidOperationException');
         $this->expectExceptionMessage('You cannot sum non-numeric values');

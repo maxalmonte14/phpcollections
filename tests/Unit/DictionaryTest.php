@@ -307,11 +307,11 @@ class DictionaryTest extends TestCase
         $newList = new Dictionary(
             'string', 'integer',
             [
-                'Kyle Lowry' => 18,
-                'Danny Green'=> 12,
+                'Kyle Lowry'   => 18,
+                'Danny Green'  => 12,
                 'Kawhi Leonard'=> 23,
                 'Paskal Siakam'=> 16,
-                'Serge Ibaka'=> 14,
+                'Serge Ibaka'  => 14,
             ]
         );
         $totalPoints = $newList->sum(function ($pair) {
@@ -327,11 +327,11 @@ class DictionaryTest extends TestCase
         $newList = new Dictionary(
             'string', 'integer',
             [
-                'Kyle Lowry' => 18,
-                'Danny Green'=> 12,
+                'Kyle Lowry'   => 18,
+                'Danny Green'  => 12,
                 'Kawhi Leonard'=> 23,
                 'Paskal Siakam'=> 16,
-                'Serge Ibaka'=> 14,
+                'Serge Ibaka'  => 14,
             ]
         );
 
