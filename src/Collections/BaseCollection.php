@@ -93,9 +93,23 @@ abstract class BaseCollection implements Countable, JsonSerializable
      *
      * @param \PHPCollections\Collections\BaseCollection $collection
      *
-     * @return \PHPCollections\Collections\BaseCollection
+     * @return bool
      */
     abstract public function equals(self $collection): bool;
+
+    /**
+     * Fills the collection with data.
+     *
+     * @param array $data
+     *
+     * @return void
+     */
+    public function fill(array $data): void
+    {
+        foreach ($data as $entry) {
+            $this->add($entry);
+        }
+    }
 
     /**
      * Gets the first element in the collection.

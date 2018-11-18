@@ -93,6 +93,14 @@ Determines if two collections are equal.
 #### Arguments
 * $collection **\PHPCollections\Collections\BaseCollection**
 
+### fill
+
+    void PHPCollections\Collections\BaseCollection::fill()
+
+Fills the collection with data.
+
+* Visibility: **public**
+
 ### first
 
     mixed PHPCollections\Collections\BaseCollection::first()
