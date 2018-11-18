@@ -58,13 +58,13 @@ class GenericList extends BaseCollection implements ObjectCollectionInterface, I
     /**
      * Adds a new object to the collection.
      *
-     * @param mixed $value
+     * @param object $value
      *
      * @throws \InvalidArgumentException
      *
      * @return void
      */
-    public function add($value): void
+    public function add(object $value): void
     {
         Checker::objectIsOfType($value, $this->type, sprintf($this->error, get_class($value)));
 
@@ -105,7 +105,7 @@ class GenericList extends BaseCollection implements ObjectCollectionInterface, I
      *
      * @param \PHPCollections\Collections\GenericList $newGenericList
      *
-     * @return \PHPCollections\Collections\GenericList
+     * @return bool
      */
     public function equals(BaseCollection $newGenericList): bool
     {

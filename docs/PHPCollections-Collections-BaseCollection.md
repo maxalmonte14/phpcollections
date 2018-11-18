@@ -97,7 +97,7 @@ Determines if two collections are equal.
 
     void PHPCollections\Collections\BaseCollection::fill()
 
-Fills the collection with data.
+Fills the collection with a set of data.
 
 * Visibility: **public**
 

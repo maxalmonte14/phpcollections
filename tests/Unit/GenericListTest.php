@@ -346,4 +346,18 @@ class GenericListTest extends TestCase
             return $arrayObject->offsetGet('name');
         }); // Here an InvalidOperationException is thrown!
     }
+
+    /** @test */
+    public function itCanFillAGenericListWithData()
+    {
+        $this->list->fill([
+            new ArrayObject(['name' => 'Max']),
+            new ArrayObject(['name' => 'John']),
+        ]);
+
+        $this->assertCount(11, $this->list);
+        $this->expectException('\InvalidArgumentException');
+        $this->expectExceptionMessage('The type specified for this collection is ArrayObject, you cannot pass an object of type stdClass');
+        $this->list->fill([new StdClass()]);
+    }
 }

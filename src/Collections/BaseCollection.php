@@ -98,7 +98,7 @@ abstract class BaseCollection implements Countable, JsonSerializable
     abstract public function equals(self $collection): bool;
 
     /**
-     * Fills the collection with data.
+     * Fills the collection with a set of data.
      *
      * @param array $data
      *

@@ -341,4 +341,18 @@ class DictionaryTest extends TestCase
             return $pair->getKey();
         }); // Here an InvalidOperationException is thrown!
     }
+
+    /** @test */
+    public function itCanFillADictionarytWithData()
+    {
+        $this->dictionary->fill([
+            'first_key'  => 'first_value',
+            'second_key' => 'second_value',
+        ]);
+
+        $this->assertCount(9, $this->dictionary);
+        $this->expectException('\InvalidArgumentException');
+        $this->expectExceptionMessage('The key type specified for this dictionary is string, you cannot pass an integer');
+        $this->dictionary->fill([0 => true]);
+    }
 }

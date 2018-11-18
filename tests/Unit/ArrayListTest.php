@@ -250,4 +250,15 @@ class ArrayListTest extends TestCase
             return $name;
         }); // Here an InvalidOperationException is thrown!
     }
+
+    /** @test */
+    public function itCanFillAnArrayListWithData()
+    {
+        $this->arrayList->fill([
+            'first_value',
+            'second_value',
+        ]);
+
+        $this->assertCount(7, $this->arrayList);
+    }
 }

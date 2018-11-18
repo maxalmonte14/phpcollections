@@ -121,6 +121,20 @@ class Dictionary extends BaseCollection implements DictionaryInterface, Mergeabl
     }
 
     /**
+     * Fills the dictionary with data.
+     *
+     * @param array $data
+     *
+     * @return void
+     */
+    public function fill(array $data): void
+    {
+        foreach ($data as $key => $entry) {
+            $this->add($key, $entry);
+        }
+    }
+
+    /**
      * Filters the collection applying
      * a given callback.
      *
