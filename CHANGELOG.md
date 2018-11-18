@@ -10,4 +10,5 @@
 ## Version 1.3
 - Added `equals` method to `BaseCollection` class.
 - Added `sum` method to `BaseCollection` class.
+- Added `fill` method to `BaseCollection` class.
 - Replaced `is_a` native function by `instanceof` operator.
