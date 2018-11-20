@@ -7,7 +7,7 @@ type key and value.
 
 * Class name: Dictionary
 * Namespace: PHPCollections\Collections
-* This class extends: BaseCollection
+* This class extends: AbstractCollection
 * This class implements: DictionaryInterface, MergeableInterface, SortableInterface
 
 Properties

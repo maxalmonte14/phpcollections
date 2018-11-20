@@ -14,7 +14,7 @@ use PHPCollections\Exceptions\InvalidOperationException;
  * The base class for countable and
  * JSON serializable collections.
  */
-abstract class BaseCollection implements Countable, JsonSerializable
+abstract class AbstractCollection implements Countable, JsonSerializable
 {
     /**
      * The data container.
@@ -69,9 +69,9 @@ abstract class BaseCollection implements Countable, JsonSerializable
     /**
      * Gets the difference between two collections.
      *
-     * @param \PHPCollections\Collections\BaseCollection $collection
+     * @param \PHPCollections\Collections\AbstractCollection $collection
      *
-     * @return \PHPCollections\Collections\BaseCollection
+     * @return \PHPCollections\Collections\AbstractCollection
      */
     abstract public function diff(self $collection): self;
 
@@ -91,7 +91,7 @@ abstract class BaseCollection implements Countable, JsonSerializable
     /**
      * Determines if two collections are equal.
      *
-     * @param \PHPCollections\Collections\BaseCollection $collection
+     * @param \PHPCollections\Collections\AbstractCollection $collection
      *
      * @return bool
      */
@@ -170,7 +170,7 @@ abstract class BaseCollection implements Countable, JsonSerializable
      * @param int      $offset
      * @param int|null $lenght
      *
-     * @return \PHPCollections\Collections\BaseCollection
+     * @return \PHPCollections\Collections\AbstractCollection
      */
     abstract public function slice(int $offset, ?int $lenght): ?self;
 

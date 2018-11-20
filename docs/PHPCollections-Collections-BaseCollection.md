@@ -1,10 +1,10 @@
-PHPCollections\Collections\BaseCollection
+PHPCollections\Collections\AbstractCollection
 ===============
 
 The base class for countable and
 JSON serializable collections.
 
-* Class name: BaseCollection
+* Class name: AbstractCollection
 * Namespace: PHPCollections\Collections
 * This is an **abstract** class
 * This class implements: Countable, JsonSerializable
@@ -25,7 +25,7 @@ Methods
 
 ### __construct
 
-    void PHPCollections\Collections\BaseCollection::__construct(array $data)
+    void PHPCollections\Collections\AbstractCollection::__construct(array $data)
 
 Initializes the dataHolder property.
 
@@ -36,7 +36,7 @@ Initializes the dataHolder property.
 
 ### clear
 
-    void PHPCollections\Collections\BaseCollection::clear()
+    void PHPCollections\Collections\AbstractCollection::clear()
 
 Reinitializes the dataHolder property.
 
@@ -56,7 +56,7 @@ Reinitializes the dataHolder property.
 
 ### count
 
-    integer PHPCollections\Collections\BaseCollection::count()
+    integer PHPCollections\Collections\AbstractCollection::count()
 
 Returns the length of the collection.
 
@@ -64,18 +64,18 @@ Returns the length of the collection.
 
 ### diff
 
-    Basecollection PHPCollections\Collections\BaseCollection::diff(Basecollection $collection)
+    AbstractCollection PHPCollections\Collections\AbstractCollection::diff(AbstractCollection $collection)
 
 Gets the difference between two collections.
 
 * Visibility: **public abstract**
 
 #### Arguments
-* $collection **\PHPCollections\Collections\BaseCollection**
+* $collection **\PHPCollections\Collections\AbstractCollection**
 
 ### exists
 
-    boolean PHPCollections\Collections\BaseCollection::exists(mixed $offset)
+    boolean PHPCollections\Collections\AbstractCollection::exists(mixed $offset)
 
 Checks if the given index
 exists in the collection.
@@ -84,18 +84,18 @@ exists in the collection.
 
 ### equals
 
-    boolean PHPCollections\Collections\BaseCollection::equals(BaseCollection $collection)
+    boolean PHPCollections\Collections\AbstractCollection::equals(AbstractCollection $collection)
 
 Determines if two collections are equal.
 
 * Visibility: **public abstract**
 
 #### Arguments
-* $collection **\PHPCollections\Collections\BaseCollection**
+* $collection **\PHPCollections\Collections\AbstractCollection**
 
 ### fill
 
-    void PHPCollections\Collections\BaseCollection::fill()
+    void PHPCollections\Collections\AbstractCollection::fill()
 
 Fills the collection with a set of data.
 
@@ -103,7 +103,7 @@ Fills the collection with a set of data.
 
 ### first
 
-    mixed PHPCollections\Collections\BaseCollection::first()
+    mixed PHPCollections\Collections\AbstractCollection::first()
 
 Gets the first element in the collection.
 
@@ -114,7 +114,7 @@ Gets the first element in the collection.
 
 ### isEmpty
 
-    boolean PHPCollections\Collections\BaseCollection::isEmpty()
+    boolean PHPCollections\Collections\AbstractCollection::isEmpty()
 
 Checks if the collection is empty.
 
@@ -125,7 +125,7 @@ Checks if the collection is empty.
 
 ### jsonSerialize
 
-    array PHPCollections\Collections\BaseCollection::jsonSerialize()
+    array PHPCollections\Collections\AbstractCollection::jsonSerialize()
 
 Defines the behavior of the collection
 when json_encode is called.
@@ -134,7 +134,7 @@ when json_encode is called.
 
 ### last
 
-    mixed PHPCollections\Collections\BaseCollection::last()
+    mixed PHPCollections\Collections\AbstractCollection::last()
 
 Gets the last element in the collection.
 
@@ -142,7 +142,7 @@ Gets the last element in the collection.
 
 ### toArray
 
-    array PHPCollections\Collections\BaseCollection::toArray()
+    array PHPCollections\Collections\AbstractCollection::toArray()
 
 Returns a plain array with
 your dictionary data.
@@ -151,7 +151,7 @@ your dictionary data.
 
 ### slice
 
-    ?BaseCollection PHPCollections\Collections\BaseCollection::slice(int $offset, ?int $length = null)
+    ?AbstractCollection PHPCollections\Collections\AbstractCollection::slice(int $offset, ?int $length = null)
 
  Returns a portion of the collection.
 
@@ -163,7 +163,7 @@ your dictionary data.
 
 ### sum
 
-    float PHPCollections\Collections\BaseCollection::sum(callable $callback)
+    float PHPCollections\Collections\AbstractCollection::sum(callable $callback)
 
 Returns the sum of a set of values.
 

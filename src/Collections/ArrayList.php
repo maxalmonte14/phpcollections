@@ -14,7 +14,7 @@ use PHPCollections\Interfaces\SortableInterface;
 /**
  * A list of values of any type.
  */
-class ArrayList extends BaseCollection implements CollectionInterface, IterableInterface, MergeableInterface, SortableInterface
+class ArrayList extends AbstractCollection implements CollectionInterface, IterableInterface, MergeableInterface, SortableInterface
 {
     /**
      * Adds a new element to the collection.
@@ -40,7 +40,7 @@ class ArrayList extends BaseCollection implements CollectionInterface, IterableI
      *
      * @return \PHPCollections\Collections\ArrayList
      */
-    public function diff(BaseCollection $newArrayList): BaseCollection
+    public function diff(AbstractCollection $newArrayList): AbstractCollection
     {
         if (!$newArrayList instanceof self) {
             throw new InvalidOperationException('You should only compare an ArrayList against another ArrayList');
@@ -62,9 +62,9 @@ class ArrayList extends BaseCollection implements CollectionInterface, IterableI
      *
      * @param \PHPCollections\Collections\ArrayList $newArrayList
      *
-     * @return \PHPCollections\Collections\ArrayList
+     * @return bool
      */
-    public function equals(BaseCollection $newArrayList): bool
+    public function equals(AbstractCollection $newArrayList): bool
     {
         if (!$newArrayList instanceof self) {
             throw new InvalidOperationException('You should only compare an ArrayList against another ArrayList');
@@ -144,7 +144,7 @@ class ArrayList extends BaseCollection implements CollectionInterface, IterableI
      *
      * @return \PHPCollections\Collections\ArrayList
      */
-    public function merge(BaseCollection $newArrayList): BaseCollection
+    public function merge(AbstractCollection $newArrayList): AbstractCollection
     {
         return new $this(array_merge($this->toArray(), $newArrayList->toArray()));
     }
@@ -216,7 +216,7 @@ class ArrayList extends BaseCollection implements CollectionInterface, IterableI
      *
      * @return \PHPCollections\Collections\ArrayList|null
      */
-    public function slice(int $offset, ?int $length = null): ?BaseCollection
+    public function slice(int $offset, ?int $length = null): ?AbstractCollection
     {
         $newData = array_slice($this->toArray(), $offset, $length);
 
@@ -232,7 +232,7 @@ class ArrayList extends BaseCollection implements CollectionInterface, IterableI
      *
      * @return \PHPCollections\Collections\ArrayList|null
      */
-    public function sort(callable $callback): ?BaseCollection
+    public function sort(callable $callback): ?AbstractCollection
     {
         $data = $this->toArray();
 

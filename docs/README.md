@@ -12,7 +12,7 @@ Package Index
         * [SortableInterface](PHPCollections-Interfaces-SortableInterface.md)
     * PHPCollections\Collections
         * [ArrayList](PHPCollections-Collections-ArrayList.md)
-        * [BaseCollection](PHPCollections-Collections-BaseCollection.md)
+        * [AbstractCollection](PHPCollections-Collections-AbstractCollection.md)
         * [Dictionary](PHPCollections-Collections-Dictionary.md)
         * [GenericList](PHPCollections-Collections-GenericList.md)
         * [Pair](PHPCollections-Collections-Pair.md)

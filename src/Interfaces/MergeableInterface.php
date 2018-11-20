@@ -2,9 +2,9 @@
 
 namespace PHPCollections\Interfaces;
 
-use PHPCollections\Collections\BaseCollection;
+use PHPCollections\Collections\AbstractCollection;
 
 interface MergeableInterface
 {
-    public function merge(BaseCollection $collection): BaseCollection;
+    public function merge(AbstractCollection $collection): AbstractCollection;
 }

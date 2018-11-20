@@ -10,9 +10,9 @@ Methods
 
 ### merge
 
-    BaseCollection PHPCollections\Interfaces\MergeableInterface::merge(BaseCollection $collection)
+    AbstractCollection PHPCollections\Interfaces\MergeableInterface::merge(AbstractCollection $collection)
 
 * Visibility: **public**
 
 #### Arguments
-* $collection **PHPCollections\Collections\BaseCollection**
+* $collection **PHPCollections\Collections\AbstractCollection**

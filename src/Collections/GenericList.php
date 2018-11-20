@@ -15,7 +15,7 @@ use PHPCollections\Interfaces\SortableInterface;
 /**
  * A list for a generic type of data.
  */
-class GenericList extends BaseCollection implements ObjectCollectionInterface, IterableInterface, MergeableInterface, SortableInterface
+class GenericList extends AbstractCollection implements ObjectCollectionInterface, IterableInterface, MergeableInterface, SortableInterface
 {
     /**
      * The error message to show when
@@ -83,7 +83,7 @@ class GenericList extends BaseCollection implements ObjectCollectionInterface, I
      *
      * @return \PHPCollections\Collections\GenericList
      */
-    public function diff(BaseCollection $newGenericList): BaseCollection
+    public function diff(AbstractCollection $newGenericList): AbstractCollection
     {
         if (!$newGenericList instanceof self) {
             throw new InvalidOperationException('You should only compare a GenericList against another GenericList');
@@ -107,7 +107,7 @@ class GenericList extends BaseCollection implements ObjectCollectionInterface, I
      *
      * @return bool
      */
-    public function equals(BaseCollection $newGenericList): bool
+    public function equals(AbstractCollection $newGenericList): bool
     {
         if (!$newGenericList instanceof self) {
             throw new InvalidOperationException('You should only compare an GenericList against another GenericList');
@@ -209,7 +209,7 @@ class GenericList extends BaseCollection implements ObjectCollectionInterface, I
      *
      * @return \PHPCollections\Collections\GenericList
      */
-    public function merge(BaseCollection $newGenericList): BaseCollection
+    public function merge(AbstractCollection $newGenericList): AbstractCollection
     {
         $newGenericList->forEach(function ($value) {
             Checker::objectIsOfType($value, $this->type, sprintf($this->error, get_class($value)));
@@ -297,7 +297,7 @@ class GenericList extends BaseCollection implements ObjectCollectionInterface, I
      *
      * @return \PHPCollections\Collections\GenericList|null
      */
-    public function slice(int $offset, ?int $length = null): ?BaseCollection
+    public function slice(int $offset, ?int $length = null): ?AbstractCollection
     {
         $newData = array_slice($this->toArray(), $offset, $length);
 
@@ -314,7 +314,7 @@ class GenericList extends BaseCollection implements ObjectCollectionInterface, I
      *
      * @return \PHPCollections\Collections\GenericList|null
      */
-    public function sort(callable $callback): ?BaseCollection
+    public function sort(callable $callback): ?AbstractCollection
     {
         $data = $this->toArray();
 

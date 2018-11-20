@@ -16,7 +16,7 @@ use PHPCollections\Interfaces\SortableInterface;
  * represented by a generic
  * type key and value.
  */
-class Dictionary extends BaseCollection implements DictionaryInterface, MergeableInterface, SortableInterface
+class Dictionary extends AbstractCollection implements DictionaryInterface, MergeableInterface, SortableInterface
 {
     /**
      * The type of the keys
@@ -81,7 +81,7 @@ class Dictionary extends BaseCollection implements DictionaryInterface, Mergeabl
      *
      * @return \PHPCollections\Collections\Dictionary
      */
-    public function diff(BaseCollection $newDictionary): BaseCollection
+    public function diff(AbstractCollection $newDictionary): AbstractCollection
     {
         if (!$newDictionary instanceof self) {
             throw new InvalidOperationException('You should only compare a Dictionary against another Dictionary');
@@ -109,9 +109,9 @@ class Dictionary extends BaseCollection implements DictionaryInterface, Mergeabl
      *
      * @param \PHPCollections\Collections\Dictionary $newDictionary
      *
-     * @return \PHPCollections\Collections\Dictionary
+     * @return bool
      */
-    public function equals(BaseCollection $newDictionary): bool
+    public function equals(AbstractCollection $newDictionary): bool
     {
         if (!$newDictionary instanceof self) {
             throw new InvalidOperationException('You should only compare an Dictionary against another Dictionary');
@@ -243,7 +243,7 @@ class Dictionary extends BaseCollection implements DictionaryInterface, Mergeabl
      *
      * @return \PHPCollections\Collections\Dictionary
      */
-    public function merge(BaseCollection $newDictionary): BaseCollection
+    public function merge(AbstractCollection $newDictionary): AbstractCollection
     {
         Checker::isEqual(
             $newDictionary->getKeyType(), $this->getKeyType(),
@@ -291,7 +291,7 @@ class Dictionary extends BaseCollection implements DictionaryInterface, Mergeabl
      *
      * @return \PHPCollections\Collections\Dictionary|null
      */
-    public function slice(int $offset, ?int $length = null): ?BaseCollection
+    public function slice(int $offset, ?int $length = null): ?AbstractCollection
     {
         $newData = array_slice($this->toArray(), $offset, $length, true);
 
@@ -307,7 +307,7 @@ class Dictionary extends BaseCollection implements DictionaryInterface, Mergeabl
      *
      * @return \PHPCollections\Collections\Dictionary|null
      */
-    public function sort(callable $callback): ?BaseCollection
+    public function sort(callable $callback): ?AbstractCollection
     {
         $data = $this->toArray();
 

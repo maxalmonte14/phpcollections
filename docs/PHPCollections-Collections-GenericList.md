@@ -5,7 +5,7 @@ A list for a generic type of data.
 
 * Class name: GenericList
 * Namespace: PHPCollections\Collections
-* This class extends: BaseCollection
+* This class extends: AbstractCollection
 * This class implements: ObjectCollectionInterface, IterableInterface, MergeableInterface,SortableInterface
 
 Properties
