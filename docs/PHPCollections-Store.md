@@ -1,9 +1,9 @@
-PHPCollections\DataHolder
+PHPCollections\Store
 ===============
 
 A class for storing and managing data.
 
-* Class name: DataHolder
+* Class name: Store
 * Namespace: PHPCollections
 * This class implements: ArrayAccess, IteratorAggregate
 
@@ -23,7 +23,7 @@ Methods
 
 ### __construct
 
-    void PHPCollections\DataHolder::__construct(array $data)
+    void PHPCollections\Store::__construct(array $data)
 
 Initializes the container property.
 
@@ -34,7 +34,7 @@ Initializes the container property.
 
 ### getContainer
 
-    array PHPCollections\DataHolder::getContainer()
+    array PHPCollections\Store::getContainer()
 
 Returns the container array.
 
@@ -42,7 +42,7 @@ Returns the container array.
 
 ### getIterator
 
-    \ArrayIterator PHPCollections\DataHolder::getIterator()
+    \ArrayIterator PHPCollections\Store::getIterator()
 
 Returns an array iterator for
 the container property.
@@ -51,7 +51,7 @@ the container property.
 
 ### offsetExists
 
-    boolean PHPCollections\DataHolder::offsetExists(mixed $offset)
+    boolean PHPCollections\Store::offsetExists(mixed $offset)
 
 Checks if an offset exists in the container.
 
@@ -62,7 +62,7 @@ Checks if an offset exists in the container.
 
 ### offsetGet
 
-    ?mixed PHPCollections\DataHolder::offsetGet(mixed $offset)
+    ?mixed PHPCollections\Store::offsetGet(mixed $offset)
 
 Gets a value from the container.
 
@@ -73,7 +73,7 @@ Gets a value from the container.
 
 ### offsetSet
 
-    void PHPCollections\DataHolder::offsetSet(mixed $offset, mixed $value)
+    void PHPCollections\Store::offsetSet(mixed $offset, mixed $value)
 
 Sets a value into the container.
 
@@ -85,7 +85,7 @@ Sets a value into the container.
 
 ### offsetUnset
 
-    void PHPCollections\DataHolder::offsetUnset(mixed $offset)
+    void PHPCollections\Store::offsetUnset(mixed $offset)
 
 Unsets an offset from the container.
 
@@ -96,7 +96,7 @@ Unsets an offset from the container.
 
 ### setContainer
 
-    void PHPCollections\DataHolder::setContainer(array $data)
+    void PHPCollections\Store::setContainer(array $data)
 
 Sets the container array.
 

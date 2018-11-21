@@ -18,5 +18,5 @@ Package Index
         * [Pair](PHPCollections-Collections-Pair.md)
         * [Stack](PHPCollections-Collections-Stack.md)
     * [Checker](PHPCollections-Checker.md)
-    * [DataHolder](PHPCollections-DataHolder.md)
+    * [Store](PHPCollections-Store.md)
 

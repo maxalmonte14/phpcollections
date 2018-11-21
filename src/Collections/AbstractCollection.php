@@ -7,7 +7,7 @@ namespace PHPCollections\Collections;
 use Countable;
 use JsonSerializable;
 use OutOfRangeException;
-use PHPCollections\DataHolder;
+use PHPCollections\Store;
 use PHPCollections\Exceptions\InvalidOperationException;
 
 /**
@@ -19,28 +19,28 @@ abstract class AbstractCollection implements Countable, JsonSerializable
     /**
      * The data container.
      *
-     * @var \PHPCollections\DataHolder
+     * @var \PHPCollections\Store
      */
-    protected $dataHolder;
+    protected $store;
 
     /**
-     * Initializes the dataHolder property.
+     * Initializes the store property.
      *
      * @param array $data
      */
     public function __construct(array $data = [])
     {
-        $this->dataHolder = new DataHolder($data);
+        $this->store = new Store($data);
     }
 
     /**
-     * Reinitializes the dataHolder property.
+     * Reinitializes the store property.
      *
      * @return void
      */
     public function clear(): void
     {
-        $this->dataHolder = new DataHolder();
+        $this->store = new Store();
     }
 
     /**
@@ -85,7 +85,7 @@ abstract class AbstractCollection implements Countable, JsonSerializable
      */
     public function exists($offset): bool
     {
-        return $this->dataHolder->offsetExists($offset);
+        return $this->store->offsetExists($offset);
     }
 
     /**
@@ -187,7 +187,7 @@ abstract class AbstractCollection implements Countable, JsonSerializable
     {
         $sum = 0;
 
-        foreach ($this->dataHolder as $value) {
+        foreach ($this->store as $value) {
             if (!is_numeric($result = call_user_func($callback, $value))) {
                 throw new InvalidOperationException('You cannot sum non-numeric values');
             }
@@ -200,12 +200,12 @@ abstract class AbstractCollection implements Countable, JsonSerializable
 
     /**
      * Returns a plain array with
-     * your dictionary data.
+     * your collection data.
      *
      * @return array
      */
     public function toArray(): array
     {
-        return $this->dataHolder->getContainer();
+        return $this->store->getContainer();
     }
 }

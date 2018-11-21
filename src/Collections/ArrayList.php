@@ -28,7 +28,7 @@ class ArrayList extends AbstractCollection implements CollectionInterface, Itera
         $data = $this->toArray();
 
         array_push($data, $value);
-        $this->dataHolder->setContainer($data);
+        $this->store->setContainer($data);
     }
 
     /**
@@ -85,7 +85,7 @@ class ArrayList extends AbstractCollection implements CollectionInterface, Itera
     {
         $matcheds = [];
 
-        foreach ($this->dataHolder as $value) {
+        foreach ($this->store as $value) {
             if (call_user_func($callback, $value) === true) {
                 $matcheds[] = $value;
             }
@@ -106,7 +106,7 @@ class ArrayList extends AbstractCollection implements CollectionInterface, Itera
         $data = $this->toArray();
 
         array_walk($data, $callback);
-        $this->dataHolder->setContainer($data);
+        $this->store->setContainer($data);
     }
 
     /**
@@ -119,7 +119,7 @@ class ArrayList extends AbstractCollection implements CollectionInterface, Itera
      */
     public function get(int $offset)
     {
-        return $this->dataHolder->offsetGet($offset);
+        return $this->store->offsetGet($offset);
     }
 
     /**
@@ -184,11 +184,11 @@ class ArrayList extends AbstractCollection implements CollectionInterface, Itera
             throw new OutOfRangeException('You\'re trying to remove data from an empty collection');
         }
 
-        if (!$this->dataHolder->offsetExists($offset)) {
+        if (!$this->store->offsetExists($offset)) {
             throw new OutOfRangeException(sprintf('The %d index does not exists for this collection', $offset));
         }
 
-        $this->dataHolder->offsetUnset($offset);
+        $this->store->offsetUnset($offset);
     }
 
     /**
@@ -254,8 +254,8 @@ class ArrayList extends AbstractCollection implements CollectionInterface, Itera
             throw new InvalidOperationException('You cannot update a non-existent value');
         }
 
-        $this->dataHolder->offsetSet($index, $value);
+        $this->store->offsetSet($index, $value);
 
-        return $this->dataHolder->offsetGet($index) === $value;
+        return $this->store->offsetGet($index) === $value;
     }
 }

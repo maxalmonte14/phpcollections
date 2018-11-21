@@ -2,16 +2,16 @@
 
 namespace Tests\Unit;
 
-use PHPCollections\DataHolder;
+use PHPCollections\Store;
 use PHPUnit\Framework\TestCase;
 
 class DataHolderTest extends TestCase
 {
-    private $dataHolder;
+    private $store;
 
     public function setUp()
     {
-        $this->dataHolder = new DataHolder([
+        $this->store = new Store([
             'name' => 'Max',
             'age'  => '24',
         ]);
@@ -20,14 +20,14 @@ class DataHolderTest extends TestCase
     /** @test */
     public function it_can_add_elements()
     {
-        $this->dataHolder->offsetSet('job', 'Programmer');
-        $this->assertEquals('Programmer', $this->dataHolder->offsetGet('job'));
+        $this->store->offsetSet('job', 'Programmer');
+        $this->assertEquals('Programmer', $this->store->offsetGet('job'));
     }
 
     /** @test */
     public function it_can_remove_elements()
     {
-        $this->dataHolder->offsetUnset('name');
-        $this->assertArrayNotHasKey('name', $this->dataHolder);
+        $this->store->offsetUnset('name');
+        $this->assertArrayNotHasKey('name', $this->store);
     }
 }

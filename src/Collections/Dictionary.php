@@ -69,7 +69,7 @@ class Dictionary extends AbstractCollection implements DictionaryInterface, Merg
     public function add($key, $value): void
     {
         $this->validateEntry($key, $value);
-        $this->dataHolder->offsetSet($key, new Pair($key, $value));
+        $this->store->offsetSet($key, new Pair($key, $value));
     }
 
     /**
@@ -146,7 +146,7 @@ class Dictionary extends AbstractCollection implements DictionaryInterface, Merg
     {
         $matcheds = [];
 
-        foreach ($this->dataHolder as $key => $value) {
+        foreach ($this->store as $key => $value) {
             if (call_user_func($callback, $value->getKey(), $value->getValue()) === true) {
                 $matcheds[$value->getKey()] = $value->getValue();
             }
@@ -180,8 +180,8 @@ class Dictionary extends AbstractCollection implements DictionaryInterface, Merg
      */
     public function get($key)
     {
-        return $this->dataHolder->offsetExists($key) ?
-               $this->dataHolder->offsetGet($key)->getValue() :
+        return $this->store->offsetExists($key) ?
+               $this->store->offsetGet($key)->getValue() :
                null;
     }
 
@@ -215,7 +215,7 @@ class Dictionary extends AbstractCollection implements DictionaryInterface, Merg
     private function initializePairs(array $data): void
     {
         foreach ($data as $key => $value) {
-            $this->dataHolder[$key] = new Pair($key, $value);
+            $this->store[$key] = new Pair($key, $value);
         }
     }
 
@@ -276,11 +276,11 @@ class Dictionary extends AbstractCollection implements DictionaryInterface, Merg
             throw new OutOfRangeException('You\'re trying to remove data from an empty collection');
         }
 
-        if (!$this->dataHolder->offsetExists($key)) {
+        if (!$this->store->offsetExists($key)) {
             throw new OutOfRangeException(sprintf('The %s key does not exists for this collection', $key));
         }
 
-        $this->dataHolder->offsetUnset($key);
+        $this->store->offsetUnset($key);
     }
 
     /**
@@ -324,7 +324,7 @@ class Dictionary extends AbstractCollection implements DictionaryInterface, Merg
     {
         $array = [];
 
-        foreach ($this->dataHolder as $pair) {
+        foreach ($this->store as $pair) {
             $array[$pair->getKey()] = $pair->getValue();
         }
 
@@ -339,7 +339,7 @@ class Dictionary extends AbstractCollection implements DictionaryInterface, Merg
      */
     public function toJson(): string
     {
-        return json_encode($this->dataHolder);
+        return json_encode($this->store);
     }
 
     /**
@@ -358,13 +358,13 @@ class Dictionary extends AbstractCollection implements DictionaryInterface, Merg
     {
         $this->validateEntry($key, $value);
 
-        if (!$this->dataHolder->offsetExists($key)) {
+        if (!$this->store->offsetExists($key)) {
             throw new InvalidOperationException('You cannot update a non-existent value');
         }
 
-        $this->dataHolder[$key]->setValue($value);
+        $this->store[$key]->setValue($value);
 
-        return $this->dataHolder[$key]->getValue() === $value;
+        return $this->store[$key]->getValue() === $value;
     }
 
     /**

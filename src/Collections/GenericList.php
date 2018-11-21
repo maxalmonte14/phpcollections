@@ -71,7 +71,7 @@ class GenericList extends AbstractCollection implements ObjectCollectionInterfac
         $data = $this->toArray();
 
         array_push($data, $value);
-        $this->dataHolder->setContainer($data);
+        $this->store->setContainer($data);
     }
 
     /**
@@ -128,7 +128,7 @@ class GenericList extends AbstractCollection implements ObjectCollectionInterfac
     {
         $matcheds = [];
 
-        foreach ($this->dataHolder as $key => $value) {
+        foreach ($this->store as $key => $value) {
             if (call_user_func($callback, $key, $value) === true) {
                 $matcheds[] = $value;
             }
@@ -149,7 +149,7 @@ class GenericList extends AbstractCollection implements ObjectCollectionInterfac
         $data = $this->toArray();
 
         array_walk($data, $callback);
-        $this->dataHolder->setContainer($data);
+        $this->store->setContainer($data);
     }
 
     /**
@@ -168,11 +168,11 @@ class GenericList extends AbstractCollection implements ObjectCollectionInterfac
             throw new OutOfRangeException('You\'re trying to get data from an empty collection.');
         }
 
-        if (!$this->dataHolder->offsetExists($offset)) {
+        if (!$this->store->offsetExists($offset)) {
             throw new OutOfRangeException(sprintf('The %d index do not exits for this collection.', $offset));
         }
 
-        return $this->dataHolder->offsetGet($offset);
+        return $this->store->offsetGet($offset);
     }
 
     /**
@@ -253,11 +253,11 @@ class GenericList extends AbstractCollection implements ObjectCollectionInterfac
             throw new OutOfRangeException('You\'re trying to remove data into a empty collection.');
         }
 
-        if (!$this->dataHolder->offsetExists($offset)) {
+        if (!$this->store->offsetExists($offset)) {
             throw new OutOfRangeException(sprintf('The %d index do not exits for this collection.', $offset));
         }
 
-        $this->dataHolder->offsetUnset($offset);
+        $this->store->offsetUnset($offset);
         $this->repopulate();
     }
 
@@ -269,7 +269,7 @@ class GenericList extends AbstractCollection implements ObjectCollectionInterfac
     private function repopulate(): void
     {
         $oldData = array_values($this->toArray());
-        $this->dataHolder->setContainer($oldData);
+        $this->store->setContainer($oldData);
     }
 
     /**
@@ -341,8 +341,8 @@ class GenericList extends AbstractCollection implements ObjectCollectionInterfac
             throw new InvalidOperationException('You cannot update a non-existent value');
         }
 
-        $this->dataHolder[$index] = $value;
+        $this->store[$index] = $value;
 
-        return $this->dataHolder[$index] === $value;
+        return $this->store[$index] === $value;
     }
 }

@@ -11,7 +11,7 @@ use IteratorAggregate;
 /**
  * A class for storing and managing data.
  */
-class DataHolder implements ArrayAccess, IteratorAggregate
+class Store implements ArrayAccess, IteratorAggregate
 {
     /**
      * The array for storing data.

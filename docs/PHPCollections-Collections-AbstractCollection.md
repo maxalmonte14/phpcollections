@@ -12,9 +12,9 @@ JSON serializable collections.
 Properties
 ----------
 
-### $dataHolder
+### $store
 
-    protected \PHPCollections\DataHolder $dataHolder
+    protected \PHPCollections\Store $store
 
 The data container.
 
@@ -27,7 +27,7 @@ Methods
 
     void PHPCollections\Collections\AbstractCollection::__construct(array $data)
 
-Initializes the dataHolder property.
+Initializes the store property.
 
 * Visibility: **public**
 
@@ -38,7 +38,7 @@ Initializes the dataHolder property.
 
     void PHPCollections\Collections\AbstractCollection::clear()
 
-Reinitializes the dataHolder property.
+Reinitializes the store property.
 
 * Visibility: **public**
 
