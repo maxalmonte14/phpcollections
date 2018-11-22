@@ -63,7 +63,7 @@ abstract class AbstractCollection implements Countable, JsonSerializable
      */
     public function count(): int
     {
-        return count($this->toArray());
+        return $this->store->count();
     }
 
     /**

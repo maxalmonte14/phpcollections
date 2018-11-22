@@ -6,12 +6,13 @@ namespace PHPCollections;
 
 use ArrayAccess;
 use ArrayIterator;
+use Countable;
 use IteratorAggregate;
 
 /**
  * A class for storing and managing data.
  */
-class Store implements ArrayAccess, IteratorAggregate
+class Store implements ArrayAccess, Countable, IteratorAggregate
 {
     /**
      * The array for storing data.
@@ -110,5 +111,16 @@ class Store implements ArrayAccess, IteratorAggregate
     public function setContainer(array $data): void
     {
         $this->container = $data;
+    }
+
+    /**
+     * Returns the number of elements
+     * in the container array.
+     *
+     * @return int
+     */
+    public function count()
+    {
+        return count($this->container);
     }
 }
