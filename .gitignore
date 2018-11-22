@@ -1,4 +1,5 @@
 vendor/
 .vscode/
+.idea/
 composer.lock
 docs/structure.xml
