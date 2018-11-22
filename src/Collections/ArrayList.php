@@ -25,10 +25,7 @@ class ArrayList extends AbstractCollection implements CollectionInterface, Itera
      */
     public function add($value): void
     {
-        $data = $this->toArray();
-
-        array_push($data, $value);
-        $this->store->setContainer($data);
+        $this->store->offsetSet($this->store->count(), $value);
     }
 
     /**
@@ -61,6 +58,8 @@ class ArrayList extends AbstractCollection implements CollectionInterface, Itera
      * Determines if two ArrayList objects are equal.
      *
      * @param \PHPCollections\Collections\ArrayList $newArrayList
+     *
+     * @throws \PHPCollections\Exceptions\InvalidOperationException
      *
      * @return bool
      */
@@ -245,6 +244,8 @@ class ArrayList extends AbstractCollection implements CollectionInterface, Itera
      *
      * @param int   $index
      * @param mixed $value
+     *
+     * @throws \PHPCollections\Exceptions\InvalidOperationException
      *
      * @return bool
      */

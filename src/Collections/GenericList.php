@@ -68,10 +68,7 @@ class GenericList extends AbstractCollection implements ObjectCollectionInterfac
     {
         Checker::objectIsOfType($value, $this->type, sprintf($this->error, get_class($value)));
 
-        $data = $this->toArray();
-
-        array_push($data, $value);
-        $this->store->setContainer($data);
+        $this->store->offsetSet($this->store->count(), $value);
     }
 
     /**
