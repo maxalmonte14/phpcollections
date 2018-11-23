@@ -82,17 +82,6 @@ exists in the collection.
 
 * Visibility: **public**
 
-### equals
-
-    boolean PHPCollections\Collections\AbstractCollection::equals(AbstractCollection $collection)
-
-Determines if two collections are equal.
-
-* Visibility: **public abstract**
-
-#### Arguments
-* $collection **\PHPCollections\Collections\AbstractCollection**
-
 ### fill
 
     void PHPCollections\Collections\AbstractCollection::fill()

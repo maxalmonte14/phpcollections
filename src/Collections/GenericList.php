@@ -100,11 +100,13 @@ class GenericList extends AbstractCollection implements ObjectCollectionInterfac
     /**
      * Determines if two GenericList objects are equal.
      *
-     * @param \PHPCollections\Collections\GenericList $newGenericList
+     * @param object $newGenericList
+     *
+     * @throws \PHPCollections\Exceptions\InvalidOperationException
      *
      * @return bool
      */
-    public function equals(AbstractCollection $newGenericList): bool
+    public function equals(object $newGenericList): bool
     {
         if (!$newGenericList instanceof self) {
             throw new InvalidOperationException('You should only compare an GenericList against another GenericList');

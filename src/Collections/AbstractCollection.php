@@ -7,6 +7,7 @@ namespace PHPCollections\Collections;
 use Countable;
 use JsonSerializable;
 use OutOfRangeException;
+use PHPCollections\Interfaces\ComparableInterface;
 use PHPCollections\Store;
 use PHPCollections\Exceptions\InvalidOperationException;
 
@@ -14,7 +15,7 @@ use PHPCollections\Exceptions\InvalidOperationException;
  * The base class for countable and
  * JSON serializable collections.
  */
-abstract class AbstractCollection implements Countable, JsonSerializable
+abstract class AbstractCollection implements Countable, ComparableInterface, JsonSerializable
 {
     /**
      * The data container.
@@ -87,15 +88,6 @@ abstract class AbstractCollection implements Countable, JsonSerializable
     {
         return $this->store->offsetExists($offset);
     }
-
-    /**
-     * Determines if two collections are equal.
-     *
-     * @param \PHPCollections\Collections\AbstractCollection $collection
-     *
-     * @return bool
-     */
-    abstract public function equals(self $collection): bool;
 
     /**
      * Fills the collection with a set of data.

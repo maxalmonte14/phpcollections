@@ -181,3 +181,6 @@ Returns a new ArrayList with the values ordered by a given callback if couldn't 
 #### Arguments
 * $index **integer**
 * $value **mixed**
+
+#### Throws
+* **\PHPCollections\Exceptions\InvalidOperationException**

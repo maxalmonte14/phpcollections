@@ -57,13 +57,13 @@ class ArrayList extends AbstractCollection implements CollectionInterface, Itera
     /**
      * Determines if two ArrayList objects are equal.
      *
-     * @param \PHPCollections\Collections\ArrayList $newArrayList
+     * @param object
      *
      * @throws \PHPCollections\Exceptions\InvalidOperationException
      *
      * @return bool
      */
-    public function equals(AbstractCollection $newArrayList): bool
+    public function equals(object $newArrayList): bool
     {
         if (!$newArrayList instanceof self) {
             throw new InvalidOperationException('You should only compare an ArrayList against another ArrayList');
