@@ -32,6 +32,28 @@ class Store implements ArrayAccess, Countable, IteratorAggregate
     }
 
     /**
+     * Returns the number of elements
+     * in the container array.
+     *
+     * @return int
+     */
+    public function count()
+    {
+        return count($this->container);
+    }
+
+    /**
+     * Returns the first element of the
+     * container array.
+     *
+     * @return mixed
+     */
+    public function first()
+    {
+        return reset($this->container);
+    }
+
+    /**
      * Returns the container array.
      *
      * @return array
@@ -50,6 +72,17 @@ class Store implements ArrayAccess, Countable, IteratorAggregate
     public function getIterator(): ArrayIterator
     {
         return new ArrayIterator($this->container);
+    }
+
+    /**
+     * Returns the last element of the
+     * container array.
+     *
+     * @return mixed
+     */
+    public function last()
+    {
+        return end($this->container);
     }
 
     /**
@@ -111,16 +144,5 @@ class Store implements ArrayAccess, Countable, IteratorAggregate
     public function setContainer(array $data): void
     {
         $this->container = $data;
-    }
-
-    /**
-     * Returns the number of elements
-     * in the container array.
-     *
-     * @return int
-     */
-    public function count()
-    {
-        return count($this->container);
     }
 }

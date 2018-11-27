@@ -113,7 +113,7 @@ abstract class AbstractCollection implements Countable, ComparableInterface, Jso
             throw new OutOfRangeException('You\'re trying to get data from an empty collection');
         }
 
-        return array_values($this->toArray())[0];
+        return $this->store->first();
     }
 
     /**
@@ -150,7 +150,7 @@ abstract class AbstractCollection implements Countable, ComparableInterface, Jso
             throw new OutOfRangeException('You\'re trying to get data from an empty collection');
         }
 
-        return array_values($this->toArray())[$this->count() - 1];
+        return $this->store->last();
     }
 
     /**
