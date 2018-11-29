@@ -7,10 +7,10 @@ namespace PHPCollections\Collections;
 use Countable;
 use JsonSerializable;
 use OutOfRangeException;
+use PHPCollections\Exceptions\InvalidOperationException;
 use PHPCollections\Interfaces\ArrayableInterface;
 use PHPCollections\Interfaces\ComparableInterface;
 use PHPCollections\Store;
-use PHPCollections\Exceptions\InvalidOperationException;
 
 abstract class AbstractCollection implements Countable, ComparableInterface, JsonSerializable, ArrayableInterface
 {
