@@ -10,7 +10,7 @@ Methods
 
 ### sort
 
-    bool PHPCollections\Interfaces\SortableInterface::sort(callable $callback)
+    ?object PHPCollections\Interfaces\SortableInterface::sort(callable $callback)
 
 * Visibility: **public**
 

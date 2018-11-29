@@ -143,7 +143,7 @@ class ArrayList extends AbstractCollection implements CollectionInterface, Itera
      *
      * @return \PHPCollections\Collections\ArrayList
      */
-    public function merge(AbstractCollection $newArrayList): AbstractCollection
+    public function merge(object $newArrayList): object
     {
         return new $this(array_merge($this->toArray(), $newArrayList->toArray()));
     }
@@ -231,7 +231,7 @@ class ArrayList extends AbstractCollection implements CollectionInterface, Itera
      *
      * @return \PHPCollections\Collections\ArrayList|null
      */
-    public function sort(callable $callback): ?AbstractCollection
+    public function sort(callable $callback): ?object
     {
         $data = $this->toArray();
 

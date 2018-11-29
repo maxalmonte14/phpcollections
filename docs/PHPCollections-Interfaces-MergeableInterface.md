@@ -10,7 +10,7 @@ Methods
 
 ### merge
 
-    AbstractCollection PHPCollections\Interfaces\MergeableInterface::merge(AbstractCollection $collection)
+    object PHPCollections\Interfaces\MergeableInterface::merge(object $collection)
 
 * Visibility: **public**
 

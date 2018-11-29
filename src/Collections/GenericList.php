@@ -208,7 +208,7 @@ class GenericList extends AbstractCollection implements ObjectCollectionInterfac
      *
      * @return \PHPCollections\Collections\GenericList
      */
-    public function merge(AbstractCollection $newGenericList): AbstractCollection
+    public function merge(object $newGenericList): object
     {
         $newGenericList->forEach(function ($value) {
             Checker::objectIsOfType($value, $this->type, sprintf($this->error, get_class($value)));
@@ -313,7 +313,7 @@ class GenericList extends AbstractCollection implements ObjectCollectionInterfac
      *
      * @return \PHPCollections\Collections\GenericList|null
      */
-    public function sort(callable $callback): ?AbstractCollection
+    public function sort(callable $callback): ?object
     {
         $data = $this->toArray();
 

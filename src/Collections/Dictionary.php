@@ -7,16 +7,13 @@ namespace PHPCollections\Collections;
 use OutOfRangeException;
 use PHPCollections\Checker;
 use PHPCollections\Exceptions\InvalidOperationException;
-use PHPCollections\Interfaces\DictionaryInterface;
-use PHPCollections\Interfaces\MergeableInterface;
-use PHPCollections\Interfaces\SortableInterface;
 
 /**
  * A Pair object collection
  * represented by a generic
  * type key and value.
  */
-class Dictionary extends AbstractCollection implements DictionaryInterface, MergeableInterface, SortableInterface
+class Dictionary extends AbstractDictionary
 {
     /**
      * The type of the keys
@@ -70,54 +67,6 @@ class Dictionary extends AbstractCollection implements DictionaryInterface, Merg
     {
         $this->validateEntry($key, $value);
         $this->store->offsetSet($key, new Pair($key, $value));
-    }
-
-    /**
-     * Gets the difference between two Dictionary.
-     *
-     * @param \PHPCollections\Collections\Dictionary $newDictionary
-     *
-     * @throws \PHPCollections\Exceptions\InvalidOperationException
-     *
-     * @return \PHPCollections\Collections\Dictionary
-     */
-    public function diff(AbstractCollection $newDictionary): AbstractCollection
-    {
-        if (!$newDictionary instanceof self) {
-            throw new InvalidOperationException('You should only compare a Dictionary against another Dictionary');
-        }
-
-        if ($this->keyType !== $newDictionary->getKeyType()) {
-            throw new InvalidOperationException(sprintf('The key type for this Dictionary is %s, you cannot pass a Dictionary with %s as key type', $this->keyType, $newDictionary->getKeyType()));
-        }
-
-        if ($this->valueType !== $newDictionary->getValueType()) {
-            throw new InvalidOperationException(sprintf('The value type for this Dictionary is %s, you cannot pass a Dictionary with %s as value types', $this->valueType, $newDictionary->getValueType()));
-        }
-
-        $diffValues = array_udiff_uassoc($this->toArray(), $newDictionary->toArray(), function ($firstValue, $secondValue) {
-            return $firstValue <=> $secondValue;
-        }, function ($firstKey, $secondKey) {
-            return $firstKey <=> $secondKey;
-        });
-
-        return new self($this->keyType, $this->valueType, $diffValues);
-    }
-
-    /**
-     * Determines if two Dictionary objects are equal.
-     *
-     * @param \PHPCollections\Collections\Dictionary $newDictionary
-     *
-     * @return bool
-     */
-    public function equals(AbstractCollection $newDictionary): bool
-    {
-        if (!$newDictionary instanceof self) {
-            throw new InvalidOperationException('You should only compare an Dictionary against another Dictionary');
-        }
-
-        return $this->toArray() == $newDictionary->toArray();
     }
 
     /**
@@ -243,7 +192,7 @@ class Dictionary extends AbstractCollection implements DictionaryInterface, Merg
      *
      * @return \PHPCollections\Collections\Dictionary
      */
-    public function merge(AbstractCollection $newDictionary): AbstractCollection
+    public function merge(object $newDictionary): object
     {
         Checker::isEqual(
             $newDictionary->getKeyType(), $this->getKeyType(),
@@ -291,7 +240,7 @@ class Dictionary extends AbstractCollection implements DictionaryInterface, Merg
      *
      * @return \PHPCollections\Collections\Dictionary|null
      */
-    public function slice(int $offset, ?int $length = null): ?AbstractCollection
+    public function slice(int $offset, ?int $length = null): ?AbstractDictionary
     {
         $newData = array_slice($this->toArray(), $offset, $length, true);
 
@@ -307,7 +256,7 @@ class Dictionary extends AbstractCollection implements DictionaryInterface, Merg
      *
      * @return \PHPCollections\Collections\Dictionary|null
      */
-    public function sort(callable $callback): ?AbstractCollection
+    public function sort(callable $callback): ?object
     {
         $data = $this->toArray();
 
@@ -396,5 +345,48 @@ class Dictionary extends AbstractCollection implements DictionaryInterface, Merg
         );
 
         return true;
+    }
+
+    /**
+     * Gets the difference between two collections.
+     *
+     * @param \PHPCollections\Collections\AbstractCollection $collection
+     *
+     * @return \PHPCollections\Collections\AbstractCollection
+     */
+    public function diff(AbstractDictionary $newDictionary): AbstractDictionary
+    {
+        if (!$newDictionary instanceof self) {
+            throw new InvalidOperationException('You should only compare a Dictionary against another Dictionary');
+        }
+
+        if ($this->keyType !== $newDictionary->getKeyType()) {
+            throw new InvalidOperationException("The key type for this Dictionary is {$this->keyType}, you cannot pass a Dictionary with {$newDictionary->getKeyType()} as key type");
+        }
+
+
+        if ($this->valueType !== $newDictionary->getValueType()) {
+            throw new InvalidOperationException("The value type for this Dictionary is {$this->valueType}, you cannot pass a Dictionary with {$newDictionary->getValueType()} as value type");
+        }
+
+        return new self($this->keyType, $this->valueType, array_diff_assoc($this->toArray(), $newDictionary->toArray()));
+    }
+
+    /**
+     * Determines if two Dictionary objects are equal.
+     *
+     * @param \PHPCollections\Collections\Dictionary $dictionary
+     *
+     * @throws \PHPCollections\Exceptions\InvalidOperationException
+     *
+     * @return bool
+     */
+    public function equals(object $dictionary): bool
+    {
+        if (!$dictionary instanceof self) {
+            throw new InvalidOperationException('You should only compare a Dictionary against another Dictionary');
+        }
+
+        return $this->toArray() == $dictionary->toArray();
     }
 }
