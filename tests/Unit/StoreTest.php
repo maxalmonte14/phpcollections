@@ -5,7 +5,7 @@ namespace Tests\Unit;
 use PHPCollections\Store;
 use PHPUnit\Framework\TestCase;
 
-class DataHolderTest extends TestCase
+class StoreTest extends TestCase
 {
     private $store;
 

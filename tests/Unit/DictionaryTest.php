@@ -45,7 +45,7 @@ class DictionaryTest extends TestCase
     public function canClearData()
     {
         $this->dictionary->clear();
-        $this->assertCount(0, $this->dictionary);
+        $this->assertEquals(0, $this->dictionary->count());
     }
 
     /** @test */
@@ -246,21 +246,6 @@ class DictionaryTest extends TestCase
     }
 
     /** @test */
-    public function canNotCompareADictionaryAgainstAnotherTypeOfCollection()
-    {
-        $this->expectException('\PHPCollections\Exceptions\InvalidOperationException');
-        $this->expectExceptionMessage('You should only compare a Dictionary against another Dictionary');
-
-        $newDictionary = new GenericList(
-            StdClass::class,
-            new StdClass(['name' => 'John']),
-            new StdClass(['name' => 'Carter'])
-        );
-
-        $diffDictionary = $this->dictionary->diff($newDictionary); // Here an InvalidOperationException is thrown!
-    }
-
-    /** @test */
     public function canSliceADictionary()
     {
         $this->assertCount(5, $this->dictionary->slice(2));
@@ -297,7 +282,7 @@ class DictionaryTest extends TestCase
     public function canNotCheckIfAnDictionaryIsEqualToAnotherTypeOfCollection()
     {
         $this->expectException('\PHPCollections\Exceptions\InvalidOperationException');
-        $this->expectExceptionMessage('You should only compare an Dictionary against another Dictionary');
+        $this->expectExceptionMessage('You should only compare a Dictionary against another Dictionary');
         $this->dictionary->equals(new GenericList(StdClass::class));
     }
 
