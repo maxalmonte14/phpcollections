@@ -1,7 +1,7 @@
-PHPCollections\Interfaces\CollectionInterface
+PHPCollections\Interfaces\ArrayableInterface
 ===============
 
-* Interface name: CollectionInterface
+* Interface name: ArrayableInterface
 * Namespace: PHPCollections\Interfaces
 * This is an **interface**
 
@@ -10,39 +10,6 @@ Methods
 
 ### add
 
-    void PHPCollections\Interfaces\CollectionInterface::add(mixed $value)
+    array PHPCollections\Interfaces\ArrayableInterface::toArray()
 
 * Visibility: **public**
-
-#### Arguments
-* $value **mixed**
-
-
-
-### get
-
-    mixed PHPCollections\Interfaces\CollectionInterface::get(int $offset)
-
-* Visibility: **public**
-
-#### Arguments
-* $offset **int**
-
-### remove
-
-    void PHPCollections\Interfaces\CollectionInterface::remove(int $offset)
-
-* Visibility: **public**
-
-#### Arguments
-* $offset **int**
-
-### update
-
-    bool PHPCollections\Interfaces\CollectionInterface::update(int $offset, mixed $value)
-
-* Visibility: **public**
-
-#### Arguments
-* $offset **int**
-* $value **mixed**
