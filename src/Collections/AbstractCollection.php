@@ -9,10 +9,11 @@ use JsonSerializable;
 use OutOfRangeException;
 use PHPCollections\Exceptions\InvalidOperationException;
 use PHPCollections\Interfaces\ArrayableInterface;
+use PHPCollections\Interfaces\CollectionInterface;
 use PHPCollections\Interfaces\ComparableInterface;
 use PHPCollections\Store;
 
-abstract class AbstractCollection implements Countable, ComparableInterface, JsonSerializable, ArrayableInterface
+abstract class AbstractCollection implements CollectionInterface, Countable, ComparableInterface, JsonSerializable, ArrayableInterface
 {
     /**
      * The data container.

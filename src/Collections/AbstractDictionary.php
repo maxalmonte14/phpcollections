@@ -65,9 +65,9 @@ abstract class AbstractDictionary implements Countable, ComparableInterface, Dic
     /**
      * Gets the difference between two collections.
      *
-     * @param \PHPCollections\Collections\AbstractCollection $collection
+     * @param \PHPCollections\Collections\AbstractDictionary $collection
      *
-     * @return \PHPCollections\Collections\AbstractCollection
+     * @return \PHPCollections\Collections\AbstractDictionary
      */
     abstract public function diff(self $collection): self;
 
@@ -93,8 +93,8 @@ abstract class AbstractDictionary implements Countable, ComparableInterface, Dic
      */
     public function fill(array $data): void
     {
-        foreach ($data as $entry) {
-            $this->add($entry);
+        foreach ($data as $key => $entry) {
+            $this->add($key, $entry);
         }
     }
 
@@ -157,7 +157,7 @@ abstract class AbstractDictionary implements Countable, ComparableInterface, Dic
      * @param int      $offset
      * @param int|null $lenght
      *
-     * @return \PHPCollections\Collections\AbstractCollection
+     * @return \PHPCollections\Collections\AbstractDictionary
      */
     abstract public function slice(int $offset, ?int $lenght): ?self;
 

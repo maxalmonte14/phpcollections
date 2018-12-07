@@ -217,7 +217,7 @@ class Dictionary extends AbstractDictionary
      *
      * @throws \OutOfRangeException
      *
-     * @return bool
+     * @return void
      */
     public function remove($key): void
     {
@@ -350,9 +350,11 @@ class Dictionary extends AbstractDictionary
     /**
      * Gets the difference between two collections.
      *
-     * @param \PHPCollections\Collections\AbstractCollection $collection
+     * @param \PHPCollections\Collections\AbstractDictionary $newDictionary
      *
-     * @return \PHPCollections\Collections\AbstractCollection
+     * @throws \PHPCollections\Exceptions\InvalidOperationException
+     *
+     * @return \PHPCollections\Collections\AbstractDictionary
      */
     public function diff(AbstractDictionary $newDictionary): AbstractDictionary
     {

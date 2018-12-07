@@ -9,13 +9,12 @@ use PHPCollections\Checker;
 use PHPCollections\Exceptions\InvalidOperationException;
 use PHPCollections\Interfaces\IterableInterface;
 use PHPCollections\Interfaces\MergeableInterface;
-use PHPCollections\Interfaces\ObjectCollectionInterface;
 use PHPCollections\Interfaces\SortableInterface;
 
 /**
  * A list for a generic type of data.
  */
-class GenericList extends AbstractCollection implements ObjectCollectionInterface, IterableInterface, MergeableInterface, SortableInterface
+class GenericList extends AbstractCollection implements IterableInterface, MergeableInterface, SortableInterface
 {
     /**
      * The error message to show when
@@ -39,9 +38,8 @@ class GenericList extends AbstractCollection implements ObjectCollectionInterfac
      * Creates a new GenericList.
      *
      * @param string $type
-     * @param array  $data
+     * @param object ...$data
      *
-     * @throws \InvalidArgumentException
      */
     public function __construct(string $type, object ...$data)
     {
@@ -64,7 +62,7 @@ class GenericList extends AbstractCollection implements ObjectCollectionInterfac
      *
      * @return void
      */
-    public function add(object $value): void
+    public function add($value): void
     {
         Checker::objectIsOfType($value, $this->type, sprintf($this->error, get_class($value)));
 
@@ -202,14 +200,18 @@ class GenericList extends AbstractCollection implements ObjectCollectionInterfac
     /**
      * Merges two GenericList into a new one.
      *
-     * @param array $data
+     * @param object $newGenericList
      *
-     * @throws \InvalidArgumentException
+     * @throws \PHPCollections\Exceptions\InvalidOperationException
      *
      * @return \PHPCollections\Collections\GenericList
      */
     public function merge(object $newGenericList): object
     {
+        if (!$newGenericList instanceof self) {
+            throw new InvalidOperationException('You should only merge a GenericList with another GenericList');
+        }
+
         $newGenericList->forEach(function ($value) {
             Checker::objectIsOfType($value, $this->type, sprintf($this->error, get_class($value)));
         });
@@ -231,7 +233,7 @@ class GenericList extends AbstractCollection implements ObjectCollectionInterfac
             throw new InvalidOperationException('You cannot get a random element from an empty collection.');
         }
 
-        $randomIndex = array_rand($this->toArray());
+        $randomIndex = (int) array_rand($this->toArray());
 
         return $this->get($randomIndex);
     }
@@ -332,7 +334,7 @@ class GenericList extends AbstractCollection implements ObjectCollectionInterfac
      *
      * @return bool
      */
-    public function update(int $index, object $value): bool
+    public function update(int $index, $value): bool
     {
         Checker::objectIsOfType($value, $this->type, sprintf($this->error, get_class($value)));
 

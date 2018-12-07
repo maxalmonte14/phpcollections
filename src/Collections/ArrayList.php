@@ -6,7 +6,6 @@ namespace PHPCollections\Collections;
 
 use OutOfRangeException;
 use PHPCollections\Exceptions\InvalidOperationException;
-use PHPCollections\Interfaces\CollectionInterface;
 use PHPCollections\Interfaces\IterableInterface;
 use PHPCollections\Interfaces\MergeableInterface;
 use PHPCollections\Interfaces\SortableInterface;
@@ -14,7 +13,7 @@ use PHPCollections\Interfaces\SortableInterface;
 /**
  * A list of values of any type.
  */
-class ArrayList extends AbstractCollection implements CollectionInterface, IterableInterface, MergeableInterface, SortableInterface
+class ArrayList extends AbstractCollection implements IterableInterface, MergeableInterface, SortableInterface
 {
     /**
      * Adds a new element to the collection.
@@ -57,7 +56,7 @@ class ArrayList extends AbstractCollection implements CollectionInterface, Itera
     /**
      * Determines if two ArrayList objects are equal.
      *
-     * @param object
+     * @param object $newArrayList
      *
      * @throws \PHPCollections\Exceptions\InvalidOperationException
      *
@@ -162,7 +161,7 @@ class ArrayList extends AbstractCollection implements CollectionInterface, Itera
             throw new InvalidOperationException('You cannot get a random element from an empty collection');
         }
 
-        $randomIndex = array_rand($this->toArray());
+        $randomIndex = (int) array_rand($this->toArray());
 
         return $this->get($randomIndex);
     }
