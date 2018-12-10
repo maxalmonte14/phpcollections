@@ -8,11 +8,12 @@ use ArrayAccess;
 use ArrayIterator;
 use Countable;
 use IteratorAggregate;
+use JsonSerializable;
 
 /**
  * A class for storing and managing data.
  */
-class Store implements ArrayAccess, Countable, IteratorAggregate
+class Store implements ArrayAccess, Countable, IteratorAggregate, JsonSerializable
 {
     /**
      * The array for storing data.
@@ -72,6 +73,14 @@ class Store implements ArrayAccess, Countable, IteratorAggregate
     public function getIterator(): ArrayIterator
     {
         return new ArrayIterator($this->container);
+    }
+
+    /**
+     * @return array
+     */
+    public function jsonSerialize()
+    {
+        return $this->container;
     }
 
     /**

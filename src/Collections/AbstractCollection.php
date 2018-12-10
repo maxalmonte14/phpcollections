@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace PHPCollections\Collections;
 
 use Countable;
-use JsonSerializable;
 use OutOfRangeException;
 use PHPCollections\Exceptions\InvalidOperationException;
 use PHPCollections\Interfaces\ArrayableInterface;
@@ -13,7 +12,7 @@ use PHPCollections\Interfaces\CollectionInterface;
 use PHPCollections\Interfaces\ComparableInterface;
 use PHPCollections\Store;
 
-abstract class AbstractCollection implements CollectionInterface, Countable, ComparableInterface, JsonSerializable, ArrayableInterface
+abstract class AbstractCollection implements CollectionInterface, Countable, ComparableInterface, ArrayableInterface
 {
     /**
      * The data container.
@@ -128,17 +127,6 @@ abstract class AbstractCollection implements CollectionInterface, Countable, Com
     }
 
     /**
-     * Defines the behavior of the collection
-     * when json_encode is called.
-     *
-     * @return array
-     */
-    public function jsonSerialize(): array
-    {
-        return $this->toArray();
-    }
-
-    /**
      * Gets the last element of the collection.
      *
      * @throws \OutOfRangeException
@@ -188,6 +176,11 @@ abstract class AbstractCollection implements CollectionInterface, Countable, Com
         return $sum;
     }
 
+    /**
+     * Returns the array representation of the collection.
+     *
+     * @return array
+     */
     public function toArray(): array
     {
         return $this->store->getContainer();

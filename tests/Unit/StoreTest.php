@@ -30,4 +30,22 @@ class StoreTest extends TestCase
         $this->store->offsetUnset('name');
         $this->assertArrayNotHasKey('name', $this->store);
     }
+
+    /** @test */
+    public function it_can_get_the_first_element()
+    {
+        $this->assertEquals('Max', $this->store->first());
+    }
+
+    /** @test */
+    public function it_can_get_the_last_element()
+    {
+        $this->assertEquals('24', $this->store->last());
+    }
+
+    /** @test */
+    public function it_can_be_serialized_to_json()
+    {
+        $this->assertEquals('{"name":"Max","age":"24"}', json_encode($this->store));
+    }
 }
