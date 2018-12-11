@@ -24,7 +24,7 @@ class GenericList extends AbstractCollection implements IterableInterface, Merge
      *
      * @var string
      */
-    private $error;
+    protected $error;
 
     /**
      * The type of data that
@@ -32,7 +32,7 @@ class GenericList extends AbstractCollection implements IterableInterface, Merge
      *
      * @var string
      */
-    private $type;
+    protected $type;
 
     /**
      * Creates a new GenericList.
