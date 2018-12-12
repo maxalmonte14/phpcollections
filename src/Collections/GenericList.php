@@ -10,12 +10,16 @@ use PHPCollections\Exceptions\InvalidOperationException;
 use PHPCollections\Interfaces\IterableInterface;
 use PHPCollections\Interfaces\MergeableInterface;
 use PHPCollections\Interfaces\SortableInterface;
+use PHPCollections\Traits\ExtensibleTrait;
 
 /**
  * A list for a generic type of data.
  */
 class GenericList extends AbstractCollection implements IterableInterface, MergeableInterface, SortableInterface
 {
+
+    use ExtensibleTrait;
+
     /**
      * The error message to show when
      * someone try to store a value of a

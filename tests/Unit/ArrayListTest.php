@@ -261,4 +261,18 @@ class ArrayListTest extends TestCase
 
         $this->assertCount(7, $this->arrayList);
     }
+
+    /** @test */
+    public function it_can_use_extension_methods()
+    {
+        $this->arrayList::addExtensionMethod('onlyStrings', (function () {
+            return $this->filter(function ($row) {
+               return is_string($row);
+            });
+        })->bindTo($this->arrayList));
+
+        $newList = $this->arrayList::onlyStrings();
+
+        $this->assertEquals(1, $newList->count());
+    }
 }

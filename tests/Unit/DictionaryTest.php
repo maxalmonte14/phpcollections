@@ -328,7 +328,7 @@ class DictionaryTest extends TestCase
     }
 
     /** @test */
-    public function itCanFillADictionarytWithData()
+    public function itCanFillADictionaryWithData()
     {
         $this->dictionary->fill([
             'first_key'  => 'first_value',

@@ -10,6 +10,9 @@ use StdClass;
 
 class GenericListTest extends TestCase
 {
+    /**
+     * @var \PHPCollections\Collections\GenericList
+     */
     private $list;
 
     public function setUp()
@@ -359,5 +362,21 @@ class GenericListTest extends TestCase
         $this->expectException('\InvalidArgumentException');
         $this->expectExceptionMessage('The type specified for this collection is ArrayObject, you cannot pass an object of type stdClass');
         $this->list->fill([new StdClass()]);
+    }
+
+    /** @test */
+    public function it_can_use_extension_methods()
+    {
+        $this->list::addExtensionMethod('toUpper', (function () {
+            return $this->map(function ($row) {
+                $row->offsetSet('name', strtoupper($row->offsetGet('name')));
+
+                return $row;
+            });
+        })->bindTo($this->list));
+
+        $newList = $this->list::toUpper();
+
+        $this->assertEquals($newList->get(0)->offsetGet('name'), 'JOHN');
     }
 }
