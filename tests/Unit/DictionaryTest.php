@@ -10,6 +10,9 @@ use StdClass;
 
 class DictionaryTest extends TestCase
 {
+    /**
+     * @var \PHPCollections\Collections\Dictionary
+     */
     private $dictionary;
 
     public function setUp()
@@ -63,11 +66,11 @@ class DictionaryTest extends TestCase
     public function canUpdateDataByMapping()
     {
         $newDictionary = $this->dictionary->map(function ($value) {
-            return $value = 'no';
+            return $value.'x';
         });
 
         $this->assertInstanceOf(Dictionary::class, $newDictionary);
-        $this->assertEquals('no', $newDictionary->get('smoke'));
+        $this->assertEquals('nox', $newDictionary->get('smoke'));
     }
 
     /** @test */
@@ -339,5 +342,19 @@ class DictionaryTest extends TestCase
         $this->expectException('\InvalidArgumentException');
         $this->expectExceptionMessage('The key type specified for this dictionary is string, you cannot pass an integer');
         $this->dictionary->fill([0 => true]);
+    }
+
+    /** @test */
+    public function it_can_use_extension_methods()
+    {
+        $this->dictionary::addExtensionMethod('toUpper', (function () {
+            return $this->map(function ($row) {
+                return $row = strtoupper($row);
+            });
+        })->bindTo($this->dictionary));
+
+        $newDictionary = $this->dictionary::toUpper();
+
+        $this->assertEquals($newDictionary->get('name'), 'MAX');
     }
 }

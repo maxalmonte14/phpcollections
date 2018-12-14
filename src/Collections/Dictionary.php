@@ -7,6 +7,7 @@ namespace PHPCollections\Collections;
 use OutOfRangeException;
 use PHPCollections\Checker;
 use PHPCollections\Exceptions\InvalidOperationException;
+use PHPCollections\Traits\ExtensibleTrait;
 
 /**
  * A Pair object collection
@@ -15,6 +16,9 @@ use PHPCollections\Exceptions\InvalidOperationException;
  */
 class Dictionary extends AbstractDictionary
 {
+
+    use ExtensibleTrait;
+
     /**
      * The type of the keys
      * for this dictionary.
@@ -180,7 +184,7 @@ class Dictionary extends AbstractDictionary
     {
         $matcheds = array_map($callback, $this->toArray());
 
-        return count($matcheds) > 0 ? new $this($this->keyType, $this->valueType, $this->toArray()) : null;
+        return count($matcheds) > 0 ? new $this($this->keyType, $this->valueType, $matcheds) : null;
     }
 
     /**
