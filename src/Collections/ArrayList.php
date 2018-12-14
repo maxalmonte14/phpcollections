@@ -16,7 +16,6 @@ use PHPCollections\Traits\ExtensibleTrait;
  */
 class ArrayList extends AbstractCollection implements IterableInterface, MergeableInterface, SortableInterface
 {
-
     use ExtensibleTrait;
 
     /**

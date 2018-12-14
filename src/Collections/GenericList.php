@@ -17,7 +17,6 @@ use PHPCollections\Traits\ExtensibleTrait;
  */
 class GenericList extends AbstractCollection implements IterableInterface, MergeableInterface, SortableInterface
 {
-
     use ExtensibleTrait;
 
     /**
@@ -43,7 +42,6 @@ class GenericList extends AbstractCollection implements IterableInterface, Merge
      *
      * @param string $type
      * @param object ...$data
-     *
      */
     public function __construct(string $type, object ...$data)
     {

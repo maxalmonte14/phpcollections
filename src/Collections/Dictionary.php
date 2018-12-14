@@ -16,7 +16,6 @@ use PHPCollections\Traits\ExtensibleTrait;
  */
 class Dictionary extends AbstractDictionary
 {
-
     use ExtensibleTrait;
 
     /**
@@ -369,7 +368,6 @@ class Dictionary extends AbstractDictionary
         if ($this->keyType !== $newDictionary->getKeyType()) {
             throw new InvalidOperationException("The key type for this Dictionary is {$this->keyType}, you cannot pass a Dictionary with {$newDictionary->getKeyType()} as key type");
         }
-
 
         if ($this->valueType !== $newDictionary->getValueType()) {
             throw new InvalidOperationException("The value type for this Dictionary is {$this->valueType}, you cannot pass a Dictionary with {$newDictionary->getValueType()} as value type");

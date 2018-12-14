@@ -267,7 +267,7 @@ class ArrayListTest extends TestCase
     {
         $this->arrayList::addExtensionMethod('onlyStrings', (function () {
             return $this->filter(function ($row) {
-               return is_string($row);
+                return is_string($row);
             });
         })->bindTo($this->arrayList));
 
