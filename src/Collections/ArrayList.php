@@ -85,15 +85,15 @@ class ArrayList extends AbstractCollection implements IterableInterface, Mergeab
      */
     public function filter(callable $callback): ?self
     {
-        $matcheds = [];
+        $matches = [];
 
         foreach ($this->store as $value) {
             if (call_user_func($callback, $value) === true) {
-                $matcheds[] = $value;
+                $matches[] = $value;
             }
         }
 
-        return count($matcheds) > 0 ? new $this(array_values($matcheds)) : null;
+        return count($matches) > 0 ? new $this(array_values($matches)) : null;
     }
 
     /**
@@ -134,9 +134,9 @@ class ArrayList extends AbstractCollection implements IterableInterface, Mergeab
      */
     public function map(callable $callback): ?self
     {
-        $matcheds = array_map($callback, $this->toArray());
+        $matches = array_map($callback, $this->toArray());
 
-        return count($matcheds) > 0 ? new $this(array_values($matcheds)) : null;
+        return count($matches) > 0 ? new $this(array_values($matches)) : null;
     }
 
     /**
